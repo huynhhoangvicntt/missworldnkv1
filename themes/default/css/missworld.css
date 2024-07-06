@@ -1,0 +1,100 @@
+/* Danh sách bài dạng list */
+.items-list .item .item-inner {
+    display: flex;
+}
+
+.items-list .item .item-image {
+    padding-right: 10px;
+    flex: 0 0 190px;
+    max-width: 190px;
+}
+
+.items-list .item .item-image a {
+    display: block;
+    height: 0;
+    padding-bottom: 65%;
+    background-size: cover;
+    background-position: center center;
+}
+
+.items-list .item .item-content {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.items-list .item .item-content .meta {
+    margin: 4px 0;
+}
+
+@media (max-width: 576.98px) {
+    .items-list .item .item-image {
+        flex: 0 0 130px;
+        max-width: 130px;
+    }
+
+    .items-list .item .item-content .item-hometext {
+        display: none;
+    }
+}
+
+/* Chi tiết tin */
+.item-detail .meta {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 5px 0;
+}
+
+.item-detail .meta li {
+    display: inline-block;
+    margin: 4px 15px 4px 0;
+}
+
+.item-detail .detail-summary {
+    font-weight: 700;
+}
+
+.item-detail .detail-html ul {
+    list-style: disc;
+}
+
+.item-detail .detail-html ol {
+    list-style: decimal;
+}
+
+.item-detail .detail-html img {
+    margin-bottom: 5px;
+}
+
+.item-detail-other .head {
+    margin-bottom: 15px;
+}
+
+.item-detail-other .items {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.item-detail-other .items .item {
+    padding: 0 5px;
+    margin-bottom: 15px;
+    flex: 0 0 33.333333333%;
+    max-width: 33.333333333%;
+}
+
+.item-detail-other .items .item .img {
+    display: block;
+    height: 0;
+    padding-bottom: 65%;
+    background-size: cover;
+    background-position: center center;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 576.98px) {
+    .item-detail-other .items .item {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
