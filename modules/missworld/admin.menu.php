@@ -23,5 +23,3 @@ $allow_func = [
 $submenu['config'] = $lang_module['config_manager'];
 $submenu['players'] = $lang_module['player_manager'];
 $submenu['voters'] = $lang_module['voter_manager'];
-
-//$submenu['voter-content'] = $lang_module['voter_add'];

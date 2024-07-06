@@ -3,8 +3,6 @@
 <!-- BEGIN: error -->
 <div class="alert alert-danger">{ERROR}</div>
 <!-- END: error -->
-
-<h2><i class="fa fa-th-large" aria-hidden="true"></i> {CAPTION}</h2>
 <p class="text-info">
   <span class="fa-required text-danger"
     >(<em class="fa fa-asterisk"></em>)</span

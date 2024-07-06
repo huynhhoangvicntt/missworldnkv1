@@ -9,7 +9,6 @@
     <thead>
       <tr class="text-center">
         <th class="text-nowrap">{LANG.order}</th>
-        <!-- <th class="text-nowrap">Id</th> -->
         <th class="text-nowrap">Họ và tên thí sinh</th>
         <th class="text-nowrap">Ngày sinh</th>
         <th class="text-nowrap">Chiều cao</th>
@@ -39,7 +38,6 @@
         <td class="text-nowrap">{DATA.height}</td>
         <td class="text-nowrap">{DATA.measurements}</td>
         <td class="text-nowrap">{DATA.email}</td>
-        <!-- <td class="text-nowrap"><img src="{DATA.image}" /></td> -->
         <td class="img-responsive-wrap">
           <img class="img-inner" src="{DATA.image}" />
         </td>
