@@ -22,7 +22,6 @@ $lang_translator['langtype'] = 'lang_module';
 $lang_module['player_manager'] = 'Thêm thí sinh dự thi';
 $lang_module['config_manager'] = 'Cấu hình module';
 $lang_module['setting_per_page'] = 'Số thí sinh hiển thị trên một trang';
-$lang_module['setting_per_page'] = 'Số thí sinh hiển thị trên một trang';
 $lang_module['player_add'] = 'Thêm thí sinh';
 $lang_module['player_edit'] = 'Sửa thí sinh';
 $lang_module['voter_manager'] = 'Danh sách người vote';
@@ -35,8 +34,6 @@ $lang_module['measurements'] = 'Số đo ba vòng';
 $lang_module['email'] = 'Địa chỉ email';
 $lang_module['illustrating_images'] = 'Ảnh hồ sơ';
 $lang_module['vote'] = 'Số lượt vote';
-
-//$lang_module['voter_add'] = 'Thêm người vote';
 
 $lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
