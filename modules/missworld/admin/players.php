@@ -54,7 +54,6 @@ if (!empty($id)) {
 
     $is_edit = true;
     $page_title = $lang_module['player_edit'];
-    //$caption = $lang_module['player_edit'];
     $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $id ;
 } else {
     $array = [
@@ -69,7 +68,6 @@ if (!empty($id)) {
         'vote' => '',
     ];
 
-    //$caption = $lang_module['player_add'];
     $page_title = $lang_module['player_add'];
     $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op;
 }
@@ -146,7 +144,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             } else {
                 nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_ADD_PLAYER', json_encode($array), $admin_info['userid']);
             }
-            // nv_redirect_location(NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op);
             $nv_Cache->delMod($module_name);
             nv_redirect_location(NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);
         } catch (PDOException $e) {
@@ -167,7 +164,6 @@ $array['measurements'] = nv_br2nl($array['measurements']);
 $xtpl = new XTemplate('players.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('GLANG', $lang_global);
-//$xtpl->assign('CAPTION', $caption);
 $xtpl->assign('FORM_ACTION', $form_action);
 $xtpl->assign('DATA', $array);
 
