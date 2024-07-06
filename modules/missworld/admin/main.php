@@ -40,7 +40,6 @@ $xtpl->assign('OP', $op);
 $xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players');
 
 //hien thi dl
-//$array = $db->query($sql)->fetchAll();
 $num = sizeof($array);
 if(!empty($array)){
     foreach($array as $value){
