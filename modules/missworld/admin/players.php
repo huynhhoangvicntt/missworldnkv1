@@ -37,7 +37,6 @@ if ($nv_Request->get_title('changealias', 'post', '') === NV_CHECK_SESSION) {
     include NV_ROOTDIR . '/includes/footer.php';
 }
 
-
 $array = $error = [];
 $is_submit_form = $is_edit = false;
 $id = $nv_Request->get_absint('id', 'get', 0);
@@ -112,7 +111,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     } elseif ($is_exists) {
         $error[] = $lang_module['player_error_exists'];
     }
-    
 
     if (empty($error)) {
         if (!$id) {
@@ -159,7 +157,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
    
 }
 
-
 if (!empty($array['image']) and nv_is_file(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $array['image'], NV_UPLOADS_DIR . '/' . $module_upload)) {
     $array['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $array['image'];
     $currentpath = substr(dirname($array['image']), strlen(NV_BASE_SITEURL));
@@ -170,11 +167,9 @@ $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('GLANG', $lang_global);
 $xtpl->assign('FORM_ACTION', $form_action);
 $xtpl->assign('DATA', $array);
-
 $xtpl->assign('UPLOAD_CURRENT', $currentpath);
 $xtpl->assign('UPLOAD_PATH', NV_UPLOADS_DIR . '/' . $module_upload);
 $xtpl->assign('OP', $op);
-
 
 // Hiển thị lỗi
 if (!empty($error)) {
