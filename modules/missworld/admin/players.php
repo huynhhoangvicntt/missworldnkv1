@@ -82,7 +82,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['height'] = $nv_Request->get_title('height', 'post', '');
     $array['chest'] = $nv_Request->get_title('chest', 'post', '');
     $array['waist'] = $nv_Request->get_title('waist', 'post', '');
-    $array['waist'] = $nv_Request->get_title('waist', 'post', '');
+    $array['hips'] = $nv_Request->get_title('hips', 'post', '');
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
     $array['vote'] = $nv_Request->get_title('vote', 'post', '');
