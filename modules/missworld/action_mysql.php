@@ -21,28 +21,30 @@ $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lan
 $sql_create_module = $sql_drop_module;
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_players (
-id int(11) unsigned NOT NULL AUTO_INCREMENT,
-fullname varchar(190) NOT NULL DEFAULT '' COMMENT 'Họ và tên thí sinh',
+id smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+fullname varchar(190) NOT NULL COMMENT 'Họ và tên thí sinh',
 alias varchar(190) NOT NULL COMMENT 'Liên kết tĩnh không trùng',
-dob int(11) NOT NULL COMMENT 'Ngày sinh',
-height int(11) NOT NULL DEFAULT '0' COMMENT 'Chiều cao',
-measurements int(11) NOT NULL COMMENT 'Số đo ba vòng',
+dob int(11) NOT NULL DEFAULT '0' COMMENT 'Ngày sinh',
+height smallint(5) NOT NULL DEFAULT '0' COMMENT 'Chiều cao',
+chest smallint(5) NOT NULL COMMENT 'Số đo vòng ngực',
+waist smallint(5) NOT NULL COMMENT 'Số đo vòng eo',
+hips smallint(5) NOT NULL COMMENT 'Số đo vòng hông',
 email varchar(190) NOT NULL COMMENT 'Địa chỉ email',
 image varchar(255) NOT NULL COMMENT 'Ảnh hồ sơ',
-vote int(11) NOT NULL DEFAULT '0' COMMENT 'Số lượt vote',
-add_time int(11) NOT NULL DEFAULT '0',
-edit_time int(11) NOT NULL DEFAULT '0',
-weight smallint(4) unsigned NOT NULL DEFAULT '0',
+vote int(11) NOT NULL DEFAULT '0' COMMENT 'Số lượt bình chọn',
+add_time int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian thêm',
+edit_time int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian sửa',
+weight smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Thứ tự',
 PRIMARY KEY (id),
 UNIQUE KEY alias (alias)
 ) ENGINE=InnoDB";
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_voters (
-id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-userid int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Id người dùng có tài khoản',
-fullname varchar(190) NOT NULL COMMENT 'Họ tên người vote',
-email varchar(190) NOT NULL COMMENT 'Email người vote',
-vote_time int(11) unsigned NOT NULL DEFAULT '0',
+id smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+userid smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Id người dùng có tài khoản',
+fullname varchar(190) NOT NULL COMMENT 'Họ tên người bình chọn',
+email varchar(190) NOT NULL COMMENT 'Email người bình chọn',
+vote_time int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian bình chọn',
 PRIMARY KEY (id),
 UNIQUE KEY email (email),
 KEY userid (userid)
