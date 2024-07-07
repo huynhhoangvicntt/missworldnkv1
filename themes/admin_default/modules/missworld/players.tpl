@@ -89,8 +89,8 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-6 control-label" for="element_measurements"
-          >{LANG.measurements}
+        <label class="col-sm-6 control-label" for="element_chest"
+          >{LANG.chest}
           <span class="fa-required text-danger"
             >(<em class="fa fa-asterisk"></em>)</span
           >:</label
@@ -98,9 +98,43 @@
         <div class="col-sm-18 col-lg-10">
           <input
             type="text"
-            id="element_measurements"
-            name="measurements"
-            value="{DATA.measurements}"
+            id="element_chest"
+            name="chest"
+            value="{DATA.chest}"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-6 control-label" for="element_waist"
+          >{LANG.waist}
+          <span class="fa-required text-danger"
+            >(<em class="fa fa-asterisk"></em>)</span
+          >:</label
+        >
+        <div class="col-sm-18 col-lg-10">
+          <input
+            type="text"
+            id="element_waist"
+            name="waist"
+            value="{DATA.waist}"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-6 control-label" for="element_hips"
+          >{LANG.hips}
+          <span class="fa-required text-danger"
+            >(<em class="fa fa-asterisk"></em>)</span
+          >:</label
+        >
+        <div class="col-sm-18 col-lg-10">
+          <input
+            type="text"
+            id="element_hips"
+            name="hips"
+            value="{DATA.hips}"
             class="form-control"
           />
         </div>
