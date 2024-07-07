@@ -12,7 +12,9 @@
         <th class="text-nowrap">Họ và tên thí sinh</th>
         <th class="text-nowrap">Ngày sinh</th>
         <th class="text-nowrap">Chiều cao</th>
-        <th class="text-nowrap">Số đo ba vòng</th>
+        <th class="text-nowrap">Số đo vòng ngực</th>
+        <th class="text-nowrap">Số đo vòng eo</th>
+        <th class="text-nowrap">Số đo vòng mông</th>
         <th class="text-nowrap">Địa chỉ email</th>
         <th class="img">Ảnh hồ sơ</th>
         <th class="text-nowrap">Số lượt vote</th>
@@ -36,7 +38,9 @@
         <td class="text-nowrap">{DATA.fullname}</td>
         <td class="text-nowrap">{DATA.dob}</td>
         <td class="text-nowrap">{DATA.height}</td>
-        <td class="text-nowrap">{DATA.measurements}</td>
+        <td class="text-nowrap">{DATA.chest}</td>
+        <td class="text-nowrap">{DATA.waist}</td>
+        <td class="text-nowrap">{DATA.hips}</td>
         <td class="text-nowrap">{DATA.email}</td>
         <td class="img-responsive-wrap">
           <img class="img-inner" src="{DATA.image}" />
