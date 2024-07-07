@@ -62,7 +62,9 @@ if (!empty($id)) {
         'alias' => '',
         'dob' => '',
         'height' => '',
-        'measurements' => '',
+        'chest' => '',
+        'waist' => '',
+        'hips' => '',
         'email' => '',
         'image' => '',
         'vote' => '',
@@ -78,14 +80,15 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['alias'] = nv_substr($nv_Request->get_title('alias', 'post', ''), 0, 190);
     $array['dob'] = $nv_Request->get_title('dob', 'post', '');
     $array['height'] = $nv_Request->get_title('height', 'post', '');
-    $array['measurements'] = $nv_Request->get_title('measurements', 'post', '');
+    $array['chest'] = $nv_Request->get_title('chest', 'post', '');
+    $array['waist'] = $nv_Request->get_title('waist', 'post', '');
+    $array['waist'] = $nv_Request->get_title('waist', 'post', '');
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
     $array['vote'] = $nv_Request->get_title('vote', 'post', '');
 
     // Xử lý dữ liệu
     $array['alias'] = empty($array['alias']) ? change_alias($array['fullname']) : change_alias($array['alias']);
-    $array['measurements'] = nv_nl2br(nv_htmlspecialchars(strip_tags($array['measurements'])), '<br />');
 
     if (nv_is_file($array['image'], NV_UPLOADS_DIR . '/' . $module_upload)) {
         $array['image'] = substr($array['image'], strlen(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/'));
@@ -117,13 +120,13 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $weight = intval($db->query($sql)->fetchColumn()) + 1;
 
             $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_players (
-                fullname, alias, dob, height, measurements, email, image, vote, weight, add_time, edit_time
+                fullname, alias, dob, height, chest, waist, hips, email, image, vote, weight, add_time, edit_time
             ) VALUES (
-                :fullname, :alias, :dob, :height, :measurements, :email, :image, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
+                :fullname, :alias, :dob, :height, :chest, :waist, :hips, :email, :image, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
             )";
         } else {
             $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_players SET
-            fullname = :fullname, alias = :alias, dob = :dob, height = :height, measurements = :measurements, email = :email, image = :image, vote = :vote, edit_time = " . NV_CURRENTTIME . "
+            fullname = :fullname, alias = :alias, dob = :dob, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, vote = :vote, edit_time = " . NV_CURRENTTIME . "
             WHERE id = " . $id;
         }
 
@@ -133,7 +136,9 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth->bindParam(':alias', $array['alias'], PDO::PARAM_STR);
             $sth->bindParam(':dob', $array['dob'], PDO::PARAM_STR, strlen($array['dob']));
             $sth->bindParam(':height', $array['height'], PDO::PARAM_STR, strlen($array['height']));
-            $sth->bindParam(':measurements', $array['measurements'], PDO::PARAM_STR, strlen($array['measurements']));
+            $sth->bindParam(':chest', $array['chest'], PDO::PARAM_STR, strlen($array['chest']));
+            $sth->bindParam(':waist', $array['waist'], PDO::PARAM_STR, strlen($array['waist']));
+            $sth->bindParam(':hips', $array['hips'], PDO::PARAM_STR, strlen($array['hips']));
             $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
             $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
             $sth->bindParam(':vote', $array['vote'], PDO::PARAM_STR, strlen($array['vote']));
@@ -159,7 +164,6 @@ if (!empty($array['image']) and nv_is_file(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/
     $array['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $array['image'];
     $currentpath = substr(dirname($array['image']), strlen(NV_BASE_SITEURL));
 }
-$array['measurements'] = nv_br2nl($array['measurements']);
 
 $xtpl = new XTemplate('players.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
