@@ -12,3 +12,19 @@
 if (!defined('NV_IS_MOD_MISSWORLD')) {
     exit('Stop!!!');
 }
+
+// Lấy dữ liệu
+$array_data = [];
+
+$query = $db->query('SELECT * FROM ' . NV_PREFIXLANG .'_missworld_players ORDER BY weight ASC');
+while ($row = $query->fetch()) {
+    $array_data[$row['id']] = $row;
+   
+}
+
+// Gọi hàm xử lý giao diện
+$contents = nv_missworld_list($array_data);
+
+include NV_ROOTDIR . '/includes/header.php';
+echo nv_site_theme($contents);
+include NV_ROOTDIR . '/includes/footer.php';
