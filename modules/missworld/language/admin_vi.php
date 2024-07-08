@@ -30,6 +30,7 @@ $lang_module['order'] = 'Thứ tự';
 $lang_module['fullname'] = 'Tên thí sinh';
 $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['dob'] = 'Ngày sinh';
+$lang_module['address'] = 'Địa chỉ';
 $lang_module['height'] = 'Chiều cao';
 $lang_module['chest'] = 'Số đo vòng ngực';
 $lang_module['waist'] = 'Số đo vòng eo';
