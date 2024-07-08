@@ -11,6 +11,7 @@
         <th class="text-nowrap">{LANG.order}</th>
         <th class="text-nowrap">Họ và tên thí sinh</th>
         <th class="text-nowrap">Ngày sinh</th>
+        <th class="text-nowrap">Địa chỉ</th>
         <th class="text-nowrap">Chiều cao</th>
         <th class="text-nowrap">Số đo vòng ngực</th>
         <th class="text-nowrap">Số đo vòng eo</th>
@@ -37,6 +38,7 @@
         </td>
         <td class="text-nowrap">{DATA.fullname}</td>
         <td class="text-nowrap">{DATA.dob}</td>
+        <td class="text-nowrap">{DATA.address}</td>
         <td class="text-nowrap">{DATA.height}</td>
         <td class="text-nowrap">{DATA.chest}</td>
         <td class="text-nowrap">{DATA.waist}</td>
