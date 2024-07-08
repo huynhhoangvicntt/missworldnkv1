@@ -72,6 +72,23 @@
         </div>
       </div>
       <div class="form-group">
+        <label class="col-sm-6 control-label" for="element_address"
+          >{LANG.address}
+          <span class="fa-required text-danger"
+            >(<em class="fa fa-asterisk"></em>)</span
+          >:</label
+        >
+        <div class="col-sm-18 col-lg-10">
+          <input
+            type="text"
+            id="element_address"
+            name="address"
+            value="{DATA.address}"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-group">
         <label class="col-sm-6 control-label" for="height"
           >{LANG.height}
           <span class="fa-required text-danger"
