@@ -59,15 +59,15 @@ if (!empty($id)) {
         'id' => 0,
         'fullname' => '',
         'alias' => '',
-        'dob' => '',
+        'dob' => 0,
         'address' => '',
-        'height' => '',
-        'chest' => '',
-        'waist' => '',
-        'hips' => '',
+        'height' => 0,
+        'chest' => 0,
+        'waist' => 0,
+        'hips' => 0,
         'email' => '',
         'image' => '',
-        'vote' => '',
+        'vote' => 0,
     ];
 
     $page_title = $lang_module['player_add'];
@@ -78,15 +78,15 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $is_submit_form = true;
     $array['fullname'] = nv_substr($nv_Request->get_title('fullname', 'post', ''), 0, 190);
     $array['alias'] = nv_substr($nv_Request->get_title('alias', 'post', ''), 0, 190);
-    $array['dob'] = $nv_Request->get_title('dob', 'post', '');
+    $array['dob'] = $nv_Request->get_int('dob', 'post', '');
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 190);
-    $array['height'] = $nv_Request->get_title('height', 'post', '');
-    $array['chest'] = $nv_Request->get_title('chest', 'post', '');
-    $array['waist'] = $nv_Request->get_title('waist', 'post', '');
-    $array['hips'] = $nv_Request->get_title('hips', 'post', '');
+    $array['height'] = $nv_Request->get_int('height', 'post', '');
+    $array['chest'] = $nv_Request->get_int('chest', 'post', '');
+    $array['waist'] = $nv_Request->get_int('waist', 'post', '');
+    $array['hips'] = $nv_Request->get_int('hips', 'post', '');
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
-    $array['vote'] = $nv_Request->get_title('vote', 'post', '');
+    $array['vote'] = $nv_Request->get_int('vote', 'post', '');
 
     // Xử lý dữ liệu
     $array['alias'] = empty($array['alias']) ? change_alias($array['fullname']) : change_alias($array['alias']);
@@ -134,15 +134,15 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth = $db->prepare($sql);
             $sth->bindParam(':fullname', $array['fullname'], PDO::PARAM_STR);
             $sth->bindParam(':alias', $array['alias'], PDO::PARAM_STR);
-            $sth->bindParam(':dob', $array['dob'], PDO::PARAM_STR, strlen($array['dob']));
+            $sth->bindParam(':dob', $array['dob'], PDO::PARAM_INT);
             $sth->bindParam(':address', $array['address'], PDO::PARAM_STR);
-            $sth->bindParam(':height', $array['height'], PDO::PARAM_STR, strlen($array['height']));
-            $sth->bindParam(':chest', $array['chest'], PDO::PARAM_STR, strlen($array['chest']));
-            $sth->bindParam(':waist', $array['waist'], PDO::PARAM_STR, strlen($array['waist']));
+            $sth->bindParam(':height', $array['height'], PDO::PARAM_INT);
+            $sth->bindParam(':chest', $array['chest'], PDO::PARAM_INT);
+            $sth->bindParam(':waist', $array['waist'], PDO::PARAM_INT);
             $sth->bindParam(':hips', $array['hips'], PDO::PARAM_STR, strlen($array['hips']));
             $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
             $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
-            $sth->bindParam(':vote', $array['vote'], PDO::PARAM_STR, strlen($array['vote']));
+            $sth->bindParam(':vote', $array['vote'], PDO::PARAM_INT);
             $sth->execute();
 
             if ($id) {
