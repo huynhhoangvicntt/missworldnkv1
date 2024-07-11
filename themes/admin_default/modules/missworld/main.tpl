@@ -1,9 +1,6 @@
 <!-- BEGIN: main -->
-<div class="col-lg-6">
-  <div class="form-group text-right">
-      <label class="visible-sm-block visible-md-block visible-lg-block">&nbsp;</label>
-      <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.main_add}</a>
-  </div>
+<div class="form-group">    
+      <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.player_add}</a>
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
