@@ -1,6 +1,6 @@
 <!-- BEGIN: main -->
 <div class="form-group">    
-      <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.player_add}</a>
+    <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.player_add}</a>
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
