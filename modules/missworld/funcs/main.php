@@ -21,7 +21,7 @@ while ($row = $query->fetch()) {
     $array_data[$row['id']] = $row;
    
 }
-
+//$page_title =
 // Gọi hàm xử lý giao diện
 $contents = nv_missworld_list($array_data);
 

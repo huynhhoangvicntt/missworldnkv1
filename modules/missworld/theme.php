@@ -29,9 +29,6 @@ function nv_missworld_list($array_data)
             $xtpl->parse('main.loop');
         }
     }
-
     $xtpl->parse('main');
-
     return $xtpl->text('main');
-
 }
