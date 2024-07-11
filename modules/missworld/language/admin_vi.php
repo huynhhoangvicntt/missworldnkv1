@@ -36,8 +36,9 @@ $lang_module['chest'] = 'Số đo vòng ngực';
 $lang_module['waist'] = 'Số đo vòng eo';
 $lang_module['hips'] = 'Số đo vòng mông';
 $lang_module['email'] = 'Địa chỉ email';
-$lang_module['illustrating_images'] = 'Ảnh hồ sơ';
+$lang_module['images'] = 'Ảnh hồ sơ';
 $lang_module['vote'] = 'Số lượt vote';
+$lang_module['function'] = 'Chức năng';
 
 $lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '04/03/2010, 15:22';

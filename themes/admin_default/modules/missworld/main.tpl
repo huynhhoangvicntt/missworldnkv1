@@ -7,17 +7,17 @@
         <thead>
             <tr class="text-center">
                 <th class="text-nowrap">{LANG.order}</th>
-                <th class="text-nowrap">Họ và tên thí sinh</th>
-                <th class="text-nowrap">Ngày sinh</th>
-                <th class="text-nowrap">Địa chỉ</th>
-                <th class="text-nowrap">Chiều cao</th>
-                <th class="text-nowrap">Số đo vòng ngực</th>
-                <th class="text-nowrap">Số đo vòng eo</th>
-                <th class="text-nowrap">Số đo vòng mông</th>
-                <th class="text-nowrap">Địa chỉ email</th>
-                <th class="img">Ảnh hồ sơ</th>
-                <th class="text-nowrap">Số lượt vote</th>
-                <th class="text-nowrap">Chức năng</th>
+                <th class="text-nowrap">{LANG.fullname}</th>
+                <th class="text-nowrap">{LANG.dob}</th>
+                <th class="text-nowrap">{LANG.address}</th>
+                <th class="text-nowrap">{LANG.height}</th>
+                <th class="text-nowrap">{LANG.chest}</th>
+                <th class="text-nowrap">{LANG.waist}</th>
+                <th class="text-nowrap">{LANG.hips}</th>
+                <th class="text-nowrap">{LANG.email}</th>
+                <th class="img">{LANG.images}</th>
+                <th class="text-nowrap">{LANG.vote}</th>
+                <th class="text-nowrap">{LANG.function}</th>
             </tr>
         </thead>
         <tbody>

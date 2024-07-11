@@ -175,7 +175,7 @@
       </div>
       <div class="form-group">
         <label class="col-sm-6 control-label" for="element_image"
-          >{LANG.illustrating_images}:</label
+          >{LANG.images}:</label
         >
         <div class="col-sm-18 col-lg-10">
           <div class="input-group">
