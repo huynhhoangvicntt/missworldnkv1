@@ -42,7 +42,7 @@
                     <td class="text-nowrap">{DATA.hips}</td>
                     <td class="text-nowrap">{DATA.email}</td>
                     <td class="img-responsive-wrap">
-                        <img class="img-inner" src="{DATA.image}" />
+                        <img class="img-inner" src="{DATA.image}"/>
                     </td>
                     <td class="text-nowrap">{DATA.vote}</td>
                     <td class="text-center text-nowrap">
