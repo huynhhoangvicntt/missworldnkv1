@@ -16,8 +16,7 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 $page_title = $lang_module['player_manager'];
 $array = [];
 
-
-//goi csdl de lay dl
+// Gọi CSDL để lấy dữ liệu
 $query = $db->query('SELECT * FROM ' . NV_PREFIXLANG .'_missworld_players ORDER BY weight ASC');
 while ($row = $query->fetch()) {
     $array[$row['id']] = $row;
