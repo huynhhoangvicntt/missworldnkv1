@@ -4,13 +4,11 @@
 <div class="alert alert-danger">{ERROR}</div>
 <!-- END: error -->
 <p class="text-info">
-  <span class="fa-required text-danger"
-    >(<em class="fa fa-asterisk"></em>)</span
-  >
+    <span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>
   {LANG.is_required}
 </p>
 <div class="panel panel-default">
-  <div class="panel-body">
+    <div class="panel-body">
     <form method="post" action="{FORM_ACTION}" class="form-horizontal">
       <div class="form-group">
         <label class="col-sm-6 control-label" for="element_title"
