@@ -29,7 +29,7 @@
                         <option value="{WEIGHT.w}" {WEIGHT.selected}>{WEIGHT.w}</option>
                         <!-- END: weight -->
                     </select>
-                    </td>
+                </td>
                 <td class="text-nowrap">{DATA.fullname}</td>
                 <td class="text-nowrap">{DATA.dob}</td>
                 <td class="text-nowrap">{DATA.address}</td>
