@@ -6,7 +6,7 @@
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr class="text-center">
-                <th class="text-nowrap">{LANG.order}</th>
+                <th class="text-nowrap">{LANG.weight}</th>
                 <th class="text-nowrap">{LANG.fullname}</th>
                 <th class="text-nowrap">{LANG.dob}</th>
                 <th class="text-nowrap">{LANG.address}</th>
@@ -23,13 +23,7 @@
         <tbody>
             <!-- BEGIN: loop -->
             <tr class="text-center">
-                <td class="text-center">
-                    <select id="change_weight_{DATA.id}" onchange="nv_change_player_weight('{DATA.id}', '{NV_CHECK_SESSION}');" class="form-control input-sm">
-                        <!-- BEGIN: weight -->
-                        <option value="{WEIGHT.w}" {WEIGHT.selected}>{WEIGHT.w}</option>
-                        <!-- END: weight -->
-                    </select>
-                </td>
+                <td class="text-center">{DATA.weight}</td>
                 <td class="text-nowrap">{DATA.fullname}</td>
                 <td class="text-nowrap">{DATA.dob}</td>
                 <td class="text-nowrap">{DATA.address}</td>
@@ -50,5 +44,6 @@
             <!-- END: loop -->
         </tbody>
     </table>
+    {GENERATE_PAGE}
 </div>
 <!-- END: main -->

@@ -15,10 +15,23 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 
 $page_title = $lang_module['player_manager'];
 $array = [];
+$per_page = 5;
+$page = $nv_Request->get_int('page', 'get', 1);
 
 // Gọi CSDL để lấy dữ liệu
-$query = $db->query("SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_players ORDER BY weight ASC");
-while ($row = $query->fetch()) {
+// $query = $db->query("SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_players ORDER BY weight ASC");
+// while ($row = $query->fetch()) {
+//     $array[$row['id']] = $row;
+// }
+$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
+$sql = $db->sql();
+$total = $db->query($sql)->fetchColumn();
+
+$db->select('*')->order("id ASC")->limit($per_page)->offset(($page - 1) * $per_page);
+
+$sql = $db->sql();
+$result = $db->query($sql);
+while ($row = $result->fetch()) {
     $array[$row['id']] = $row;
 }
 
@@ -66,25 +79,28 @@ $xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE
 // Hiển thị dữ liệu
 $num = sizeof($array);
 if (!empty($array)) {
+    $i = ($page - 1) * $per_page;
     foreach ($array as $value) {
         $value['dob'] = nv_date('d/m/Y', $value['dob']); 
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players&amp;id=' . $value['id'];
         $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
         $value['add_time'] = nv_date('d/m/Y H:i', $value['add_time']);
         $value['edit_time'] = $value['edit_time'] ? nv_date('d/m/Y H:i', $value['edit_time']) : '';
-        
-        for ($i = 1; $i <= $num; ++$i) {
-        $xtpl->assign('WEIGHT', [
-            'w' => $i,
-            'selected' => ($i == $value['weight']) ? ' selected="selected"' : ''
-        ]);
-
-        $xtpl->parse('main.loop.weight');
-    }
+        $value['weight'] = $i + 1;
+      
         $xtpl->assign('DATA', $value);
         $xtpl->parse('main.loop');
+        $i++;
     }
 }
+
+$base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$generate_page = nv_generate_page($base_url, $total, $per_page, $page);
+$xtpl->assign('GENERATE_PAGE', $generate_page);
+
+// $per_page = 20;
+// $page = $nv_Request->get_int('page', 'get', 1);
+// $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');
