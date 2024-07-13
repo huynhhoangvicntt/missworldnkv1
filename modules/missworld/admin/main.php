@@ -17,12 +17,9 @@ $page_title = $lang_module['player_manager'];
 $array = [];
 $per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
+$base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
 // Gọi CSDL để lấy dữ liệu
-// $query = $db->query("SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_players ORDER BY weight ASC");
-// while ($row = $query->fetch()) {
-//     $array[$row['id']] = $row;
-// }
 $db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
 $sql = $db->sql();
 $total = $db->query($sql)->fetchColumn();
@@ -83,7 +80,7 @@ if (!empty($array)) {
     }
 }
 
-$base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+// Xuất phân trang
 $generate_page = nv_generate_page($base_url, $total, $per_page, $page);
 $xtpl->assign('GENERATE_PAGE', $generate_page);
 
