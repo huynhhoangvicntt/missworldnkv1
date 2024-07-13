@@ -139,7 +139,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth->bindParam(':height', $array['height'], PDO::PARAM_INT);
             $sth->bindParam(':chest', $array['chest'], PDO::PARAM_INT);
             $sth->bindParam(':waist', $array['waist'], PDO::PARAM_INT);
-            $sth->bindParam(':hips', $array['hips'], PDO::PARAM_STR, strlen($array['hips']));
+            $sth->bindParam(':hips', $array['hips'], PDO::PARAM_INT);
             $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
             $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
             $sth->bindParam(':vote', $array['vote'], PDO::PARAM_INT);
@@ -157,7 +157,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $error[] = $lang_module['errorsave'];
         }
     }
-   
 }
 
 if (!empty($array['image']) and nv_is_file(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $array['image'], NV_UPLOADS_DIR . '/' . $module_upload)) {
