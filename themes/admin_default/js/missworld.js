@@ -14,21 +14,6 @@ function get_player_alias(id, checksess) {
     }
 }
 
-function nv_change_player_weight(id, checksess) {
-    var new_weight = $('#change_weight_' + id).val();
-    $('#change_weight_' + id).prop('disabled', true);
-    $.post(
-        script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&nocache=' + new Date().getTime(),
-        'changeweight=' + checksess + '&id=' + id + '&new_weight=' + new_weight, function(res) {
-        $('#change_weight_' + id).prop('disabled', false);
-        var r_split = res.split("_");
-        if (r_split[0] != 'OK') {
-            alert(nv_is_change_act_confirm[2]);
-        }
-        location.reload();
-    });
-}
-
 function nv_delele_player(id, checksess) {
     if (confirm(nv_is_del_confirm[0])) {
         $.post(
