@@ -22,32 +22,31 @@
         </thead>
         <tbody>
             <!-- BEGIN: loop -->
-                <tr class="text-center">
-                    <td class="text-center">
-                        <select id="change_weight_{DATA.id}" onchange="nv_change_player_weight('{DATA.id}', '{NV_CHECK_SESSION}');"
-                        class="form-control input-sm">
-                            <!-- BEGIN: weight -->
-                            <option value="{WEIGHT.w}" {WEIGHT.selected}>{WEIGHT.w}</option>
-                            <!-- END: weight -->
-                        </select>
+            <tr class="text-center">
+                <td class="text-center">
+                    <select id="change_weight_{DATA.id}" onchange="nv_change_player_weight('{DATA.id}', '{NV_CHECK_SESSION}');" class="form-control input-sm">
+                        <!-- BEGIN: weight -->
+                        <option value="{WEIGHT.w}" {WEIGHT.selected}>{WEIGHT.w}</option>
+                        <!-- END: weight -->
+                    </select>
                     </td>
-                    <td class="text-nowrap">{DATA.fullname}</td>
-                    <td class="text-nowrap">{DATA.dob}</td>
-                    <td class="text-nowrap">{DATA.address}</td>
-                    <td class="text-nowrap">{DATA.height}</td>
-                    <td class="text-nowrap">{DATA.chest}</td>
-                    <td class="text-nowrap">{DATA.waist}</td>
-                    <td class="text-nowrap">{DATA.hips}</td>
-                    <td class="text-nowrap">{DATA.email}</td>
-                    <td class="img-responsive-wrap">
-                        <img class="img-inner" src="{DATA.image}"/>
-                    </td>
-                    <td class="text-nowrap">{DATA.vote}</td>
-                    <td class="text-center text-nowrap">
-                        <a class="btn btn-sm btn-default" href="{DATA.url_edit}"><i class="fa fa-edit"></i> {GLANG.edit}</a>
-                        <a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="nv_delele_player('{DATA.id}', '{NV_CHECK_SESSION}');"><i class="fa fa-trash"></i> {GLANG.delete}</a>
-                    </td>
-                </tr>
+                <td class="text-nowrap">{DATA.fullname}</td>
+                <td class="text-nowrap">{DATA.dob}</td>
+                <td class="text-nowrap">{DATA.address}</td>
+                <td class="text-nowrap">{DATA.height}</td>
+                <td class="text-nowrap">{DATA.chest}</td>
+                <td class="text-nowrap">{DATA.waist}</td>
+                <td class="text-nowrap">{DATA.hips}</td>
+                <td class="text-nowrap">{DATA.email}</td>
+                <td class="img-responsive-wrap">
+                    <img class="img-inner" src="{DATA.image}"/>
+                </td>
+                <td class="text-nowrap">{DATA.vote}</td>
+                <td class="text-center text-nowrap">
+                    <a class="btn btn-sm btn-default" href="{DATA.url_edit}"><i class="fa fa-edit"></i> {GLANG.edit}</a>
+                    <a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="nv_delele_player('{DATA.id}', '{NV_CHECK_SESSION}');"><i class="fa fa-trash"></i> {GLANG.delete}</a>
+                </td>
+            </tr>
             <!-- END: loop -->
         </tbody>
     </table>
