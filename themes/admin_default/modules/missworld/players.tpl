@@ -36,7 +36,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-6 control-label" for="height">{LANG.height}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
-                <div class="col-sm-18 col-lg-10"><input type="text" id="element_height" name="height" value="{DATA.height}" class="form-control"/>
+                <div class="col-sm-18 col-lg-10">
+                    <input type="text" id="element_height" name="height" value="{DATA.height}" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
@@ -59,7 +60,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-6 control-label" for="element_email">{LANG.email}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
-                <div class="col-sm-18 col-lg-10"><input type="text" id="element_email" name="email" value="{DATA.email}" class="form-control"/>
+                <div class="col-sm-18 col-lg-10">
+                    <input type="text" id="element_email" name="email" value="{DATA.email}" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
