@@ -33,9 +33,9 @@ hips smallint(5) NOT NULL DEFAULT '0' COMMENT 'Số đo vòng mông',
 email varchar(190) NOT NULL DEFAULT '' COMMENT 'Địa chỉ email',
 image varchar(255) NOT NULL DEFAULT '' COMMENT 'Ảnh hồ sơ',
 vote int(11) NOT NULL DEFAULT '0' COMMENT 'Số lượt bình chọn',
-add_time int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian thêm',
-edit_time int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian sửa',
-weight smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Thứ tự',
+time_add int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Tạo lúc',
+time_update int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Cập nhật lúc',
+weight smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Sắp thứ tự',
 PRIMARY KEY (id),
 UNIQUE KEY alias (alias)
 ) ENGINE=InnoDB";
