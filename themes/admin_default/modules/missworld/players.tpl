@@ -83,7 +83,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-18 col-sm-offset-6">
-                    <input type="hidden" name="save" value="{NV_CHECK_SESSION}" />
+                    <input type="hidden" name="save" value="{NV_CHECK_SESSION}"/>
                     <button type="submit" class="btn btn-primary">{GLANG.submit}</button>
                 </div>
             </div>
