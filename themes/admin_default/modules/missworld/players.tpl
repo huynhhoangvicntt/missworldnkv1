@@ -1,108 +1,49 @@
 <!-- BEGIN: main -->
-<div id="form-holder"></div>
 <!-- BEGIN: error -->
 <div class="alert alert-danger">{ERROR}</div>
 <!-- END: error -->
-<p class="text-info">
-    <span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>
-  {LANG.is_required}
-</p>
 <div class="panel panel-default">
     <div class="panel-body">
-    <form method="post" action="{FORM_ACTION}" class="form-horizontal">
-      <div class="form-group">
-        <label class="col-sm-6 control-label" for="element_title"
-          >{LANG.fullname}
-          <span class="fa-required text-danger"
-            >(<em class="fa fa-asterisk"></em>)</span
-          >:</label
-        >
-        <div class="col-sm-18 col-lg-10">
-          <input
-            type="text"
-            id="element_title"
-            name="fullname"
-            value="{DATA.fullname}"
-            class="form-control"
-          />
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-6 control-label" for="element_alias"
-          >{LANG.alias}</label
-        >
-        <div class="col-sm-18 col-lg-10">
-          <div class="input-group">
-            <input
-              type="text"
-              id="element_alias"
-              name="alias"
-              value="{DATA.alias}"
-              class="form-control"
-            />
-            <span class="input-group-btn">
-              <button
-                class="btn btn-default"
-                type="button"
-                onclick="get_player_alias('{DATA.id}', '{NV_CHECK_SESSION}')"
-              >
-                <i class="fa fa-retweet"></i>
-              </button>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-6 control-label" for="element_dob"
-          >{LANG.dob}
-          <span class="fa-required text-danger"
-            >(<em class="fa fa-asterisk"></em>)</span
-          >:</label
-        >
-        <div class="col-sm-18 col-lg-10">
-          <input
-            type="text"
-            id="element_dob"
-            name="dob"
-            value="{DATA.dob}"
-            class="form-control"
-          />
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-6 control-label" for="element_address"
-          >{LANG.address}
-          <span class="fa-required text-danger"
-            >(<em class="fa fa-asterisk"></em>)</span
-          >:</label
-        >
-        <div class="col-sm-18 col-lg-10">
-          <input
-            type="text"
-            id="element_address"
-            name="address"
-            value="{DATA.address}"
-            class="form-control"
-          />
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-6 control-label" for="height"
-          >{LANG.height}
-          <span class="fa-required text-danger"
-            >(<em class="fa fa-asterisk"></em>)</span
-          >:</label
-        >
-        <div class="col-sm-18 col-lg-10">
-          <input
-            type="text"
-            id="element_height"
-            name="height"
-            value="{DATA.height}"
-            class="form-control"
-          />
-        </div>
-      </div>
+        <form method="post" action="{FORM_ACTION}" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-6 control-label" for="element_title">{LANG.fullname}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
+                <div class="col-sm-18 col-lg-10">
+                    <input type="text" id="element_title" name="fullname" value="{DATA.fullname}" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label" for="element_alias">{LANG.alias}</label>
+                <div class="col-sm-18 col-lg-10">
+                    <div class="input-group">
+                        <input type="text" id="element_alias" name="alias" value="{DATA.alias}" class="form-control"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="get_player_alias('{DATA.id}', '{NV_CHECK_SESSION}')"><i class="fa fa-retweet"></i></button>
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label" for="element_dob">{LANG.dob}
+                    <span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:
+                </label>
+                    <div class="col-sm-18 col-lg-10">
+                        <input type="text" id="element_dob" name="dob" value="{DATA.dob}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6 control-label" for="element_address">{LANG.address}
+                        <span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:
+                    </label>
+                    <div class="col-sm-18 col-lg-10">
+                        <input type="text" id="element_address" name="address" value="{DATA.address}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6 control-label" for="height">{LANG.height}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:
+                    </label>
+                    <div class="col-sm-18 col-lg-10"><input type="text" id="element_height" name="height" value="{DATA.height}" class="form-control"/>
+                    </div>
+                </div>
       <div class="form-group">
         <label class="col-sm-6 control-label" for="element_chest"
           >{LANG.chest}
