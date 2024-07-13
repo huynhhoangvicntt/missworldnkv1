@@ -47,6 +47,17 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_players WHERE id=" . $id;
     $db->query($sql);
 
+     // Cập nhật thứ tự
+     $sql = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . "_players ORDER BY weight ASC";
+     $result = $db->query($sql);
+     $weight = 0;
+ 
+     while ($row = $result->fetch()) {
+         ++$weight;
+         $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_players SET weight=" . $weight . " WHERE id=" . $row['id'];
+         $db->query($sql);
+     }
+
     nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_DELETE_PLAYER', json_encode($array), $admin_info['admin_id']);
     $nv_Cache->delMod($module_name);
 
