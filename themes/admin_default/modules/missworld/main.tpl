@@ -6,7 +6,7 @@
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr class="text-center">
-                <th class="text-nowrap">{LANG.weight}</th>
+                <th class="text-nowrap">{LANG.stt}</th>
                 <th class="text-nowrap">{LANG.fullname}</th>
                 <th class="text-nowrap">{LANG.dob}</th>
                 <th class="text-nowrap">{LANG.address}</th>
@@ -23,7 +23,7 @@
         <tbody>
             <!-- BEGIN: loop -->
             <tr class="text-center">
-                <td class="text-center">{DATA.weight}</td>
+                <td class="text-center">{DATA.stt}</td>
                 <td class="text-nowrap">{DATA.fullname}</td>
                 <td class="text-nowrap">{DATA.dob}</td>
                 <td class="text-nowrap">{DATA.address}</td>

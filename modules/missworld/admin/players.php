@@ -120,13 +120,13 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $weight = intval($db->query($sql)->fetchColumn()) + 1;
 
             $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_players (
-                fullname, alias, dob, address, height, chest, waist, hips, email, image, vote, weight, add_time, edit_time
+                fullname, alias, dob, address, height, chest, waist, hips, email, image, vote, weight, time_add, time_update
             ) VALUES (
                 :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
             )";
         } else {
             $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_players SET
-            fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, vote = :vote, edit_time = " . NV_CURRENTTIME . "
+            fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, vote = :vote, time_update = " . NV_CURRENTTIME . "
             WHERE id = " . $id;
         }
 

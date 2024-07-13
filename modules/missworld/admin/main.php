@@ -15,7 +15,7 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 
 $page_title = $lang_module['player_manager'];
 $array = [];
-$per_page = 5;
+$per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
 
 // Gọi CSDL để lấy dữ liệu
@@ -50,17 +50,6 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_players WHERE id=" . $id;
     $db->query($sql);
 
-    // Cập nhật thứ tự
-    $sql = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . "_players ORDER BY weight ASC";
-    $result = $db->query($sql);
-    $weight = 0;
-
-    while ($row = $result->fetch()) {
-        ++$weight;
-        $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_players SET weight=" . $weight . " WHERE id=" . $row['id'];
-        $db->query($sql);
-    }
-
     nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_DELETE_PLAYER', json_encode($array), $admin_info['admin_id']);
     $nv_Cache->delMod($module_name);
 
@@ -84,9 +73,9 @@ if (!empty($array)) {
         $value['dob'] = nv_date('d/m/Y', $value['dob']); 
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players&amp;id=' . $value['id'];
         $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
-        $value['add_time'] = nv_date('d/m/Y H:i', $value['add_time']);
-        $value['edit_time'] = $value['edit_time'] ? nv_date('d/m/Y H:i', $value['edit_time']) : '';
-        $value['weight'] = $i + 1;
+        $value['time_add'] = nv_date('d/m/Y H:i', $value['time_add']);
+        $value['time_update'] = $value['time_update'] ? nv_date('d/m/Y H:i', $value['time_update']) : '';
+        $value['stt'] = $i + 1;
       
         $xtpl->assign('DATA', $value);
         $xtpl->parse('main.loop');
@@ -97,10 +86,6 @@ if (!empty($array)) {
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 $generate_page = nv_generate_page($base_url, $total, $per_page, $page);
 $xtpl->assign('GENERATE_PAGE', $generate_page);
-
-// $per_page = 20;
-// $page = $nv_Request->get_int('page', 'get', 1);
-// $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');
