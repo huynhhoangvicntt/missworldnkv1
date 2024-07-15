@@ -1,10 +1,10 @@
 // JS chức năng quản lý thí sinh 
 function get_player_alias(id, checksess) {
-    var title = strip_tags(document.getElementById('element_title').value);
+    var fullname = strip_tags(document.getElementById('element_title').value);
     if (fullname != '') {
         $.post(
             script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=players&nocache=' + new Date().getTime(),
-            'changealias=' + checksess + '&title=' + encodeURIComponent(title) + '&id=' + id, function(res) {
+            'changealias=' + checksess + '&fullname=' + encodeURIComponent(fullname) + '&id=' + id, function(res) {
             if (res != "") {
                 document.getElementById('element_alias').value = res;
             } else {
