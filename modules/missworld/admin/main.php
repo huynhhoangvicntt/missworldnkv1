@@ -19,19 +19,6 @@ $per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
-// Gọi CSDL để lấy dữ liệu
-$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
-$sql = $db->sql();
-$total = $db->query($sql)->fetchColumn();
-
-$db->select('*')->order("id ASC")->limit($per_page)->offset(($page - 1) * $per_page);
-
-$sql = $db->sql();
-$result = $db->query($sql);
-while ($row = $result->fetch()) {
-    $array[$row['id']] = $row;
-}
-
 // Xóa
 if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     $id = $nv_Request->get_absint('id', 'post', 0);
@@ -62,6 +49,19 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     $nv_Cache->delMod($module_name);
 
     nv_htmlOutput("OK");
+}
+
+// Gọi CSDL để lấy dữ liệu
+$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
+$sql = $db->sql();
+$total = $db->query($sql)->fetchColumn();
+
+$db->select('*')->order("id DESC")->limit($per_page)->offset(($page - 1) * $per_page);
+
+$sql = $db->sql();
+$result = $db->query($sql);
+while ($row = $result->fetch()) {
+    $array[$row['id']] = $row;
 }
 
 $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
