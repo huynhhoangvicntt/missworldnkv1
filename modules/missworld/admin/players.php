@@ -80,13 +80,13 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['alias'] = nv_substr($nv_Request->get_title('alias', 'post', ''), 0, 190);
     $array['dob'] = $nv_Request->get_title('cfg_date', 'post', '');
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 190);
-    $array['height'] = $nv_Request->get_int('height', 'post', '');
-    $array['chest'] = $nv_Request->get_int('chest', 'post', '');
-    $array['waist'] = $nv_Request->get_int('waist', 'post', '');
-    $array['hips'] = $nv_Request->get_int('hips', 'post', '');
+    $array['height'] = $nv_Request->get_int('height', 'post', 0);
+    $array['chest'] = $nv_Request->get_int('chest', 'post', 0);
+    $array['waist'] = $nv_Request->get_int('waist', 'post', 0);
+    $array['hips'] = $nv_Request->get_int('hips', 'post', 0);
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
-    $array['vote'] = $nv_Request->get_int('vote', 'post', '');
+    $array['vote'] = $nv_Request->get_int('vote', 'post', 0);
 
     // Xử lý dữ liệu
     $array['alias'] = empty($array['alias']) ? change_alias($array['fullname']) : change_alias($array['alias']);
