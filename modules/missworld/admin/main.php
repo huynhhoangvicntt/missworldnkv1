@@ -78,7 +78,6 @@ $num = sizeof($array);
 if (!empty($array)) {
     $i = ($page - 1) * $per_page;
     foreach ($array as $value) {
-        $value['dob'] = nv_date('d/m/Y', $value['dob']); 
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players&amp;id=' . $value['id'];
         $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
         $value['time_add'] = nv_date('d/m/Y H:i', $value['time_add']);

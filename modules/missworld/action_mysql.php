@@ -24,7 +24,7 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
 id smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
 fullname varchar(190) NOT NULL COMMENT 'Họ và tên thí sinh',
 alias varchar(190) NOT NULL COMMENT 'Liên kết tĩnh không trùng',
-dob int(11) NOT NULL DEFAULT '0' COMMENT 'Ngày sinh',
+dob varchar(190) NOT NULL COMMENT 'Ngày sinh',
 address varchar(190) NOT NULL COMMENT 'Địa chỉ',
 height smallint(5) NOT NULL DEFAULT '0' COMMENT 'Chiều cao',
 chest smallint(5) NOT NULL DEFAULT '0' COMMENT 'Số đo vòng ngực',
