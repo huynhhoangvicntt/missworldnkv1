@@ -2,6 +2,7 @@
 <!-- BEGIN: error -->
 <div class="alert alert-danger">{ERROR}</div>
 <!-- END: error -->
+<link rel="stylesheet" type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css">
 <div class="panel panel-default">
     <div class="panel-body">
         <form method="post" action="{FORM_ACTION}" class="form-horizontal">
@@ -28,7 +29,7 @@
                     <input type="text" id="element_dob" name="cfg_dob" value="{DATA.dob}" class="form-control"/>
                 </div>
             </div> -->
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label class="col-sm-6 control-label" for="element_cfg_date">{LANG.dob}:</label>
                 <div class="col-sm-18 col-lg-10">
                     <div class="form-inline">
@@ -38,9 +39,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="form-group">
-                <label class="col-sm-6 control-label" for="element_address">{LANG.address}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
+                <label class="col-sm-6 control-label" for="element_cfg_date">{LANG.dob}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
+				<td><input class="form-control w200 pull-left" value="{DATA.dob}" type="text" id="dob" name="dob" readonly="readonly" /></td>
+			</div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label" for="element_address">{LANG.address}</span>:</label>
                 <div class="col-sm-18 col-lg-10">
                     <input type="text" id="element_address" name="address" value="{DATA.address}" class="form-control"/>
                 </div>
@@ -70,7 +75,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-6 control-label" for="element_email">{LANG.email}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
+                <label class="col-sm-6 control-label" for="element_email">{LANG.email}</span>:</label>
                 <div class="col-sm-18 col-lg-10">
                     <input type="text" id="element_email" name="email" value="{DATA.email}" class="form-control"/>
                 </div>
@@ -87,7 +92,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-6 control-label" for="element_vote">{LANG.vote}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
+                <label class="col-sm-6 control-label" for="element_vote">{LANG.vote}</span>:</label>
                 <div class="col-sm-18 col-lg-10">
                     <input type="text" id="element_vote" name="vote" value="{DATA.vote}" class="form-control"/>
                 </div>
@@ -126,22 +131,30 @@
             e.preventDefault();
             nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=element_image&path={UPLOAD_PATH}&type=image&currentpath={UPLOAD_CURRENT}", "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");
         });
+        // Đoạn js xử lý chọn ngày tháng
+        // $('#element_cfg_date_outer').datepicker({
+        //     language: '{NV_LANG_INTERFACE}',
+        //     format: 'dd/mm/yyyy',
+        //     weekStart: 1,
+        //     todayBtn: 'linked',
+        //     autoclose: true,
+        //     todayHighlight: true,
+        //     zIndexOffset: 1000
+        // });
     });
 </script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-       
-        // Đoạn js xử lý chọn ngày tháng
-        $('#element_cfg_date_outer').datepicker({
-            language: '{NV_LANG_INTERFACE}',
-            format: 'dd/mm/yyyy',
-            weekStart: 1,
-            todayBtn: 'linked',
-            autoclose: true,
-            todayHighlight: true,
-            zIndexOffset: 1000
-        });
+    $("#dob").datepicker({
+        showOn : "both",
+        dateFormat : "dd.mm.yy",
+        changeMonth : true,
+        changeYear : true,
+        showOtherMonths : true,
+        buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
+        buttonImageOnly : true
     });
-    </script>
+</script>
 <!-- END: main -->
  

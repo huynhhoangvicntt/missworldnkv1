@@ -14,6 +14,7 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 }
 
 $page_title = $lang_module['player_manager'];
+$array['dob'] = $check = $to_person = $to_recipient = $error = '';
 
 // Lấy liên kết tĩnh
 if ($nv_Request->get_title('changealias', 'post', '') === NV_CHECK_SESSION) {
@@ -78,7 +79,20 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $is_submit_form = true;
     $array['fullname'] = nv_substr($nv_Request->get_title('fullname', 'post', ''), 0, 190);
     $array['alias'] = nv_substr($nv_Request->get_title('alias', 'post', ''), 0, 190);
-    $array['dob'] = $nv_Request->get_title('cfg_date', 'post', '');
+    // $array['dob'] = $nv_Request->get_title('cfg_date', 'post', '');
+     // Ngày tháng
+     $array['dob'] = $nv_Request->get_title('dob', 'post', '', '');
+
+     if (!empty($array['dob'])) {
+         unset($m);
+         if (preg_match("/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/", $array['dob'], $m)) {
+             $array['dob'] = mktime(0, 0, 0, $m[2], $m[1], $m[3]);
+         } else {
+             die($lang_module['in_result_errday']);
+         }
+     } else {
+         $array['dob'] = '';
+     }
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 190);
     $array['height'] = $nv_Request->get_int('height', 'post', 0);
     $array['chest'] = $nv_Request->get_int('chest', 'post', 0);
@@ -91,21 +105,13 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     // Xử lý dữ liệu
     $array['alias'] = empty($array['alias']) ? change_alias($array['fullname']) : change_alias($array['alias']);
 
-    // Ngày tháng
-    $array['cfg_date'] = 0;
-    if (!empty($array['dob'])) {
-        if (preg_match('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $array['dob'], $m)) {
-            $array['cfg_date'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
-        } else {
-            $error[] = $lang_module['config1_cfg_date_error'];
-            $array['cfg_date_show'] = empty($array['cfg_date']) ? '' : nv_date('d/m/Y', $array['cfg_date']);
-        }
-    }
+   
+   
     if (nv_is_file($array['image'], NV_UPLOADS_DIR . '/' . $module_upload)) {
         $array['image'] = substr($array['image'], strlen(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/'));
     } else {
-        $array['image'] = '';
-        // $array['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . 'oig2.czbsndowsvzsswzott-removebg-preview.png';
+         $array['image'] = '';
+        // $array['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . 'default_1.png';
     }
 
     // Kiểm tra trùng
@@ -121,6 +127,11 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
 
     if (empty($array['fullname'])) {
         $error[] = $lang_module['player_error_title'];
+    } elseif ($is_exists) {
+        $error[] = $lang_module['player_error_exists'];
+    }
+    if (empty($array['dob'])) {
+        $error[] = $lang_module['player_error_dob'];
     } elseif ($is_exists) {
         $error[] = $lang_module['player_error_exists'];
     }
@@ -184,6 +195,9 @@ $xtpl->assign('UPLOAD_CURRENT', $currentpath);
 $xtpl->assign('UPLOAD_PATH', NV_UPLOADS_DIR . '/' . $module_upload);
 $xtpl->assign('OP', $op);
 
+if ($array['dob'] != '') {
+    $array['dob'] = date("d.m.Y", $array['dob']);
+}
 // Hiển thị lỗi
 if (!empty($error)) {
     $xtpl->assign('ERROR', implode('<br />', $error));

@@ -43,6 +43,7 @@ $lang_module['function'] = 'Chức năng';
 $lang_module['time_add'] = 'Tạo lúc';
 $lang_module['time_update'] = 'Cập nhật lúc';
 $lang_module['config1_cfg_date_error'] = 'Ngày tháng không đúng định dạng';
+$lang_module['player_error_dob'] = 'Ngày sinh không được để trống';
 
 $lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
