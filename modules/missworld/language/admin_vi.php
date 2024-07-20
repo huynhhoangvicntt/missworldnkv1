@@ -42,8 +42,14 @@ $lang_module['vote'] = 'Số lượt vote';
 $lang_module['function'] = 'Chức năng';
 $lang_module['time_add'] = 'Tạo lúc';
 $lang_module['time_update'] = 'Cập nhật lúc';
-$lang_module['config1_cfg_date_error'] = 'Ngày tháng không đúng định dạng';
+$lang_module['dob_error'] = 'Ngày tháng không đúng định dạng';
 $lang_module['player_error_dob'] = 'Ngày sinh không được để trống';
+$lang_module['player_error_height'] = 'Chiều cao không được để 0';
+$lang_module['player_error_chest'] = 'Ngày sinh không được để trống';
+// $lang_module['player_error_waist'] = 'Ngày sinh không được để trống';
+// $lang_module['player_error_hips'] = 'Ngày sinh không được để trống';
+$lang_module['player_error_exists'] = 'Liên kết tĩnh bị trùng, vui lòng nhập giá trị khác';
+$lang_module['config1_cfg_date_error'] = 'Ngày tháng không đúng định dạng';
 
 $lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
