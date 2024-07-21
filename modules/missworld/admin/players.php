@@ -53,6 +53,7 @@ if (!empty($id)) {
 
     $is_edit = true;
     $page_title = $lang_module['player_edit'];
+    $array['dob'] = nv_date('d/m/Y', $array['dob']);
     $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $id ;
 } else {
     $array = [
