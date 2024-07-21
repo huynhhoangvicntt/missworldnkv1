@@ -145,7 +145,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth = $db->prepare($sql);
             $sth->bindParam(':fullname', $array['fullname'], PDO::PARAM_STR);
             $sth->bindParam(':alias', $array['alias'], PDO::PARAM_STR);
-            $sth->bindParam(':dob', $array['dob'], PDO::PARAM_INT);
+            $sth->bindParam(':dob', $array['cfg_date'], PDO::PARAM_INT);
             $sth->bindParam(':address', $array['address'], PDO::PARAM_STR);
             $sth->bindParam(':height', $array['height'], PDO::PARAM_INT);
             $sth->bindParam(':chest', $array['chest'], PDO::PARAM_INT);
