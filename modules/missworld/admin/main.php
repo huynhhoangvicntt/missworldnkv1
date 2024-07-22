@@ -15,7 +15,7 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 
 $page_title = $lang_module['player_manager'];
 $array = [];
-$per_page = 12;
+$per_page = 4;
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 

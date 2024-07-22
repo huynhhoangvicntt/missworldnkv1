@@ -48,6 +48,9 @@ $lang_module['player_error_height'] = 'Chiều cao không được để trống
 $lang_module['player_error_chest'] = 'Vòng ngực không được để trống';
 $lang_module['player_error_waist'] = 'Vòng eo không được để trống';
 $lang_module['player_error_hips'] = 'Vòng mông không được để trống';
+$lang_module['search_keywords'] = 'Từ khóa tìm kiếm';
+$lang_module['from_day'] = 'Từ ngày';
+$lang_module['to_day'] = 'Đến ngày';
 
 $lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
