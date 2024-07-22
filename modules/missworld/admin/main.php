@@ -79,6 +79,7 @@ if (!empty($array)) {
     foreach ($array as $value) {
         // Chuyển ngày tháng từ số sang text
         $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
+        
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players&amp;id=' . $value['id'];
         $value['time_add'] = nv_date('d/m/Y H:i', $value['time_add']);
         $value['time_update'] = $value['time_update'] ? nv_date('d/m/Y H:i', $value['time_update']) : '';
