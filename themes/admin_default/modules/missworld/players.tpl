@@ -2,7 +2,6 @@
 <!-- BEGIN: error -->
 <div class="alert alert-danger">{ERROR}</div>
 <!-- END: error -->
-<!-- Sử dụng chọn ngày tháng, ngày tháng từ đến thì copy đoạn này -->
 <link type="text/css" href="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
 <link type="text/css" href="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 <script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
