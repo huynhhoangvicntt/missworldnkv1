@@ -181,7 +181,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
                 trigger_error(print_r($e, true));
                 $error[] = $lang_module['errorsave'];
             }
-   
         }
     }
 }
