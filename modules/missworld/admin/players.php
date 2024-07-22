@@ -68,6 +68,7 @@ if (!empty($id)) {
         'hips' => 0,
         'email' => '',
         'image' => '',
+        'keywords' => '',
         'vote' => 0,
     ];
 
@@ -98,6 +99,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['hips'] = $nv_Request->get_int('hips', 'post', 0);
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
+    $array['keywords'] = $nv_Request->get_title('keywords', 'post', '');
     $array['vote'] = $nv_Request->get_int('vote', 'post', 0);
 
     // Xử lý dữ liệu
@@ -145,13 +147,13 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
                 $weight = intval($db->query($sql)->fetchColumn()) + 1;
 
                 $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_players (
-                    fullname, alias, dob, address, height, chest, waist, hips, email, image, vote, weight, time_add, time_update
+                    fullname, alias, dob, address, height, chest, waist, hips, email, image, keywords, vote, weight, time_add, time_update
                 ) VALUES (
-                    :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
+                    :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :keywords, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
                 )";
             } else {
                 $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_players SET
-                    fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, vote = :vote, time_update = " . NV_CURRENTTIME . "
+                    fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, keywords = :keywords, vote = :vote, time_update = " . NV_CURRENTTIME . "
                 WHERE id = " . $id;
             }
 
@@ -167,6 +169,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
                 $sth->bindParam(':hips', $array['hips'], PDO::PARAM_INT);
                 $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
                 $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
+                $sth->bindParam(':keywords', $array['keywords'], PDO::PARAM_STR, strlen($array['keywords']));
                 $sth->bindParam(':vote', $array['vote'], PDO::PARAM_INT);
                 $sth->execute();
 

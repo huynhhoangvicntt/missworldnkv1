@@ -51,6 +51,45 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     nv_htmlOutput("OK");
 }
 
+// Phần tìm kiếm
+$array_search = [];
+$array_search['q'] = $nv_Request->get_title('q', 'get', '');
+$array_search['from'] = $nv_Request->get_title('f', 'get', '');
+$array_search['to'] = $nv_Request->get_title('t', 'get', '');
+
+// Xử lý dữ liệu tìm kiếm
+if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['from'], $m)) {
+    $array_search['from'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
+} else {
+    $array_search['from'] = 0;
+}
+if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['to'], $m)) {
+    $array_search['to'] = mktime(23, 59, 59, intval($m[2]), intval($m[1]), intval($m[3]));
+} else {
+    $array_search['to'] = 0;
+}
+
+$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . '_' . $module_data . '_players');
+
+$where = [];
+if (!empty($array_search['q'])) {
+    $base_url .= '&amp;q=' . urlencode($array_search['q']);
+    $dblikekey = $db->dblikeescape($array_search['q']);
+    $where[] = "(
+        fullname LIKE '%" . $dblikekey . "%' OR
+        keywords LIKE '%" . $dblikekey . "%' OR
+        height LIKE '%" . $dblikekey . "%'
+    )";
+}
+if (!empty($array_search['from'])) {
+    $base_url .= '&amp;f=' . nv_date('d-m-Y', $array_search['from']);
+    $where[] = "add_time>=" . $array_search['from'];
+}
+if (!empty($array_search['to'])) {
+    $base_url .= '&amp;t=' . nv_date('d-m-Y', $array_search['to']);
+    $where[] = "add_time<=" . $array_search['to'];
+}
+
 // Gọi CSDL để lấy dữ liệu
 $db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
 $sql = $db->sql();

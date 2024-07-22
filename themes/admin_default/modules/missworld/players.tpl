@@ -85,6 +85,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-6 control-label" for="element_keywords">{LANG.keywords}:</label>
+                <div class="col-sm-18 col-lg-10">
+                    <input type="text" id="element_keywords" name="keywords" value="{DATA.keywords}" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-6 control-label" for="element_vote">{LANG.vote}</span>:</label>
                 <div class="col-sm-18 col-lg-10">
                     <input type="text" id="element_vote" name="vote" value="{DATA.vote}" class="form-control"/>

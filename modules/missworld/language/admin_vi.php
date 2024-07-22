@@ -37,6 +37,7 @@ $lang_module['waist'] = 'Số đo vòng eo';
 $lang_module['hips'] = 'Số đo vòng mông';
 $lang_module['email'] = 'Địa chỉ email';
 $lang_module['images'] = 'Ảnh hồ sơ';
+$lang_module['keywords'] = 'Từ khóa';
 $lang_module['vote'] = 'Số lượt vote';
 $lang_module['function'] = 'Chức năng';
 $lang_module['time_add'] = 'Tạo lúc';
