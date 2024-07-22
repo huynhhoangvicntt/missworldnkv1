@@ -120,19 +120,21 @@
 <!-- END: getalias -->
 <script type="text/javascript">
     $(document).ready(function(){
+        // Đoạn js xử lý nút chọn ảnh nếu cấu hình ảnh
         $('#element_image_pick').on('click', function(e) {
             e.preventDefault();
             nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=element_image&path={UPLOAD_PATH}&type=image&currentpath={UPLOAD_CURRENT}", "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");
         });
-    // Đoạn js xử lý chọn ngày tháng
-    $('#element_cfg_date_outer').datepicker({
-        language: '{NV_LANG_INTERFACE}',
-        format: 'dd/mm/yyyy',
-        weekStart: 1,
-        todayBtn: 'linked',
-        autoclose: true,
-        todayHighlight: true,
-        zIndexOffset: 1000
+
+        // Đoạn js xử lý chọn ngày tháng
+        $('#element_cfg_date_outer').datepicker({
+            language: '{NV_LANG_INTERFACE}',
+            format: 'dd/mm/yyyy',
+            weekStart: 1,
+            todayBtn: 'linked',
+            autoclose: true,
+            todayHighlight: true,
+            zIndexOffset: 1000
         });
     });
 </script>
