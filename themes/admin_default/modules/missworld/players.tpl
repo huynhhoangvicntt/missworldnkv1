@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-6 control-label" for="element_cfg_date">{LANG.dob}:</label>
+                <label class="col-sm-6 control-label" for="element_cfg_date">{LANG.dob}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
                 <div class="col-sm-18 col-lg-10">
                     <div class="form-inline">
                         <div class="input-group date" id="element_cfg_date_outer">
