@@ -90,6 +90,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $error[] = $lang_module['dob_error'];
         }
     }
+    
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 190);
     $array['height'] = $nv_Request->get_int('height', 'post', 0);
     $array['chest'] = $nv_Request->get_int('chest', 'post', 0);
