@@ -11,8 +11,8 @@
             <div class="DATA">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="formEleQ">{LANG.keywordsSoft}:</label>
-                        <input type="text" class="form-control" id="formEleQ" name="q" value="{DATA_SEARCH.q}" placeholder="{LANG.enter_search_key}">
+                        <label for="element_q">{LANG.search_keywords}:</label>
+                        <input type="text" class="form-control" id="element_q" name="q" value="{SEARCH.q}" placeholder="{LANG.enter_search_key}">
                     </div>
                 </div>
                 <div class="col-sm-6">
