@@ -60,7 +60,7 @@ if (!empty($id)) {
         'id' => 0,
         'fullname' => '',
         'alias' => '',
-        'dob' => 0,
+        'dob' => '',
         'address' => '',
         'height' => 0,
         'chest' => 0,

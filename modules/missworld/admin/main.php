@@ -15,9 +15,6 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 
 $page_title = $lang_module['player_manager'];
 $array = [];
-$per_page = 4;
-$page = $nv_Request->get_int('page', 'get', 1);
-$base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
 // Xóa
 if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
@@ -51,44 +48,9 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     nv_htmlOutput("OK");
 }
 
-// Phần tìm kiếm
-$array_search = [];
-$array_search['q'] = $nv_Request->get_title('q', 'get', '');
-$array_search['from'] = $nv_Request->get_title('f', 'get', '');
-$array_search['to'] = $nv_Request->get_title('t', 'get', '');
-
-// Xử lý dữ liệu tìm kiếm
-if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['from'], $m)) {
-    $array_search['from'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
-} else {
-    $array_search['from'] = 0;
-}
-if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['to'], $m)) {
-    $array_search['to'] = mktime(23, 59, 59, intval($m[2]), intval($m[1]), intval($m[3]));
-} else {
-    $array_search['to'] = 0;
-}
-
-$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . '_' . $module_data . '_players');
-
-$where = [];
-if (!empty($array_search['q'])) {
-    $base_url .= '&amp;q=' . urlencode($array_search['q']);
-    $dblikekey = $db->dblikeescape($array_search['q']);
-    $where[] = "(
-        fullname LIKE '%" . $dblikekey . "%' OR
-        keywords LIKE '%" . $dblikekey . "%' OR
-        height LIKE '%" . $dblikekey . "%'
-    )";
-}
-if (!empty($array_search['from'])) {
-    $base_url .= '&amp;f=' . nv_date('d-m-Y', $array_search['from']);
-    $where[] = "add_time>=" . $array_search['from'];
-}
-if (!empty($array_search['to'])) {
-    $base_url .= '&amp;t=' . nv_date('d-m-Y', $array_search['to']);
-    $where[] = "add_time<=" . $array_search['to'];
-}
+$per_page = 4;
+$page = $nv_Request->get_int('page', 'get', 1);
+$base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
 // Gọi CSDL để lấy dữ liệu
 $db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
@@ -103,6 +65,39 @@ while ($row = $result->fetch()) {
     $array[$row['id']] = $row;
 }
 
+// Bien tim kiem
+$data_search = [
+    "q" => nv_substr($nv_Request->get_title('q', 'get', ''), 0, 100),
+    "from" => nv_substr($nv_Request->get_title('from', 'get', ''), 0, 100),
+    "to" => nv_substr($nv_Request->get_title('to', 'get', ''), 0, 100),
+];
+
+$where = [];
+if (!empty($data_search['q'])) {
+    $base_url .= "&amp;q=" . urlencode($data_search['q']);
+    $where[] = "(
+        fullname LIKE '%" . $db->dblikeescape($data_search['q']) . "%' OR
+        keywords LIKE '%" . $db->dblikeescape($data_search['q']) . "%' OR
+        address LIKE '%" . $db->dblikeescape($data_search['q']) . "%'
+    )";
+}
+if (!empty($data_search['from'])) {
+    unset($match);
+    if (preg_match("/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/", $data_search['from'], $match)) {
+        $from = mktime(0, 0, 0, $match[2], $match[1], $match[3]);
+        $where[] = "time_add >= " . $from;
+        $base_url .= "&amp;from=" . $data_search['from'];
+    }
+}
+if (!empty($data_search['to'])) {
+    unset($match);
+    if (preg_match("/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/", $data_search['to'], $match)) {
+        $to = mktime(0, 0, 0, $match[2], $match[1], $match[3]);
+        $where[] = "time_add <= " . $to;
+        $base_url .= "&amp;to=" . $data_search['to'];
+    }
+}
+
 $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('GLANG', $lang_global);
@@ -110,7 +105,11 @@ $xtpl->assign('MODULE_NAME', $module_name);
 $xtpl->assign('MODULE_FILE', $module_file);
 $xtpl->assign('DATA', $array);
 $xtpl->assign('OP', $op);
+
 $xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players');
+
+$xtpl->assign('DATA_SEARCH', $data_search);
+// $xtpl->assign('SEARCH', $array_search);
 
 // Hiển thị dữ liệu
 if (!empty($array)) {

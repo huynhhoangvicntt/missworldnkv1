@@ -15,9 +15,9 @@ if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
 
 $module_version = [
     'name' => 'Missworld',
-    'modfuncs' => 'main,detail',
+    'modfuncs' => 'main,detail,search',
     'change_alias'=> 'main,detail',
-    'submenu' => 'main, detail',
+    'submenu' => 'search',
     'is_sysmod' => 0,
     'virtual' => 1,
     'version' => '4.5.02',

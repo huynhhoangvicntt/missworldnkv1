@@ -11,8 +11,8 @@
             <div class="DATA">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="element_q">{LANG.search_keywords}:</label>
-                        <input type="text" class="form-control" id="element_q" name="q" value="{SEARCH.q}" placeholder="{LANG.enter_search_key}">
+                        <label for="formEleQ">{LANG.keywordsSoft}:</label>
+                        <input type="text" class="form-control" id="formEleQ" name="q" value="{DATA_SEARCH.q}" placeholder="{LANG.enter_search_key}">
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -62,37 +62,37 @@ $(document).ready(function() {
             <thead>
                 <tr>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.id}</a>
+                        <a href="">{LANG.id}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_ADD_TIME}">{ICON_ORDER_ADD_TIME} {LANG.fullname}</a>
+                        <a href="">{LANG.fullname}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_EDIT_TIME}">{ICON_ORDER_EDIT_TIME} {LANG.dob}</a>
+                        <a href="">{LANG.dob}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.address}</a>
+                        <a href="">{LANG.address}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.height}</a>
+                        <a href="">{LANG.height}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.chest}</a>
+                        <a href="">{LANG.chest}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.waist}</a>
+                        <a href="">{LANG.waist}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.hips}</a>
+                        <a href="">{LANG.hips}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.email}</a>
+                        <a href="">{LANG.email}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.images}</a>
+                        <a href="">{LANG.images}</a>
                     </th>
                     <th class="text-nowrap">
-                        <a href="{URL_ORDER_TITLE}">{ICON_ORDER_TITLE} {LANG.vote}</a>
+                        <a href="">{LANG.vote}</a>
                     </th>
                     <th class="text-nowrap text-center">{LANG.function}</th>
                 </tr>
