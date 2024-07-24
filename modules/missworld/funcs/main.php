@@ -16,7 +16,7 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 // Lấy dữ liệu
 $array_data = [];
 
-$query = $db->query('SELECT * FROM ' . NV_PREFIXLANG .'_missworld_players ORDER BY weight ASC');
+$query = $db->query('SELECT * FROM ' . NV_PREFIXLANG .'_missworld_content ORDER BY weight ASC');
 while ($row = $query->fetch()) {
     $array_data[$row['id']] = $row;
    

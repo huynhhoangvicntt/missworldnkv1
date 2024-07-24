@@ -3,7 +3,7 @@ function get_player_alias(id, checksess) {
     var fullname = strip_tags(document.getElementById('element_title').value);
     if (fullname != '') {
         $.post(
-            script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=rows&nocache=' + new Date().getTime(),
+            script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=content&nocache=' + new Date().getTime(),
             'changealias=' + checksess + '&fullname=' + encodeURIComponent(fullname) + '&id=' + id, function(res) {
             if (res != "") {
                 document.getElementById('element_alias').value = res;

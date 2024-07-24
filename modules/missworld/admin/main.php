@@ -111,7 +111,7 @@ $xtpl->assign('MODULE_FILE', $module_file);
 $xtpl->assign('DATA', $array);
 $xtpl->assign('OP', $op);
 
-$xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=rows');
+$xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content');
 
 // Chuyển tìm kiếm sang ngày tháng
 $array_search['from'] = empty($array_search['from']) ? '' : nv_date('d-m-Y', $array_search['from']);
@@ -124,7 +124,7 @@ if (!empty($array)) {
     $i = ($page - 1) * $per_page;
     foreach ($array as $value) {
         $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
-        $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=rows&amp;id=' . $value['id'];
+        $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $value['id'];
         $value['time_add'] = nv_date('d/m/Y H:i', $value['time_add']);
         $value['time_update'] = $value['time_update'] ? nv_date('d/m/Y H:i', $value['time_update']) : '';
 
