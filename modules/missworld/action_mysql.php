@@ -15,12 +15,12 @@ if (!defined('NV_IS_FILE_MODULES')) {
 
 $sql_drop_module = [];
 
-$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_players;";
+$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows;";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_voters;";
 
 $sql_create_module = $sql_drop_module;
 
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_players (
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows (
 id smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
 fullname varchar(190) NOT NULL COMMENT 'Họ và tên thí sinh',
 alias varchar(190) NOT NULL COMMENT 'Liên kết tĩnh không trùng',
