@@ -22,12 +22,12 @@ if ($nv_Request->get_title('changealias', 'post', '') === NV_CHECK_SESSION) {
 
     $alias = strtolower(change_alias($fullname));
 
-    $stmt = $db->prepare("SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . "_players WHERE id !=" . $id . " AND alias = :alias");
+    $stmt = $db->prepare("SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id !=" . $id . " AND alias = :alias");
     $stmt->bindParam(':alias', $alias, PDO::PARAM_STR);
     $stmt->execute();
 
     if ($stmt->fetchColumn()) {
-        $weight = $db->query("SELECT MAX(id) FROM " . NV_PREFIXLANG . "_" . $module_data . "_players")->fetchColumn();
+        $weight = $db->query("SELECT MAX(id) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows")->fetchColumn();
         $weight = intval($weight) + 1;
         $alias = $alias . '-' . $weight;
     }
@@ -43,7 +43,7 @@ $id = $nv_Request->get_absint('id', 'get', 0);
 $currentpath = NV_UPLOADS_DIR . '/' . $module_upload;
 
 if (!empty($id)) {
-    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_players WHERE id = " . $id;
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id = " . $id;
     $result = $db->query($sql);
     $array = $result->fetch();
 
@@ -113,7 +113,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
 
     // Kiểm tra trùng
     $is_exists = false;
-    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_players WHERE alias = :alias" . ($id ? ' AND id != ' . $id : '');
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE alias = :alias" . ($id ? ' AND id != ' . $id : '');
     $sth = $db->prepare($sql);
     $sth->bindParam(':alias', $array['alias'], PDO::PARAM_STR);
     $sth->execute();
@@ -143,16 +143,16 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $error[] = $lang_module['player_error_hips'];
         } else {
             if (!$id) {
-                $sql = "SELECT MAX(weight) weight FROM " . NV_PREFIXLANG . "_" . $module_data . "_players";
+                $sql = "SELECT MAX(weight) weight FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows";
                 $weight = intval($db->query($sql)->fetchColumn()) + 1;
 
-                $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_players (
+                $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_rows (
                     fullname, alias, dob, address, height, chest, waist, hips, email, image, keywords, vote, weight, time_add, time_update
                 ) VALUES (
                     :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :keywords, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
                 )";
             } else {
-                $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_players SET
+                $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET
                     fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, keywords = :keywords, vote = :vote, time_update = " . NV_CURRENTTIME . "
                 WHERE id = " . $id;
             }
@@ -193,7 +193,7 @@ if (!empty($array['image']) and nv_is_file(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/
    $currentpath = substr(dirname($array['image']), strlen(NV_BASE_SITEURL));
 }
 
-$xtpl = new XTemplate('players.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
+$xtpl = new XTemplate('content.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('GLANG', $lang_global);
 $xtpl->assign('MODULE_FILE', $module_file);

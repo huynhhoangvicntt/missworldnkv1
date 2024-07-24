@@ -18,24 +18,24 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     $id = $nv_Request->get_absint('id', 'post', 0);
 
     // Kiểm tra tồn tại
-    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_players WHERE id=" . $id;
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $id;
     $array = $db->query($sql)->fetch();
     if (empty($array)) {
         nv_htmlOutput('NO_' . $id);
     }
 
     // Xóa
-    $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_players WHERE id=" . $id;
+    $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $id;
     $db->query($sql);
 
     // Cập nhật thứ tự
-    $sql = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . "_players ORDER BY weight ASC";
+    $sql = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows ORDER BY weight ASC";
     $result = $db->query($sql);
     $weight = 0;
 
     while ($row = $result->fetch()) {
         ++$weight;
-        $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_players SET weight=" . $weight . " WHERE id=" . $row['id'];
+        $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET weight=" . $weight . " WHERE id=" . $row['id'];
         $db->query($sql);
     }
 
@@ -71,7 +71,7 @@ if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['to']
 }
 
 // Gọi CSDL để lấy dữ liệu
-$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
+$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_rows");
 
 $where = [];
 if (!empty($array_search['q'])) {
@@ -111,7 +111,7 @@ $xtpl->assign('MODULE_FILE', $module_file);
 $xtpl->assign('DATA', $array);
 $xtpl->assign('OP', $op);
 
-$xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players');
+$xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=rows');
 
 // Chuyển tìm kiếm sang ngày tháng
 $array_search['from'] = empty($array_search['from']) ? '' : nv_date('d-m-Y', $array_search['from']);
@@ -124,7 +124,7 @@ if (!empty($array)) {
     $i = ($page - 1) * $per_page;
     foreach ($array as $value) {
         $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
-        $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players&amp;id=' . $value['id'];
+        $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=rows&amp;id=' . $value['id'];
         $value['time_add'] = nv_date('d/m/Y H:i', $value['time_add']);
         $value['time_update'] = $value['time_update'] ? nv_date('d/m/Y H:i', $value['time_update']) : '';
 
