@@ -15,11 +15,11 @@ if (!defined('NV_ADMIN')) {
 
 $allow_func = [
     'main',
-    'config',
     'players',
     'voters',
+    'config',
 ];
 
-$submenu['config'] = $lang_module['config_manager'];
 $submenu['players'] = $lang_module['player_manager'];
 $submenu['voters'] = $lang_module['voter_manager'];
+$submenu['config'] = $lang_module['config_manager'];

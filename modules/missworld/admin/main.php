@@ -13,27 +13,6 @@ if (!defined('NV_IS_FILE_ADMIN')) {
     exit('Stop!!!');
 }
 
-$page_title = $lang_module['player_manager'];
-$array = [];
-
-// Search parameters
-$array_search = [];
-$array_search['q'] = $nv_Request->get_title('q', 'get', '');
-$array_search['from'] = $nv_Request->get_title('f', 'get', '');
-$array_search['to'] = $nv_Request->get_title('t', 'get', '');
-
-// Process date parameters
-if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['from'], $m)) {
-    $array_search['from'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
-} else {
-    $array_search['from'] = 0;
-}
-if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['to'], $m)) {
-    $array_search['to'] = mktime(23, 59, 59, intval($m[2]), intval($m[1]), intval($m[3]));
-} else {
-    $array_search['to'] = 0;
-}
-
 // Xóa
 if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     $id = $nv_Request->get_absint('id', 'post', 0);
@@ -66,9 +45,30 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     nv_htmlOutput("OK");
 }
 
+$page_title = $lang_module['main'];
+
+$array = [];
 $per_page = 4;
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+
+// Search parameters
+$array_search = [];
+$array_search['q'] = $nv_Request->get_title('q', 'get', '');
+$array_search['from'] = $nv_Request->get_title('f', 'get', '');
+$array_search['to'] = $nv_Request->get_title('t', 'get', '');
+
+// Process date parameters
+if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['from'], $m)) {
+    $array_search['from'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
+} else {
+    $array_search['from'] = 0;
+}
+if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['to'], $m)) {
+    $array_search['to'] = mktime(23, 59, 59, intval($m[2]), intval($m[1]), intval($m[3]));
+} else {
+    $array_search['to'] = 0;
+}
 
 // Gọi CSDL để lấy dữ liệu
 $db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_players");
