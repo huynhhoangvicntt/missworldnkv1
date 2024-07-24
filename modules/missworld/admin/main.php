@@ -48,17 +48,17 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
 $page_title = $lang_module['main'];
 
 $array = [];
-$per_page = 4;
+$per_page = 3;
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
-// Search parameters
+// Phần tìm kiếm
 $array_search = [];
 $array_search['q'] = $nv_Request->get_title('q', 'get', '');
 $array_search['from'] = $nv_Request->get_title('f', 'get', '');
 $array_search['to'] = $nv_Request->get_title('t', 'get', '');
 
-// Process date parameters
+// Xử lý dữ liệu tìm kiếm
 if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['from'], $m)) {
     $array_search['from'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
 } else {
@@ -123,9 +123,7 @@ $xtpl->assign('SEARCH', $array_search);
 if (!empty($array)) {
     $i = ($page - 1) * $per_page;
     foreach ($array as $value) {
-        // Chuyển ngày tháng từ số sang text
         $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
-        
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=players&amp;id=' . $value['id'];
         $value['time_add'] = nv_date('d/m/Y H:i', $value['time_add']);
         $value['time_update'] = $value['time_update'] ? nv_date('d/m/Y H:i', $value['time_update']) : '';
@@ -144,7 +142,10 @@ if (!empty($array)) {
 
 // Xuất phân trang
 $generate_page = nv_generate_page($base_url, $total, $per_page, $page);
-$xtpl->assign('GENERATE_PAGE', $generate_page);
+if (!empty($generate_page)) {
+    $xtpl->assign('GENERATE_PAGE', $generate_page);
+    $xtpl->parse('main.generate_page');
+}
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');

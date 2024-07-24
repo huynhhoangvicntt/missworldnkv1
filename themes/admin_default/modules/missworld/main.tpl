@@ -122,8 +122,16 @@ $(document).ready(function() {
                 </tr>
                 <!-- END: loop -->
             </tbody>
+            <!-- BEGIN: generate_page -->
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        {GENERATE_PAGE}
+                    </td>
+                </tr>
+            </tfoot>
+            <!-- END: generate_page -->
         </table>
-        {GENERATE_PAGE}
     </div>
 </form>
 <!-- END: main -->
