@@ -48,7 +48,7 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
 $page_title = $lang_module['main'];
 
 $array = [];
-$per_page = 3;
+$per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
