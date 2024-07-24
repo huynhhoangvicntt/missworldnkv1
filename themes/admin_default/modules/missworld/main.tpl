@@ -61,39 +61,17 @@ $(document).ready(function() {
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.id}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.fullname}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.dob}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.address}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.height}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.chest}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.waist}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.hips}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.email}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.images}</a>
-                    </th>
-                    <th class="text-nowrap">
-                        <a href="">{LANG.vote}</a>
-                    </th>
+                    <th class="text-nowrap text-center">{LANG.id}</th>
+                    <th class="text-nowrap text-center">{LANG.fullname}</th>
+                    <th class="text-nowrap text-center">{LANG.dob}</th>
+                    <th class="text-nowrap text-center">{LANG.address}</th>
+                    <th class="text-nowrap text-center">{LANG.height}</th>
+                    <th class="text-nowrap text-center">{LANG.chest}</th>
+                    <th class="text-nowrap text-center">{LANG.waist}</th>
+                    <th class="text-nowrap text-center">{LANG.hips}</th>
+                    <th class="text-nowrap text-center">{LANG.email}</th>
+                    <th class="text-nowrap text-center">{LANG.images}</th>
+                    <th class="text-nowrap text-center">{LANG.vote}</th>
                     <th class="text-nowrap text-center">{LANG.function}</th>
                 </tr>
             </thead>
@@ -101,7 +79,7 @@ $(document).ready(function() {
                 <!-- BEGIN: loop -->
                 <tr>
                     <td class="text-nowrap">{DATA.id}</td>
-                    <td><a target="_blank" href="{DATA.link}"><strong>{DATA.fullname}</strong></a></td>
+                    <td class="text-nowrap">{DATA.fullname}</td>
                     <td class="text-nowrap">{DATA.dob}</td>
                     <td class="text-nowrap">{DATA.address}</td>
                     <td class="text-nowrap">{DATA.height}</td>
@@ -109,11 +87,9 @@ $(document).ready(function() {
                     <td class="text-nowrap">{DATA.waist}</td>
                     <td class="text-nowrap">{DATA.hips}</td>
                     <td class="text-nowrap">{DATA.email}</td>
-                    <!-- <td><a target="_blank" href="{DATA.link}"><strong>{DATA.image}</strong></a></td> -->
                     <td class="img-responsive-wrap">
                         <img class="img-inner" src="{DATA.image}"/>
                     </td>
-    
                     <td class="text-nowrap">{DATA.vote}</td>
                     <td class="text-center text-nowrap">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
