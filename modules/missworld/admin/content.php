@@ -69,7 +69,7 @@ if (!empty($id)) {
         'email' => '',
         'image' => '',
         'keywords' => '',
-        'vote' => null,
+        'vote' => 0,
     ];
 
     $page_title = $lang_module['player_add'];
@@ -97,14 +97,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['chest'] = $nv_Request->get_int('chest', 'post', null);
     $array['waist'] = $nv_Request->get_int('waist', 'post', null);
     $array['hips'] = $nv_Request->get_int('hips', 'post', null);
- 
-    // Kiểm tra và xử lý nếu giá trị không hợp lệ
-    foreach (['height', 'chest', 'waist', 'hips'] as $field) {
-        if ($array[$field] !== null && $array[$field] <= 0) {
-            $error[] = $lang_module[$field . '_error'];
-            $array[$field] = null;
-        }
-    }
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
     $array['keywords'] = $nv_Request->get_title('keywords', 'post', '');
@@ -141,6 +133,12 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
         $error[] = $lang_module['player_error_dob'];
     }
 
+    foreach (['height', 'chest', 'waist', 'hips'] as $field) {
+        if ($array[$field] !== null && $array[$field] <= 0) {
+            $error[] = $lang_module[$field . '_error'];
+            $array[$field] = null;
+        }
+    }
     if (empty($error)) {
         if (!$id) {
             $sql = "SELECT MAX(weight) weight FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows";

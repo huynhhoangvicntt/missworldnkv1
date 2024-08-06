@@ -51,8 +51,8 @@ $lang_module['waist_error'] = 'Lỗi: Vòng eo không hợp lệ';
 $lang_module['hips_error'] = 'Lỗi: Vòng mông không hợp lệ';
 $lang_module['player_error_dob'] = 'Lỗi: Ngày sinh còn trống';
 $lang_module['search_keywords'] = 'Từ khóa tìm kiếm';
-$lang_module['from_day'] = 'Ngày sinh từ ngày';
-$lang_module['to_day'] = 'Ngày sinh đến ngày';
+$lang_module['from_day'] = 'Ngày sinh từ';
+$lang_module['to_day'] = 'Ngày sinh đến';
 $lang_module['enter_search_key'] = 'Nhập từ khóa';
 
 $lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
