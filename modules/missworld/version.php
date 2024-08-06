@@ -21,10 +21,12 @@ $module_version = [
     'is_sysmod' => 0,
     'virtual' => 1,
     'version' => '4.5.02',
-    'date' => 'Monday, June 20, 2022 4:00:00 PM GMT+07:00',
-    'author' => 'VINADES.,JSC <contact@vinades.vn>',
-    'note' => 'Tổng hợp các trường hợp trong lập trình module',
+    'date' => 'Tuesday, August 6, 2022 8:00:00 PM GMT+07:00',
+    'author' => 'HUYNH HOANG VI <hoangvicntt2k@gmail.com>',
+    'note' => 'Module Missworld',
     'uploads_dir' => [
-        $module_upload
+        $module_upload,
+        $module_name,
+        $module_name . '/images'
     ]
 ];
