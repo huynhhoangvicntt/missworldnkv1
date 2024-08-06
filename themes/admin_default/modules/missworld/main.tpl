@@ -3,45 +3,52 @@
 <link type="text/css" href="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 <script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/locales/bootstrap-datepicker.{NV_LANG_INTERFACE}.min.js"></script>
-<div class="DATA">
-    <div class="col-lg-18">
-        <form method="get" action="{NV_BASE_ADMINURL}index.php">
-            <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}">
-            <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}">
-            <div class="DATA">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="element_q">{LANG.search_keywords}:</label>
-                        <input type="text" class="form-control" id="element_q" name="q" value="{SEARCH.q}" placeholder="{LANG.enter_search_key}">
-                    </div>
+<div class="well">
+    <form action="{NV_BASE_ADMINURL}index.php" method="get">
+        <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}">
+        <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}">
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="element_q"><strong>{LANG.search_keywords}</strong></label>
+                    <input class="form-control" type="text" value="{SEARCH.q}" maxlength="64" name="q" id="element_q" placeholder="{LANG.enter_search_key}"/>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="element_from">{LANG.from_day}:</label>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="element_from"><strong>{LANG.from_day}</strong></label>
+                    <div class="input-group">
                         <input type="text" class="form-control datepicker" id="element_from" name="f" value="{SEARCH.from}" placeholder="dd/mm/yyyy" autocomplete="off">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="element_to">{LANG.to_day}:</label>
-                        <input type="text" class="form-control datepicker" id="element_to" name="t" value="{SEARCH.to}" placeholder="dd/mm/yyyy" autocomplete="off">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="visible-sm-block visible-md-block visible-lg-block">&nbsp;</label>
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> {GLANG.search}</button>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="from-btn">
+                                <em class="fa fa-calendar fa-fix">&nbsp;</em>
+                            </button>
+                        </span>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-    <div class="col-lg-6">
-        <div class="form-group text-right">
-            <label class="visible-sm-block visible-md-block visible-lg-block">&nbsp;</label>
-            <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.player_add}</a>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="element_to"><strong>{LANG.to_day}</strong></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control datepicker" id="element_to" name="t" value="{SEARCH.to}" placeholder="dd/mm/yyyy" autocomplete="off">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="to-btn">
+                                <em class="fa fa-calendar fa-fix">&nbsp;</em>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> {GLANG.search}</button>
+                <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.player_add}</a>
+            </div>
+        </div>
+    </form>
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -53,6 +60,14 @@ $(document).ready(function() {
         autoclose: true,
         todayHighlight: true,
         zIndexOffset: 1000
+    });
+
+    $('#from-btn').click(function(){
+        $("#element_from").datepicker('show');
+    });
+
+    $('#to-btn').click(function(){
+        $("#element_to").datepicker('show');
     });
 });
 </script>
@@ -88,20 +103,22 @@ $(document).ready(function() {
                     <td class="text-nowrap">{DATA.hips}</td>
                     <td class="text-nowrap">{DATA.email}</td>
                     <td class="img-responsive-wrap">
-                        <img class="img-inner" src="{DATA.image}"/>
+                        <div class="img-container">
+                            <img class="img-inner" src="{DATA.image}" alt="Image"/>
+                        </div>
                     </td>
                     <td class="text-nowrap">{DATA.vote}</td>
                     <td class="text-center text-nowrap">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
                         <a href="javascript:void(0);" onclick="nv_delele_player('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
-                    </td>   
+                    </td>
                 </tr>
                 <!-- END: loop -->
             </tbody>
             <!-- BEGIN: generate_page -->
             <tfoot>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="12">
                         {GENERATE_PAGE}
                     </td>
                 </tr>

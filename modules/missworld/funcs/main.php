@@ -16,14 +16,25 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 // Lấy dữ liệu
 $array_data = [];
 
-$query = $db->query('SELECT * FROM ' . NV_PREFIXLANG .'_missworld_content ORDER BY weight ASC');
-while ($row = $query->fetch()) {
+$per_page = 12;
+$page = $nv_Request->get_int('page', 'get', 1);
+
+// Gọi CSDL để lấy dữ liệu
+$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_rows");
+$sql = $db->sql();
+$total = $db->query($sql)->fetchColumn();
+
+$db->select('*')->order("id DESC")->limit($per_page)->offset(($page - 1) * $per_page);
+
+$sql = $db->sql();
+$result = $db->query($sql);
+while ($row = $result->fetch()) {
     $array_data[$row['id']] = $row;
-   
 }
-//$page_title =
+
+$page_title = $lang_module['main'];
 // Gọi hàm xử lý giao diện
-$contents = nv_missworld_list($array_data);
+$contents = nv_theme_missworld_list($array_data,$page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);

@@ -19,5 +19,6 @@ $lang_translator['copyright'] = '@Copyright (C) 2009-2021 VINADES.,JSC. All righ
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
-$lang_module['main'] = 'Danh sách thành viên';
+$lang_module['main'] = 'Danh sách thí sinh';
 $lang_module['detail'] = 'Xem chi tiết';
+$lang_module['search'] = 'Tìm kiếm';
