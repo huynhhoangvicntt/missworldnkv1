@@ -30,8 +30,8 @@
                 <label class="col-sm-6 control-label" for="element_cfg_date">{LANG.dob}<span class="fa-required text-danger">(<em class="fa fa-asterisk"></em>)</span>:</label>
                 <div class="col-sm-18 col-lg-10">
                     <div class="form-inline">
-                        <div class="input-group date" id="element_cfg_date_outer">
-                            <input type="text" id="element_cfg_date" name="cfg_date" value="{DATA.dob}" class="form-control">
+                        <div class="input-group date" id="dob_picker">
+                            <input type="text" id="dob" name="dob" value="{DATA.dob}" class="form-control">
                             <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -133,14 +133,14 @@
         });
 
         // Đoạn js xử lý chọn ngày tháng
-        $('#element_cfg_date_outer').datepicker({
-            language: '{NV_LANG_INTERFACE}',
-            format: 'dd/mm/yyyy',
-            weekStart: 1,
-            todayBtn: 'linked',
-            autoclose: true,
-            todayHighlight: true,
-            zIndexOffset: 1000
+        $('#dob_picker').datepicker({
+        language: '{NV_LANG_INTERFACE}',
+        format: 'dd/mm/yyyy',
+        weekStart: 1,
+        todayBtn: 'linked',
+        autoclose: true,
+        todayHighlight: true,
+        zIndexOffset: 1000
         });
     });
 </script>

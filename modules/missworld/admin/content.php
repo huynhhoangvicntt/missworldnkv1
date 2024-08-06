@@ -82,11 +82,11 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['alias'] = nv_substr($nv_Request->get_title('alias', 'post', ''), 0, 190);
  
     // Ngày tháng
-    $array['dob'] = $nv_Request->get_title('cfg_date', 'post', '');
-    $array['cfg_date'] = 0;
+    $array['dob'] = $nv_Request->get_title('dob', 'post', '');
+    $array['dob_timestamp'] = 0;
     if (!empty($array['dob'])) {
         if (preg_match('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $array['dob'], $m)) {
-            $array['cfg_date'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
+            $array['dob_timestamp'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
         } else {
             $error[] = $lang_module['dob_error'];
         }
