@@ -1,12 +1,12 @@
 <?php
 
 /**
- * NukeViet Content Management System
+ * NukeViet MissWorld
  * @version 4.x
- * @author VINADES.,JSC <contact@vinades.vn>
- * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @author 'HUYNH HOANG VI <hoangvicntt2k@gmail.com>'
+ * @copyright (C) 2024 HUYNH HOANG VI. All rights reserved
  * @license GNU/GPL version 2 or any later version
- * @see https://github.com/nukeviet The NukeViet CMS GitHub project
+ * @see https://github.com/huynhhoangvicntt
  */
 
 if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
@@ -25,8 +25,6 @@ $module_version = [
     'author' => 'HUYNH HOANG VI <hoangvicntt2k@gmail.com>',
     'note' => 'Module Missworld',
     'uploads_dir' => [
-        $module_upload,
-        $module_name,
-        $module_name . '/images'
+        $module_upload
     ]
 ];
