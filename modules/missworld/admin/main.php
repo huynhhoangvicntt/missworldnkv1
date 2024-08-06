@@ -131,7 +131,8 @@ if (!empty($array)) {
         if (!empty($value['image'])) {
             $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
         } else {
-            $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . 'default.jpg';
+            $value['image'] = NV_BASE_SITEURL . 'themes/admin_default/images/missworld/default.jpg';
+
         }
       
         $xtpl->assign('DATA', $value);
