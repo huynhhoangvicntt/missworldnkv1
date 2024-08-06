@@ -62,14 +62,14 @@ if (!empty($id)) {
         'alias' => '',
         'dob' => '',
         'address' => '',
-        'height' => 0,
-        'chest' => 0,
-        'waist' => 0,
-        'hips' => 0,
+        'height' => null,
+        'chest' => null,
+        'waist' => null,
+        'hips' => null,
         'email' => '',
         'image' => '',
         'keywords' => '',
-        'vote' => 0,
+        'vote' => null,
     ];
 
     $page_title = $lang_module['player_add'];
@@ -93,10 +93,18 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     }
     
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 190);
-    $array['height'] = $nv_Request->get_int('height', 'post', 0);
-    $array['chest'] = $nv_Request->get_int('chest', 'post', 0);
-    $array['waist'] = $nv_Request->get_int('waist', 'post', 0);
-    $array['hips'] = $nv_Request->get_int('hips', 'post', 0);
+    $array['height'] = $nv_Request->get_int('height', 'post', null);
+    $array['chest'] = $nv_Request->get_int('chest', 'post', null);
+    $array['waist'] = $nv_Request->get_int('waist', 'post', null);
+    $array['hips'] = $nv_Request->get_int('hips', 'post', null);
+ 
+    // Kiểm tra và xử lý nếu giá trị không hợp lệ
+    foreach (['height', 'chest', 'waist', 'hips'] as $field) {
+        if ($array[$field] !== null && $array[$field] <= 0) {
+            $error[] = $lang_module[$field . '_error'];
+            $array[$field] = null;
+        }
+    }
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
     $array['keywords'] = $nv_Request->get_title('keywords', 'post', '');
@@ -125,65 +133,56 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     if (empty($array['fullname'])) {
         $error[] = $lang_module['player_error_title'];
     } 
-    elseif ($is_exists) {
+    if ($is_exists) {
         $error[] = $lang_module['player_error_exists'];
     }
-  
+
+    if (empty($array['dob'])) {
+        $error[] = $lang_module['player_error_dob'];
+    }
+
     if (empty($error)) {
+        if (!$id) {
+            $sql = "SELECT MAX(weight) weight FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows";
+            $weight = intval($db->query($sql)->fetchColumn()) + 1;
 
-        if (empty($array['dob'])) {
-            $error[] = $lang_module['player_error_dob'];
-        } elseif (empty($array['height'])) {
-            $error[] = $lang_module['player_error_height'];
-        } elseif (empty($array['chest'])) {
-            $error[] = $lang_module['player_error_chest'];
-        } elseif (empty($array['waist'])) {
-            $error[] = $lang_module['player_error_waist'];
-        } elseif (empty($array['hips'])) {
-            $error[] = $lang_module['player_error_hips'];
+            $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_rows (
+                fullname, alias, dob, address, height, chest, waist, hips, email, image, keywords, vote, weight, time_add, time_update
+            ) VALUES (
+                :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :keywords, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
+            )";
         } else {
-            if (!$id) {
-                $sql = "SELECT MAX(weight) weight FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows";
-                $weight = intval($db->query($sql)->fetchColumn()) + 1;
-
-                $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_rows (
-                    fullname, alias, dob, address, height, chest, waist, hips, email, image, keywords, vote, weight, time_add, time_update
-                ) VALUES (
-                    :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :keywords, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
-                )";
-            } else {
-                $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET
-                    fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, keywords = :keywords, vote = :vote, time_update = " . NV_CURRENTTIME . "
+            $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET
+                fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, keywords = :keywords, vote = :vote, time_update = " . NV_CURRENTTIME . "
                 WHERE id = " . $id;
-            }
+        }
 
-            try {
-                $sth = $db->prepare($sql);
-                $sth->bindParam(':fullname', $array['fullname'], PDO::PARAM_STR);
-                $sth->bindParam(':alias', $array['alias'], PDO::PARAM_STR);
-                $sth->bindParam(':dob', $array['cfg_date'], PDO::PARAM_INT);
-                $sth->bindParam(':address', $array['address'], PDO::PARAM_STR);
-                $sth->bindParam(':height', $array['height'], PDO::PARAM_INT);
-                $sth->bindParam(':chest', $array['chest'], PDO::PARAM_INT);
-                $sth->bindParam(':waist', $array['waist'], PDO::PARAM_INT);
-                $sth->bindParam(':hips', $array['hips'], PDO::PARAM_INT);
-                $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
-                $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
-                $sth->bindParam(':keywords', $array['keywords'], PDO::PARAM_STR, strlen($array['keywords']));
-                $sth->bindParam(':vote', $array['vote'], PDO::PARAM_INT);
-                $sth->execute();
+        try {
+            $sth = $db->prepare($sql);
+            $sth->bindParam(':fullname', $array['fullname'], PDO::PARAM_STR);
+            $sth->bindParam(':alias', $array['alias'], PDO::PARAM_STR);
+            $sth->bindParam(':dob', $array['cfg_date'], PDO::PARAM_INT);
+            $sth->bindParam(':address', $array['address'], PDO::PARAM_STR);
+            $sth->bindParam(':height', $array['height'], PDO::PARAM_INT);
+            $sth->bindParam(':chest', $array['chest'], PDO::PARAM_INT);
+            $sth->bindParam(':waist', $array['waist'], PDO::PARAM_INT);
+            $sth->bindParam(':hips', $array['hips'], PDO::PARAM_INT);
+            $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
+            $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
+            $sth->bindParam(':keywords', $array['keywords'], PDO::PARAM_STR, strlen($array['keywords']));
+            $sth->bindParam(':vote', $array['vote'], PDO::PARAM_INT);
+            $sth->execute();
 
-                if ($id) {
-                    nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_EDIT_PLAYER', json_encode($array), $admin_info['userid']);
-                } else {
-                    nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_ADD_PLAYER', json_encode($array), $admin_info['userid']);
-                }
-                $nv_Cache->delMod($module_name);
-                nv_redirect_location(NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);
-            } catch (PDOException $e) {
-                trigger_error(print_r($e, true));
-                $error[] = $lang_module['errorsave'];
+            if ($id) {
+                nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_EDIT_PLAYER', json_encode($array), $admin_info['userid']);
+            } else {
+                nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_ADD_PLAYER', json_encode($array), $admin_info['userid']);
             }
+            $nv_Cache->delMod($module_name);
+            nv_redirect_location(NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);
+        } catch (PDOException $e) {
+            trigger_error(print_r($e, true));
+            $error[] = $lang_module['errorsave'];
         }
     }
 }
