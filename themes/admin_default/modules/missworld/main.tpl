@@ -76,39 +76,39 @@ $(document).ready(function() {
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th class="text-nowrap text-center">{LANG.id}</th>
-                    <th class="text-nowrap text-center">{LANG.fullname}</th>
-                    <th class="text-nowrap text-center">{LANG.dob}</th>
-                    <th class="text-nowrap text-center">{LANG.address}</th>
-                    <th class="text-nowrap text-center">{LANG.height}</th>
-                    <th class="text-nowrap text-center">{LANG.chest}</th>
-                    <th class="text-nowrap text-center">{LANG.waist}</th>
-                    <th class="text-nowrap text-center">{LANG.hips}</th>
-                    <th class="text-nowrap text-center">{LANG.email}</th>
-                    <th class="text-nowrap text-center">{LANG.images}</th>
-                    <th class="text-nowrap text-center">{LANG.vote}</th>
-                    <th class="text-nowrap text-center">{LANG.function}</th>
+                    <th class="text-nowrap text-center" title="{LANG.id}">{LANG.id}</th>
+                    <th class="text-nowrap text-center" title="{LANG.fullname}">{LANG.fullname}</th>
+                    <th class="text-nowrap text-center" title="{LANG.dob}">{LANG.dob}</th>
+                    <th class="text-nowrap text-center" title="{LANG.address}">{LANG.address}</th>
+                    <th class="text-nowrap text-center" title="{LANG.height}">{LANG.height}</th>
+                    <th class="text-nowrap text-center" title="{LANG.chest}">{LANG.chest}</th>
+                    <th class="text-nowrap text-center" title="{LANG.waist}">{LANG.waist}</th>
+                    <th class="text-nowrap text-center" title="{LANG.hips}">{LANG.hips}</th>
+                    <th class="text-nowrap text-center" title="{LANG.email}">{LANG.email}</th>
+                    <th class="text-nowrap text-center" title="{LANG.images}">{LANG.images}</th>
+                    <th class="text-nowrap text-center" title="{LANG.vote}">{LANG.vote}</th>
+                    <th class="text-nowrap text-center" title="{LANG.function}">{LANG.function}</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- BEGIN: loop -->
                 <tr>
                     <td class="text-nowrap">{DATA.id}</td>
-                    <td class="text-nowrap">{DATA.fullname}</td>
-                    <td class="text-nowrap">{DATA.dob}</td>
-                    <td class="text-nowrap">{DATA.address}</td>
+                    <td class="text-ellipsis fullname" title="{DATA.fullname}">{DATA.fullname}</td>
+                    <td class="text-nowrap" title="{DATA.dob}">{DATA.dob}</td>
+                    <td class="text-ellipsis address" title="{DATA.address}">{DATA.address}</td>
                     <td class="text-nowrap">{DATA.height}</td>
                     <td class="text-nowrap">{DATA.chest}</td>
                     <td class="text-nowrap">{DATA.waist}</td>
                     <td class="text-nowrap">{DATA.hips}</td>
-                    <td class="text-nowrap">{DATA.email}</td>
+                    <td class="text-ellipsis email" title="{DATA.email}">{DATA.email}</td>
                     <td class="img-responsive-wrap">
                         <div class="img-container">
                             <img class="img-inner" src="{DATA.image}" alt="Image"/>
                         </div>
                     </td>
                     <td class="text-nowrap">{DATA.vote}</td>
-                    <td class="text-center text-nowrap">
+                    <td class="text-center">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
                         <a href="javascript:void(0);" onclick="nv_delele_player('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
                     </td>

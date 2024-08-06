@@ -1,6 +1,35 @@
 /* CSS Dùng chung, tất cả các module khác copy sang đều dùng */
-.img-responsive-wrap {
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.fullname {
     width: 20%;
+}
+
+td.address {
+    width: 25%;
+}
+
+td.email {
+    width: 20%;
+}
+
+.img-responsive-wrap {
+    width: 15%;
     padding: 5px;
 }
 
@@ -23,7 +52,19 @@
     object-position: center;
 }
 
-@media (max-width: 767px) {
+@media only screen and (max-width: 992px) {
+    .table {
+        table-layout: auto;
+    }
+    
+    .text-ellipsis,
+    td.fullname,
+    td.address,
+    td.email {
+        max-width: none;
+        width: auto;
+    }
+    
     .img-container {
         padding-bottom: 56.25%; 
         max-width: 100%; 
