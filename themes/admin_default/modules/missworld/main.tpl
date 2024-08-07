@@ -7,7 +7,6 @@
     <form action="{NV_BASE_ADMINURL}index.php" method="get">
         <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}">
         <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}">
-
         <div class="row mb-3">
             <div class="col-md-4">
                 <div class="form-group">
