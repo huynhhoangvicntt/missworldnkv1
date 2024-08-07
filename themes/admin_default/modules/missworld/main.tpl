@@ -133,11 +133,11 @@ $(document).ready(function() {
                     <td colspan="12">
                         <div class="form-group form-inline">
                             <div class="form-group">
-                                <select class="form-control" id="action-of-content">
+                                <select class="form-control" id="action">
                                     <option value="delete">{GLANG.delete}</option>
                                 </select>
                             </div>
-                            <button type="button" class="btn btn-primary" onclick="nv_content_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
+                            <button type="button" class="btn btn-primary" onclick="nv_main_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
                         </div>
                     </td>
                 </tr>

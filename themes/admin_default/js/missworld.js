@@ -29,7 +29,7 @@ function nv_delele_player(id, checksess) {
     }
 }
 
-function nv_content_action(oForm, checkss, msgnocheck) {
+function nv_main_action(oForm, checkss, msgnocheck) {
     var fa = oForm['idcheck[]'];
     var listid = '';
     if (fa.length) {
@@ -45,7 +45,7 @@ function nv_content_action(oForm, checkss, msgnocheck) {
     }
   
     if (listid != '') {
-        var action = document.getElementById('action-of-content').value;
+        var action = document.getElementById('action').value;
         if (action == 'delete') {
             if (confirm(nv_is_del_confirm[0])) {
                 $.post(
