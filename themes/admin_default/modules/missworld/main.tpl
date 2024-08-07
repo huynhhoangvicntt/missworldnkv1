@@ -76,6 +76,9 @@ $(document).ready(function() {
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
+                    <th style="width: 1%" class="text-center">
+                        <input name="check_all[]" type="checkbox" value="yes" onclick="nv_checkAll(this.form, 'idcheck[]', 'check_all[]',this.checked);">
+                    </th>
                     <th class="text-nowrap text-center" title="{LANG.id}">{LANG.id}</th>
                     <th class="text-nowrap text-center" title="{LANG.fullname}">{LANG.fullname}</th>
                     <th class="text-nowrap text-center" title="{LANG.dob}">{LANG.dob}</th>
@@ -93,6 +96,9 @@ $(document).ready(function() {
             <tbody>
                 <!-- BEGIN: loop -->
                 <tr>
+                    <td class="text-center">
+                        <input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{DATA.id}" name="idcheck[]">
+                    </td>
                     <td class="text-nowrap id">{DATA.id}</td>
                     <td class="text-ellipsis fullname" title="{DATA.fullname}">{DATA.fullname}</td>
                     <td class="text-nowrap dob">{DATA.dob}</td>
@@ -125,6 +131,14 @@ $(document).ready(function() {
             </tfoot>
             <!-- END: generate_page -->
         </table>
+    </div>
+    <div class="form-group form-inline">
+        <div class="form-group">
+            <select class="form-control" id="action-of-content">
+                <option value="delete">{GLANG.delete}</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="nv_content_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
     </div>
 </form>
 <!-- END: main -->

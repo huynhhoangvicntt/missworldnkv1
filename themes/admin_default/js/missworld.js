@@ -28,3 +28,40 @@ function nv_delele_player(id, checksess) {
         });
     }
 }
+
+function nv_content_action(oForm, checkss, msgnocheck) {
+    var fa = oForm['idcheck[]'];
+    var listid = '';
+    if (fa.length) {
+        for (var i = 0; i < fa.length; i++) {
+            if (fa[i].checked) {
+                listid = listid + fa[i].value + ',';
+            }
+        }
+    } else {
+        if (fa.checked) {
+            listid = listid + fa.value + ',';
+        }
+    }
+  
+    if (listid != '') {
+        var action = document.getElementById('action-of-content').value;
+        if (action == 'delete') {
+            if (confirm(nv_is_del_confirm[0])) {
+                $.post(
+                    script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&nocache=' + new Date().getTime(),
+                    'delete=' + checkss + '&listid=' + listid, function(res) {
+                    var r_split = res.split("_");
+                    if (r_split[0] == 'OK') {
+                        location.reload();
+                    } else {
+                        alert(nv_is_del_confirm[2]);
+                    }
+                });
+            }
+        }
+    } else {
+        alert(msgnocheck);
+    }
+  }
+ 
