@@ -145,5 +145,4 @@ $(document).ready(function() {
         </table>
     </div>
 </form>
-
 <!-- END: main -->
