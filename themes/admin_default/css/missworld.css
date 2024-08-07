@@ -1,38 +1,49 @@
 /* CSS Dùng chung, tất cả các module khác copy sang đều dùng */
 .table {
-    table-layout: fixed;
+    table-layout: auto;
     width: 100%;
 }
-
 .text-nowrap {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .text-ellipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 0;
 }
 
+td.id, td.vote, td.height, td.chest, td.waist, td.hips {
+    width: 1%;
+    white-space: nowrap;
+}
+
+td.fullname, td.address, td.email {
+    max-width: 0;
+}
 td.fullname {
-    width: 20%;
-}
-
-td.address {
-    width: 25%;
-}
-
-td.email {
-    width: 20%;
-}
-
-.img-responsive-wrap {
     width: 15%;
+    min-width: 120px;
+}
+td.address {
+    width: 20%;
+    min-width: 150px;
+}
+td.email {
+    width: 15%;
+    min-width: 120px;
+}
+td.dob {
+    width: 8%;
+    min-width: 80px;
+}
+.img-responsive-wrap {
+    width: 12%;
+    min-width: 100px;
     padding: 5px;
 }
-
 .img-container {
     position: relative;
     width: 100%;
@@ -41,7 +52,6 @@ td.email {
     max-width: 300px;
     margin: 0 auto;
 }
-
 .img-inner {
     position: absolute;
     top: 0;
@@ -51,18 +61,9 @@ td.email {
     object-fit: cover;
     object-position: center;
 }
-
 @media only screen and (max-width: 992px) {
-    .table {
-        table-layout: auto;
-    }
-    
-    .text-ellipsis,
-    td.fullname,
-    td.address,
-    td.email {
-        max-width: none;
-        width: auto;
+    td.fullname, td.address, td.email, td.dob {
+        min-width: auto;
     }
     
     .img-container {
@@ -74,7 +75,6 @@ td.email {
         object-fit: contain;
     }
 }
-
 @media (min-width: 768px) {
     .img-container {
         max-height: 225px;

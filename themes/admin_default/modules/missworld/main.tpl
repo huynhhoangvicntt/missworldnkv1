@@ -93,21 +93,21 @@ $(document).ready(function() {
             <tbody>
                 <!-- BEGIN: loop -->
                 <tr>
-                    <td class="text-nowrap">{DATA.id}</td>
+                    <td class="text-nowrap id">{DATA.id}</td>
                     <td class="text-ellipsis fullname" title="{DATA.fullname}">{DATA.fullname}</td>
-                    <td class="text-nowrap" title="{DATA.dob}">{DATA.dob}</td>
+                    <td class="text-nowrap dob">{DATA.dob}</td>
                     <td class="text-ellipsis address" title="{DATA.address}">{DATA.address}</td>
-                    <td class="text-nowrap">{DATA.height}</td>
-                    <td class="text-nowrap">{DATA.chest}</td>
-                    <td class="text-nowrap">{DATA.waist}</td>
-                    <td class="text-nowrap">{DATA.hips}</td>
+                    <td class="text-nowrap height">{DATA.height}</td>
+                    <td class="text-nowrap chest">{DATA.chest}</td>
+                    <td class="text-nowrap waist">{DATA.waist}</td>
+                    <td class="text-nowrap hips">{DATA.hips}</td>
                     <td class="text-ellipsis email" title="{DATA.email}">{DATA.email}</td>
                     <td class="img-responsive-wrap">
                         <div class="img-container">
                             <img class="img-inner" src="{DATA.image}" alt="Image"/>
                         </div>
-                    </td>
-                    <td class="text-nowrap">{DATA.vote}</td>
+                     </td>
+                    <td class="text-nowrap vote">{DATA.vote}</td>
                     <td class="text-center">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
                         <a href="javascript:void(0);" onclick="nv_delele_player('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
