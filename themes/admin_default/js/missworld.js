@@ -63,5 +63,5 @@ function nv_content_action(oForm, checkss, msgnocheck) {
     } else {
         alert(msgnocheck);
     }
-  }
+}
  
