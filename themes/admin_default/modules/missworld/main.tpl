@@ -121,24 +121,29 @@ $(document).ready(function() {
                 </tr>
                 <!-- END: loop -->
             </tbody>
-            <!-- BEGIN: generate_page -->
             <tfoot>
+                <!-- BEGIN: generate_page -->
                 <tr>
                     <td colspan="12">
                         {GENERATE_PAGE}
                     </td>
                 </tr>
+                <!-- END: generate_page -->
+                <tr>
+                    <td colspan="12">
+                        <div class="form-group form-inline">
+                            <div class="form-group">
+                                <select class="form-control" id="action-of-content">
+                                    <option value="delete">{GLANG.delete}</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="nv_content_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
+                        </div>
+                    </td>
+                </tr>
             </tfoot>
-            <!-- END: generate_page -->
         </table>
     </div>
-    <div class="form-group form-inline">
-        <div class="form-group">
-            <select class="form-control" id="action-of-content">
-                <option value="delete">{GLANG.delete}</option>
-            </select>
-        </div>
-        <button type="button" class="btn btn-primary" onclick="nv_content_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
-    </div>
 </form>
+
 <!-- END: main -->
