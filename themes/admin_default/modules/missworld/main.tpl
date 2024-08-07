@@ -76,7 +76,7 @@ $(document).ready(function() {
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th style="width: 1%" class="text-center">
+                    <th class="text-center">
                         <input name="check_all[]" type="checkbox" value="yes" onclick="nv_checkAll(this.form, 'idcheck[]', 'check_all[]',this.checked);">
                     </th>
                     <th class="text-nowrap text-center" title="{LANG.id}">{LANG.id}</th>
