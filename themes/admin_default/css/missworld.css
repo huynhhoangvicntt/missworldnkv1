@@ -3,11 +3,13 @@
     table-layout: auto;
     width: 100%;
 }
+
 .text-nowrap {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .text-ellipsis {
     white-space: nowrap;
     overflow: hidden;
@@ -23,27 +25,33 @@ td.id, td.vote, td.height, td.chest, td.waist, td.hips {
 td.fullname, td.address, td.email {
     max-width: 0;
 }
+
 td.fullname {
     width: 15%;
     min-width: 120px;
 }
+
 td.address {
     width: 20%;
     min-width: 150px;
 }
+
 td.email {
     width: 15%;
     min-width: 120px;
 }
+
 td.dob {
     width: 8%;
     min-width: 80px;
 }
+
 .img-responsive-wrap {
     width: 12%;
     min-width: 100px;
     padding: 5px;
 }
+
 .img-container {
     position: relative;
     width: 100%;
@@ -52,6 +60,7 @@ td.dob {
     max-width: 300px;
     margin: 0 auto;
 }
+
 .img-inner {
     position: absolute;
     top: 0;
@@ -61,6 +70,7 @@ td.dob {
     object-fit: cover;
     object-position: center;
 }
+
 @media only screen and (max-width: 992px) {
     td.fullname, td.address, td.email, td.dob {
         min-width: auto;
@@ -75,6 +85,7 @@ td.dob {
         object-fit: contain;
     }
 }
+
 @media (min-width: 768px) {
     .img-container {
         max-height: 225px;
