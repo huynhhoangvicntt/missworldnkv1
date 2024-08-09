@@ -8,13 +8,13 @@
         <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}">
         <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}">
         <div class="row mb-3">
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <div class="form-group">
                     <label for="element_q"><strong>{LANG.search_keywords}</strong></label>
                     <input class="form-control" type="text" value="{SEARCH.q}" maxlength="64" name="q" id="element_q" placeholder="{LANG.enter_search_key}"/>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <div class="form-group">
                     <label for="element_from"><strong>{LANG.from_day}</strong></label>
                     <div class="input-group">
@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <div class="form-group">
                     <label for="element_to"><strong>{LANG.to_day}</strong></label>
                     <div class="input-group">
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-24 text-center">
                 <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> {GLANG.search}</button>
                 <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.player_add}</a>
             </div>
@@ -123,13 +123,13 @@ $(document).ready(function() {
             <tfoot>
                 <!-- BEGIN: generate_page -->
                 <tr>
-                    <td colspan="12">
+                    <td colspan="13">
                         {GENERATE_PAGE}
                     </td>
                 </tr>
                 <!-- END: generate_page -->
                 <tr>
-                    <td colspan="12">
+                    <td colspan="13">
                         <div class="form-group form-inline">
                             <div class="form-group">
                                 <select class="form-control" id="action">
