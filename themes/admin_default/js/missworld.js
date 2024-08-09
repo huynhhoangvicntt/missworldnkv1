@@ -64,4 +64,3 @@ function nv_main_action(oForm, checkss, msgnocheck) {
         alert(msgnocheck);
     }
 }
- 
