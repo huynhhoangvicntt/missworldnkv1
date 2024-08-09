@@ -88,7 +88,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
         if (preg_match('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $array['dob'], $m)) {
             $array['dob_timestamp'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
         } else {
-            $error[] = $lang_module['dob_error'];
+            $error[] = $lang_module['dob_invalid_error'];
         }
     }
     
@@ -123,19 +123,26 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     }
 
     if (empty($array['fullname'])) {
-        $error[] = $lang_module['player_error_title'];
+        $error[] = $lang_module['fullname_empty_error'];
     } 
     if ($is_exists) {
-        $error[] = $lang_module['player_error_exists'];
+        $error[] = $lang_module['fullname_error_exists'];
     }
 
     if (empty($array['dob'])) {
-        $error[] = $lang_module['player_error_dob'];
+        $error[] = $lang_module['dob_empty_error'];
     }
 
     foreach (['height', 'chest', 'waist', 'hips'] as $field) {
-        if ($array[$field] !== null && $array[$field] <= 0) {
-            $error[] = $lang_module[$field . '_error'];
+        if (empty($array[$field])) {
+            $error[$field] = $lang_module[$field . '_empty_error'];
+        } elseif ($array[$field] <= 0) {
+            $error[$field] = $lang_module[$field . '_invalid_error'];
+        }
+    }
+
+    foreach (['height', 'chest', 'waist', 'hips'] as $field) {
+        if ($array[$field] === 0) {
             $array[$field] = null;
         }
     }
