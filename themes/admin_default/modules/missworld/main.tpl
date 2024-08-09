@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="element_from"><strong>{LANG.from_day}</strong></label>
                     <div class="input-group">
-                        <input type="text" class="form-control datepicker" id="element_from" name="f" value="{SEARCH.from}" placeholder="dd/mm/yyyy" autocomplete="off">
+                        <input type="text" class="form-control datepicker" id="element_from" name="f" value="{SEARCH.from}" placeholder="dd-mm-yyyy" autocomplete="off">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="from-btn">
                                 <em class="fa fa-calendar fa-fix">&nbsp;</em>
@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label for="element_to"><strong>{LANG.to_day}</strong></label>
                     <div class="input-group">
-                        <input type="text" class="form-control datepicker" id="element_to" name="t" value="{SEARCH.to}" placeholder="dd/mm/yyyy" autocomplete="off">
+                        <input type="text" class="form-control datepicker" id="element_to" name="t" value="{SEARCH.to}" placeholder="dd-mm-yyyy" autocomplete="off">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="to-btn">
                                 <em class="fa fa-calendar fa-fix">&nbsp;</em>
