@@ -21,7 +21,7 @@
                     <div class="input-group">
                         <input type="text" id="element_alias" name="alias" value="{DATA.alias}" class="form-control"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="get_player_alias('{DATA.id}', '{NV_CHECK_SESSION}')"><i class="fa fa-retweet"></i></button>
+                            <button class="btn btn-default" type="button" onclick="get_contestant_alias('{DATA.id}', '{NV_CHECK_SESSION}')"><i class="fa fa-retweet"></i></button>
                         </span>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
         var autoAlias = true;
         $('#element_title').on('change', function() {
             if (autoAlias) {
-            get_player_alias('{DATA.id}', '{NV_CHECK_SESSION}');
+            get_contestant_alias('{DATA.id}', '{NV_CHECK_SESSION}');
             }
         });
         $('#element_alias').on('keyup', function() {

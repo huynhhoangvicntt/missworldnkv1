@@ -12,7 +12,7 @@ if (!defined('NV_IS_FILE_ADMIN')) {
     die('Stop!!!');
 }
 
-$page_title = $lang_module['player_manager'];
+$page_title = $lang_module['contestant_manager'];
 
 // Lấy liên kết tĩnh
 if ($nv_Request->get_title('changealias', 'post', '') === NV_CHECK_SESSION) {
@@ -51,7 +51,7 @@ if (!empty($id)) {
     }
 
     $is_edit = true;
-    $page_title = $lang_module['player_edit'];
+    $page_title = $lang_module['contestant_edit'];
     $array['dob'] = nv_date('d/m/Y', $array['dob']);
     $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $id ;
 } else {
@@ -71,7 +71,7 @@ if (!empty($id)) {
         'vote' => 0,
     ];
 
-    $page_title = $lang_module['player_add'];
+    $page_title = $lang_module['contestant_add'];
     $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op;
 }
 
@@ -189,9 +189,9 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth->execute();
 
             if ($id) {
-                nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_EDIT_PLAYER', json_encode($array), $admin_info['userid']);
+                nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_EDIT_CONTESTANT', json_encode($array), $admin_info['userid']);
             } else {
-                nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_ADD_PLAYER', json_encode($array), $admin_info['userid']);
+                nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_ADD_CONTESTANT', json_encode($array), $admin_info['userid']);
             }
             $nv_Cache->delMod($module_name);
             nv_redirect_location(NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);

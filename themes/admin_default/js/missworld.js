@@ -1,5 +1,5 @@
 // JS chức năng quản lý thí sinh 
-function get_player_alias(id, checksess) {
+function get_contestant_alias(id, checksess) {
     var fullname = strip_tags(document.getElementById('element_title').value);
     if (fullname != '') {
         $.post(
@@ -14,7 +14,7 @@ function get_player_alias(id, checksess) {
     }
 }
 
-function nv_delele_player(id, checksess) {
+function nv_delele_contestant(id, checksess) {
     if (confirm(nv_is_del_confirm[0])) {
         $.post(
             script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&nocache=' + new Date().getTime(),

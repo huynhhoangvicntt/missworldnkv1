@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-md-24 text-center">
                 <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> {GLANG.search}</button>
-                <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.player_add}</a>
+                <a href="{LINK_ADD_NEW}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> {LANG.contestant_add}</a>
             </div>
         </div>
     </form>
@@ -101,8 +101,8 @@ $(document).ready(function() {
                     <td class="text-nowrap vote">{DATA.vote}</td>
                     <td class="text-center">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
-                        <a href="javascript:void(0);" onclick="nv_delele_player('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
-                        <button type="button" class="btn btn-xs btn-info view-details" data-player='{DATA.encoded_data}'><i class="fa fa-eye"></i> {LANG.view_details}</button>
+                        <a href="javascript:void(0);" onclick="nv_delele_contestant('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
+                        <button type="button" class="btn btn-xs btn-info view-details" data-contestant='{DATA.encoded_data}'><i class="fa fa-eye"></i> {LANG.view_details}</button>
                     </td>
                 </tr>
                 <!-- END: loop -->
@@ -133,12 +133,12 @@ $(document).ready(function() {
 </form>
 
 <!-- BEGIN: modal -->
-<div class="modal fade" id="playerDetailsModal" tabindex="-1" role="dialog" aria-labelledby="playerDetailsModalLabel">
+<div class="modal fade" id="contestantDetailsModal" tabindex="-1" role="dialog" aria-labelledby="contestantDetailsModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="playerDetailsModalLabel">{LANG.player_details}</h4>
+                <h4 class="modal-title" id="contestantDetailsModalLabel">{LANG.contestant_details}</h4>
             </div>
             <div class="modal-body">
             </div>
@@ -153,39 +153,39 @@ $(document).ready(function() {
 <script>
 $(document).ready(function() {
     $('.view-details').on('click', function() {
-        var playerData = JSON.parse($(this).attr('data-player'));
-        var modalBody = $('#playerDetailsModal .modal-body');
+        var contestantData = JSON.parse($(this).attr('data-contestant'));
+        var modalBody = $('#contestantDetailsModal .modal-body');
         
         modalBody.empty();
 
-        if (playerData.image) {
-            var imageHtml = '<div class="player-image">' +
-                '<img src="' + playerData.image + '" alt="' + playerData.fullname + '">' +
+        if (contestantData.image) {
+            var imageHtml = '<div class="contestant-image">' +
+                '<img src="' + contestantData.image + '" alt="' + contestantData.fullname + '">' +
                 '</div>';
             modalBody.append(imageHtml);
         }
         
         var detailsHtml = '<table class="table">';
-        detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + playerData.fullname + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.dob}</th><td>' + playerData.dob + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.address}</th><td>' + playerData.address + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.height}</th><td>' + playerData.height + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.chest}</th><td>' + playerData.chest + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.waist}</th><td>' + playerData.waist + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.hips}</th><td>' + playerData.hips + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.email}</th><td>' + playerData.email + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.vote}</th><td>' + playerData.vote + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + contestantData.fullname + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.dob}</th><td>' + contestantData.dob + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.address}</th><td>' + contestantData.address + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.height}</th><td>' + contestantData.height + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.chest}</th><td>' + contestantData.chest + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.waist}</th><td>' + contestantData.waist + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.hips}</th><td>' + contestantData.hips + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.email}</th><td>' + contestantData.email + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.vote}</th><td>' + contestantData.vote + '</td></tr>';
         detailsHtml += '</table>';
 
         modalBody.append(detailsHtml);
         
-        if (playerData.image) {
-            detailsHtml = '<div class="text-center mb-3"><img src="' + playerData.image + '" alt="{LANG.player_image}" class="img-responsive" style="max-height: 200px;"></div>' + detailsHtml;
+        if (contestantData.image) {
+            detailsHtml = '<div class="text-center mb-3"><img src="' + contestantData.image + '" alt="{LANG.contestant_image}" class="img-responsive" style="max-height: 200px;"></div>' + detailsHtml;
         }
         
         modalBody.html(detailsHtml);
         
-        $('#playerDetailsModal').modal('show');
+        $('#contestantDetailsModal').modal('show');
     });
 });
 </script>
