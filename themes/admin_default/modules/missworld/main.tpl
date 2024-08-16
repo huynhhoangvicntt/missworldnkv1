@@ -3,7 +3,6 @@
 <link type="text/css" href="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 <script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/locales/bootstrap-datepicker.{NV_LANG_INTERFACE}.min.js"></script>
-
 <div class="well">
     <form action="{NV_BASE_ADMINURL}index.php" method="get">
         <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}">
@@ -50,7 +49,6 @@
         </div>
     </form>
 </div>
-
 <form action="{NV_BASE_ADMINURL}index.php" method="post">
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
@@ -98,12 +96,15 @@
                 <!-- END: generate_page -->
                 <tr>
                     <td colspan="6">
-                        <div class="form-group form-inline">
-                            <select class="form-control" id="action" name="action">
-                                <option value="">{LANG.with_selected}</option>
-                                <option value="delete">{GLANG.delete}</option>
-                            </select>
-                            <button type="button" class="btn btn-primary" onclick="nv_main_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
+                        <div class="row">
+                            <div class="col-sm-24">
+                                <div class="form-group form-inline">
+                                    <select class="form-control" id="action" name="action">
+                                        <option value="delete">{GLANG.delete}</option>
+                                    </select>
+                                    <button type="button" class="btn btn-primary" onclick="nv_main_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -111,7 +112,6 @@
         </table>
     </div>
 </form>
-
 <div class="modal fade" id="contestantDetailsModal" tabindex="-1" role="dialog" aria-labelledby="contestantDetailsModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -127,7 +127,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
 $(document).ready(function() {
     $('.datepicker').datepicker({
