@@ -125,8 +125,7 @@ if (!empty($array)) {
         } else {
             $value['image'] = NV_BASE_SITEURL . "themes/" . $global_config['module_theme'] . "/images/" . $module_file . "/" . "default1.jpg";
         }
-        
-        // Encode player data for the "View Details" button
+
         $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
         
         $xtpl->assign('DATA', $value);
@@ -142,10 +141,10 @@ if (!empty($generate_page)) {
     $xtpl->parse('main.generate_page');
 }
 
-// Add modal structure
+// Thêm cấu trúc modal
 $xtpl->parse('main.modal');
 
-// Add JavaScript for handling the "View Details" button
+// Xử lý nút "Xem chi tiết"
 $xtpl->parse('main.js');
 
 $xtpl->parse('main');
