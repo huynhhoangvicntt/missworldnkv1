@@ -19,6 +19,6 @@ $allow_func = [
     'config',
 ];
 
-$submenu['content'] = $lang_module['player_manager'];
+$submenu['content'] = $lang_module['contestant_manager'];
 $submenu['voters'] = $lang_module['voter_manager'];
 $submenu['config'] = $lang_module['config_manager'];
