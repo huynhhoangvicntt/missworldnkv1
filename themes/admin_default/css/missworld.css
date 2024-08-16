@@ -105,25 +105,12 @@ td.fullname {
         border: none;
     }
 
-    .table-responsive > .table > thead > tr > th,
-    .table-responsive > .table > tbody > tr > th,
-    .table-responsive > .table > tfoot > tr > th,
-    .table-responsive > .table > thead > tr > td,
-    .table-responsive > .table > tbody > tr > td,
-    .table-responsive > .table > tfoot > tr > td {
-        white-space: normal;
-    }
-
     .table > thead > tr > th {
         border-bottom: 2px solid #ddd;
     }
 
     .table > tbody > tr > td {
         border-top: none;
-    }
-
-    .table-striped > tbody > tr:nth-of-type(odd) {
-        background-color: #f9f9f9;
     }
 
     .btn-group-xs > .btn, .btn-xs {
