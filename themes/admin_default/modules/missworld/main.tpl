@@ -131,7 +131,6 @@ $(document).ready(function() {
         </table>
     </div>
 </form>
-
 <!-- BEGIN: modal -->
 <div class="modal fade" id="contestantDetailsModal" tabindex="-1" role="dialog" aria-labelledby="contestantDetailsModalLabel">
     <div class="modal-dialog" role="document">
