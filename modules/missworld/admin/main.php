@@ -143,7 +143,7 @@ if (!empty($generate_page)) {
 // Thêm cấu trúc modal
 $xtpl->parse('main.modal');
 
-// Xử lý nút "Xem chi tiết"
+// Xử lý nút Xem chi tiết
 $xtpl->parse('main.js');
 
 $xtpl->parse('main');
