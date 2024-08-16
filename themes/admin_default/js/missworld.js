@@ -14,7 +14,7 @@ function get_contestant_alias(id, checksess) {
     }
 }
 
-function nv_delele_contestant(id, checksess) {
+function nv_delete_contestant(id, checksess) {
     if (confirm(nv_is_del_confirm[0])) {
         $.post(
             script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&nocache=' + new Date().getTime(),
