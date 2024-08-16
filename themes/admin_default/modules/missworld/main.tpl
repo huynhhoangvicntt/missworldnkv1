@@ -141,7 +141,6 @@ $(document).ready(function() {
                 <h4 class="modal-title" id="playerDetailsModalLabel">{LANG.player_details}</h4>
             </div>
             <div class="modal-body">
-                <!-- Details will be inserted here dynamically -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{LANG.close}</button>
@@ -150,7 +149,6 @@ $(document).ready(function() {
     </div>
 </div>
 <!-- END: modal -->
-
 <!-- BEGIN: js -->
 <script>
 $(document).ready(function() {
@@ -158,18 +156,15 @@ $(document).ready(function() {
         var playerData = JSON.parse($(this).attr('data-player'));
         var modalBody = $('#playerDetailsModal .modal-body');
         
-        // Clear previous content
         modalBody.empty();
 
-        // Add player image
         if (playerData.image) {
             var imageHtml = '<div class="player-image">' +
-                '<img src="' + playerData.image + '" alt="' + playerData.fullname + '" class="img-responsive">' +
+                '<img src="' + playerData.image + '" alt="' + playerData.fullname + '">' +
                 '</div>';
             modalBody.append(imageHtml);
         }
         
-        // Populate modal with player details
         var detailsHtml = '<table class="table">';
         detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + playerData.fullname + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.dob}</th><td>' + playerData.dob + '</td></tr>';
@@ -190,7 +185,6 @@ $(document).ready(function() {
         
         modalBody.html(detailsHtml);
         
-        // Show the modal
         $('#playerDetailsModal').modal('show');
     });
 });
