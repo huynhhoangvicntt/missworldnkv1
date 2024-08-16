@@ -122,7 +122,7 @@ if (!empty($array)) {
         if (!empty($value['image'])) {
             $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
         } else {
-            $value['image'] = NV_BASE_SITEURL . "themes/" . $global_config['module_theme'] . "/images/" . $module_file . "/" . "default1.jpg";
+            $value['image'] = NV_BASE_SITEURL . "themes/" . $global_config['module_theme'] . "/images/" . $module_file . "/" . "default.jpg";
         }
 
         $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
