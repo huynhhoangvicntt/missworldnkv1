@@ -154,16 +154,9 @@ $(document).ready(function() {
     $('.view-details').on('click', function() {
         var contestantData = JSON.parse($(this).attr('data-contestant'));
         var modalBody = $('#contestantDetailsModal .modal-body');
-        
+            
         modalBody.empty();
-
-        if (contestantData.image) {
-            var imageHtml = '<div class="contestant-image">' +
-                '<img src="' + contestantData.image + '" alt="' + contestantData.fullname + '">' +
-                '</div>';
-            modalBody.append(imageHtml);
-        }
-        
+            
         var detailsHtml = '<table class="table">';
         detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + contestantData.fullname + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.dob}</th><td>' + contestantData.dob + '</td></tr>';
@@ -175,15 +168,13 @@ $(document).ready(function() {
         detailsHtml += '<tr><th>{LANG.email}</th><td>' + contestantData.email + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.vote}</th><td>' + contestantData.vote + '</td></tr>';
         detailsHtml += '</table>';
-
-        modalBody.append(detailsHtml);
-        
+            
         if (contestantData.image) {
             detailsHtml = '<div class="text-center mb-3"><img src="' + contestantData.image + '" alt="{LANG.contestant_image}" class="img-responsive" style="max-height: 200px;"></div>' + detailsHtml;
         }
-        
+            
         modalBody.html(detailsHtml);
-        
+            
         $('#contestantDetailsModal').modal('show');
     });
 });
