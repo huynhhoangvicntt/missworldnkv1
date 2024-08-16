@@ -31,7 +31,6 @@ $lang_module['fullname'] = 'Họ và tên';
 $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['dob'] = 'Ngày sinh';
 $lang_module['address'] = 'Địa chỉ';
-$lang_module['measurements'] = 'Số đo';
 $lang_module['height'] = 'Chiều cao';
 $lang_module['chest'] = 'Vòng ngực';
 $lang_module['waist'] = 'Vòng eo';
