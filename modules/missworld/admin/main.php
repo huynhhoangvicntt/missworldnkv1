@@ -99,7 +99,6 @@ $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('GLANG', $lang_global);
 $xtpl->assign('MODULE_NAME', $module_name);
 $xtpl->assign('MODULE_FILE', $module_file);
-$xtpl->assign('DATA', $array);
 $xtpl->assign('OP', $op);
 
 $xtpl->assign('LINK_ADD_NEW', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content');
@@ -112,7 +111,6 @@ $xtpl->assign('SEARCH', $array_search);
 
 // Hiển thị dữ liệu
 if (!empty($array)) {
-    $i = ($page - 1) * $per_page;
     foreach ($array as $value) {
         $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $value['id'];
@@ -129,7 +127,6 @@ if (!empty($array)) {
         
         $xtpl->assign('DATA', $value);
         $xtpl->parse('main.loop');
-        $i++;
     }
 }
 
@@ -139,12 +136,6 @@ if (!empty($generate_page)) {
     $xtpl->assign('GENERATE_PAGE', $generate_page);
     $xtpl->parse('main.generate_page');
 }
-
-// Thêm cấu trúc modal
-$xtpl->parse('main.modal');
-
-// Xử lý nút Xem chi tiết
-$xtpl->parse('main.js');
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');

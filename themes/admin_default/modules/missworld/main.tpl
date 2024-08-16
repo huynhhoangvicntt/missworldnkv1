@@ -3,6 +3,7 @@
 <link type="text/css" href="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 <script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/bootstrap-datepicker/locales/bootstrap-datepicker.{NV_LANG_INTERFACE}.min.js"></script>
+
 <div class="well">
     <form action="{NV_BASE_ADMINURL}index.php" method="get">
         <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}">
@@ -49,28 +50,8 @@
         </div>
     </form>
 </div>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.datepicker').datepicker({
-        language: '{NV_LANG_INTERFACE}',
-        format: 'dd-mm-yyyy',
-        weekStart: 1,
-        todayBtn: 'linked',
-        autoclose: true,
-        todayHighlight: true,
-        zIndexOffset: 1000
-    });
 
-    $('#from-btn').click(function(){
-        $("#element_from").datepicker('show');
-    });
-
-    $('#to-btn').click(function(){
-        $("#element_to").datepicker('show');
-    });
-});
-</script>
-<form>
+<form action="{NV_BASE_ADMINURL}index.php" method="post">
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -101,7 +82,7 @@ $(document).ready(function() {
                     <td class="text-nowrap vote">{DATA.vote}</td>
                     <td class="text-center">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
-                        <a href="javascript:void(0);" onclick="nv_delele_contestant('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
+                        <a href="javascript:void(0);" onclick="nv_delete_contestant('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
                         <button type="button" class="btn btn-xs btn-info view-details" data-contestant='{DATA.encoded_data}'><i class="fa fa-eye"></i> {LANG.view_details}</button>
                     </td>
                 </tr>
@@ -116,13 +97,12 @@ $(document).ready(function() {
                 </tr>
                 <!-- END: generate_page -->
                 <tr>
-                    <td colspan="13">
+                    <td colspan="6">
                         <div class="form-group form-inline">
-                            <div class="form-group">
-                                <select class="form-control" id="action">
-                                    <option value="delete">{GLANG.delete}</option>
-                                </select>
-                            </div>
+                            <select class="form-control" id="action" name="action">
+                                <option value="">{LANG.with_selected}</option>
+                                <option value="delete">{GLANG.delete}</option>
+                            </select>
                             <button type="button" class="btn btn-primary" onclick="nv_main_action(this.form, '{NV_CHECK_SESSION}', '{LANG.msgnocheck}')">{GLANG.submit}</button>
                         </div>
                     </td>
@@ -131,7 +111,7 @@ $(document).ready(function() {
         </table>
     </div>
 </form>
-<!-- BEGIN: modal -->
+
 <div class="modal fade" id="contestantDetailsModal" tabindex="-1" role="dialog" aria-labelledby="contestantDetailsModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -147,16 +127,33 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-<!-- END: modal -->
-<!-- BEGIN: js -->
-<script>
+
+<script type="text/javascript">
 $(document).ready(function() {
+    $('.datepicker').datepicker({
+        language: '{NV_LANG_INTERFACE}',
+        format: 'dd-mm-yyyy',
+        weekStart: 1,
+        todayBtn: 'linked',
+        autoclose: true,
+        todayHighlight: true,
+        zIndexOffset: 1000
+    });
+
+    $('#from-btn').click(function(){
+        $("#element_from").datepicker('show');
+    });
+
+    $('#to-btn').click(function(){
+        $("#element_to").datepicker('show');
+    });
+
     $('.view-details').on('click', function() {
         var contestantData = JSON.parse($(this).attr('data-contestant'));
         var modalBody = $('#contestantDetailsModal .modal-body');
-            
+        
         modalBody.empty();
-            
+        
         var detailsHtml = '<table class="table">';
         detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + contestantData.fullname + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.dob}</th><td>' + contestantData.dob + '</td></tr>';
@@ -168,16 +165,15 @@ $(document).ready(function() {
         detailsHtml += '<tr><th>{LANG.email}</th><td>' + contestantData.email + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.vote}</th><td>' + contestantData.vote + '</td></tr>';
         detailsHtml += '</table>';
-            
+        
         if (contestantData.image) {
             detailsHtml = '<div class="text-center mb-3"><img src="' + contestantData.image + '" alt="{LANG.contestant_image}" class="img-responsive" style="max-height: 200px;"></div>' + detailsHtml;
         }
-            
+        
         modalBody.html(detailsHtml);
-            
+        
         $('#contestantDetailsModal').modal('show');
     });
 });
 </script>
-<!-- END: js -->
 <!-- END: main -->
