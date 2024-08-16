@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project VIDEO SCIENTIFIC RESEARCH 4.x
- * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2016 PHAN TAN DUNG. All rights reserved
+ * @Project Module Missworld
+ * @Author HUYNH HOANG VI (hoangvicntt2k@gmail.com)
+ * @Copyright (C) 2024 HUYNH HOANG VI. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate Fri, 10 Jun 2016 02:20:31 GMT
+ * @Createdate March 01, 2024, 08:00:00 AM
  */
 
 if (!defined('NV_MAINFILE'))
