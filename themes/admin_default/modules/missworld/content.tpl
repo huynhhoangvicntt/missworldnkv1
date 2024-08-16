@@ -68,9 +68,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-6 control-label" for="element_email">{LANG.email}</span>:</label>
+                <label class="col-sm-6 control-label" for="element_email">{LANG.email}:</label>
                 <div class="col-sm-18 col-lg-10">
-                    <input type="text" id="element_email" name="email" value="{DATA.email}" class="form-control"/>
+                    <input type="email" id="element_email" name="email" value="{DATA.email}" class="form-control">
                 </div>
             </div>
             <div class="form-group">

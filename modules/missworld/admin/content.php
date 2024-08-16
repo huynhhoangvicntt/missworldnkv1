@@ -91,6 +91,17 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $error[] = $lang_module['dob_invalid_error'];
         }
     }
+
+    // Lấy email
+    $array['email'] = $nv_Request->get_title('email', 'post', '');
+    if (!empty($array['email'])) {
+        $email = nv_check_valid_email($array['email'], true);
+        if (empty($email[0])) {
+            $array['email'] = $email[1];
+        } else {
+            $error[] = $email[0];
+        }
+    }
     
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 190);
     $array['height'] = $nv_Request->get_int('height', 'post', null);

@@ -75,19 +75,12 @@ $(document).ready(function() {
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th class="text-center">
+                    <th class="text-center w-50 check-column">
                         <input name="check_all[]" type="checkbox" value="yes" onclick="nv_checkAll(this.form, 'idcheck[]', 'check_all[]',this.checked);">
                     </th>
                     <th class="text-nowrap text-center" title="{LANG.id}">{LANG.id}</th>
-                    <th class="text-nowrap text-center" title="{LANG.fullname}">{LANG.fullname}</th>
-                    <th class="text-nowrap text-center" title="{LANG.dob}">{LANG.dob}</th>
-                    <th class="text-nowrap text-center" title="{LANG.address}">{LANG.address}</th>
-                    <th class="text-nowrap text-center" title="{LANG.height}">{LANG.height}</th>
-                    <th class="text-nowrap text-center" title="{LANG.chest}">{LANG.chest}</th>
-                    <th class="text-nowrap text-center" title="{LANG.waist}">{LANG.waist}</th>
-                    <th class="text-nowrap text-center" title="{LANG.hips}">{LANG.hips}</th>
-                    <th class="text-nowrap text-center" title="{LANG.email}">{LANG.email}</th>
                     <th class="text-nowrap text-center" title="{LANG.images}">{LANG.images}</th>
+                    <th class="text-nowrap text-center" title="{LANG.fullname}">{LANG.fullname}</th>
                     <th class="text-nowrap text-center" title="{LANG.vote}">{LANG.vote}</th>
                     <th class="text-nowrap text-center" title="{LANG.function}">{LANG.function}</th>
                 </tr>
@@ -95,27 +88,21 @@ $(document).ready(function() {
             <tbody>
                 <!-- BEGIN: loop -->
                 <tr>
-                    <td class="text-center">
+                    <td class="text-center check-column">
                         <input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{DATA.id}" name="idcheck[]">
                     </td>
                     <td class="text-nowrap id">{DATA.id}</td>
-                    <td class="text-ellipsis fullname" title="{DATA.fullname}">{DATA.fullname}</td>
-                    <td class="text-nowrap dob">{DATA.dob}</td>
-                    <td class="text-ellipsis address" title="{DATA.address}">{DATA.address}</td>
-                    <td class="text-nowrap height">{DATA.height}</td>
-                    <td class="text-nowrap chest">{DATA.chest}</td>
-                    <td class="text-nowrap waist">{DATA.waist}</td>
-                    <td class="text-nowrap hips">{DATA.hips}</td>
-                    <td class="text-ellipsis email" title="{DATA.email}">{DATA.email}</td>
                     <td class="img-responsive-wrap">
-                        <div class="img-container">
-                            <img class="img-inner" src="{DATA.image}" alt="Image"/>
+                        <div class="img-container"> 
+                            <img class="img-inner" src="{DATA.image}" alt="{DATA.fullname}"/>
                         </div>
-                     </td>
+                    </td>
+                    <td class="text-ellipsis fullname" title="{DATA.fullname}">{DATA.fullname}</td>
                     <td class="text-nowrap vote">{DATA.vote}</td>
                     <td class="text-center">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
                         <a href="javascript:void(0);" onclick="nv_delele_player('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
+                        <button type="button" class="btn btn-xs btn-info view-details" data-player='{DATA.encoded_data}'><i class="fa fa-eye"></i> {LANG.view_details}</button>
                     </td>
                 </tr>
                 <!-- END: loop -->
@@ -123,7 +110,7 @@ $(document).ready(function() {
             <tfoot>
                 <!-- BEGIN: generate_page -->
                 <tr>
-                    <td colspan="13">
+                    <td colspan="6">
                         {GENERATE_PAGE}
                     </td>
                 </tr>
@@ -144,4 +131,69 @@ $(document).ready(function() {
         </table>
     </div>
 </form>
+
+<!-- BEGIN: modal -->
+<div class="modal fade" id="playerDetailsModal" tabindex="-1" role="dialog" aria-labelledby="playerDetailsModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="playerDetailsModalLabel">{LANG.player_details}</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Details will be inserted here dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{LANG.close}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: modal -->
+
+<!-- BEGIN: js -->
+<script>
+$(document).ready(function() {
+    $('.view-details').on('click', function() {
+        var playerData = JSON.parse($(this).attr('data-player'));
+        var modalBody = $('#playerDetailsModal .modal-body');
+        
+        // Clear previous content
+        modalBody.empty();
+
+        // Add player image
+        if (playerData.image) {
+            var imageHtml = '<div class="player-image">' +
+                '<img src="' + playerData.image + '" alt="' + playerData.fullname + '" class="img-responsive">' +
+                '</div>';
+            modalBody.append(imageHtml);
+        }
+        
+        // Populate modal with player details
+        var detailsHtml = '<table class="table">';
+        detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + playerData.fullname + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.dob}</th><td>' + playerData.dob + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.address}</th><td>' + playerData.address + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.height}</th><td>' + playerData.height + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.chest}</th><td>' + playerData.chest + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.waist}</th><td>' + playerData.waist + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.hips}</th><td>' + playerData.hips + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.email}</th><td>' + playerData.email + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.vote}</th><td>' + playerData.vote + '</td></tr>';
+        detailsHtml += '</table>';
+
+        modalBody.append(detailsHtml);
+        
+        if (playerData.image) {
+            detailsHtml = '<div class="text-center mb-3"><img src="' + playerData.image + '" alt="{LANG.player_image}" class="img-responsive" style="max-height: 200px;"></div>' + detailsHtml;
+        }
+        
+        modalBody.html(detailsHtml);
+        
+        // Show the modal
+        $('#playerDetailsModal').modal('show');
+    });
+});
+</script>
+<!-- END: js -->
 <!-- END: main -->

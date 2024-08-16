@@ -40,7 +40,7 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
 $page_title = $lang_module['main'];
 
 $array = [];
-$per_page = 12;
+$per_page = 4;
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
@@ -123,8 +123,12 @@ if (!empty($array)) {
         if (!empty($value['image'])) {
             $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
         } else {
-            $value['image'] = NV_BASE_SITEURL . "themes/" . $global_config['module_theme'] . "/images/" . $module_file . "/" . "default.jpg";
+            $value['image'] = NV_BASE_SITEURL . "themes/" . $global_config['module_theme'] . "/images/" . $module_file . "/" . "default1.jpg";
         }
+        
+        // Encode player data for the "View Details" button
+        $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
+        
         $xtpl->assign('DATA', $value);
         $xtpl->parse('main.loop');
         $i++;
@@ -137,6 +141,12 @@ if (!empty($generate_page)) {
     $xtpl->assign('GENERATE_PAGE', $generate_page);
     $xtpl->parse('main.generate_page');
 }
+
+// Add modal structure
+$xtpl->parse('main.modal');
+
+// Add JavaScript for handling the "View Details" button
+$xtpl->parse('main.js');
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');
