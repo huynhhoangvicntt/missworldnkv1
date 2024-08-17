@@ -10,7 +10,7 @@
         <div class="row mb-3">
             <div class="col-md-8">
                 <div class="form-group">
-                    <label for="element_q"><strong>{LANG.search_keywords}</strong></label>
+                    <label for="element_q"><strong>{LANG.search_contestant_keywords}</strong></label>
                     <input class="form-control" type="text" value="{SEARCH.q}" maxlength="64" name="q" id="element_q" placeholder="{LANG.enter_search_key}"/>
                 </div>
             </div>
