@@ -155,7 +155,7 @@ $(document).ready(function() {
         
         var detailsHtml = '<table class="table">';
         detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + contestantData.fullname + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.dob}</th><td>' + contestantData.dob + '</td></tr>';
+        detailsHtml += '<tr><th>{LANG.date_of_birth}</th><td>' + contestantData.dob + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.address}</th><td>' + contestantData.address + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.height}</th><td>' + contestantData.height + '</td></tr>';
         detailsHtml += '<tr><th>{LANG.chest}</th><td>' + contestantData.chest + '</td></tr>';
