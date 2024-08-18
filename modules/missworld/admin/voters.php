@@ -61,11 +61,15 @@ if ($contestant_id > 0) {
     $xtpl->parse('main.contestant_votes');
 } else {
     $xtpl->parse('main.all_votes');
+    $xtpl->parse('main.contestant_column');
 }
 
 while ($row = $result->fetch()) {
     $row['vote_time'] = nv_date('H:i d/m/Y', $row['vote_time']);
     $xtpl->assign('ROW', $row);
+    if ($contestant_id == 0) {
+        $xtpl->parse('main.loop.contestant_column');
+    }
     $xtpl->parse('main.loop');
 }
 
