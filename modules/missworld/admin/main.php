@@ -168,6 +168,8 @@ if (!empty($array)) {
         $value['status_checked'] = $value['status'] ? ' checked="checked"' : '';
         
         $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
+
+        $value['url_view_votes'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=voters&amp;contestant_id=' . $value['id'];
         
         $xtpl->assign('DATA', $value);
         $xtpl->parse('main.loop');

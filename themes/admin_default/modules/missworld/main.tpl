@@ -88,6 +88,7 @@
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
                         <a href="javascript:void(0);" onclick="nv_delete_contestant('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
                         <button type="button" class="btn btn-xs btn-info view-details" data-contestant='{DATA.encoded_data}'><i class="fa fa-eye"></i> {LANG.view_details}</button>
+                        <a href="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}=voters&amp;contestant_id={DATA.id}" class="btn btn-xs btn-info"><i class="fa fa-list"></i> {LANG.view_votes}</a>
                     </td>
                 </tr>
                 <!-- END: loop -->
