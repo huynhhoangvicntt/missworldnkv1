@@ -154,21 +154,17 @@ $xtpl->assign('SEARCH', $array_search);
 // Hiển thị dữ liệu
 if (!empty($array)) {
     foreach ($array as $value) {
-        $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
-        $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $value['id'];
-
         if (!empty($value['image'])) {
             $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
         } else {
             $value['image'] = NV_BASE_SITEURL . "themes/" . $global_config['module_theme'] . "/images/" . $module_file . "/" . "default.jpg";
         }
-
+        $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
+        $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $value['id'];
         $value['status_checked'] = $value['status'] ? ' checked="checked"' : '';
-        
         $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
-
         $value['url_view_votes'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=voters&amp;contestant_id=' . $value['id'];
-        
+
         $xtpl->assign('DATA', $value);
         $xtpl->parse('main.loop');
     }
