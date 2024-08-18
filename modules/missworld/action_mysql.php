@@ -36,19 +36,22 @@ vote int(11) NOT NULL DEFAULT '0' COMMENT 'Số lượt bình chọn',
 time_add int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Tạo lúc',
 time_update int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Cập nhật lúc',
 weight smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Sắp thứ tự',
+status tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Trạng thái 1 bật 0 tắt',
 PRIMARY KEY (id),
 UNIQUE KEY alias (alias)
 ) ENGINE=InnoDB";
 
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_voters (
-id smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-userid smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Id người dùng có tài khoản',
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_votes (
+id int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+contestant_id smallint(5) unsigned NOT NULL COMMENT 'ID của thí sinh được bình chọn',
+userid int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Id người dùng có tài khoản',
 fullname varchar(190) NOT NULL COMMENT 'Họ tên người bình chọn',
 email varchar(190) NOT NULL DEFAULT '' COMMENT 'Email người bình chọn',
 vote_time int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian bình chọn',
 PRIMARY KEY (id),
-UNIQUE KEY email (email),
-KEY userid (userid)
+KEY contestant_id (contestant_id),
+KEY userid (userid),
+UNIQUE KEY unique_vote (contestant_id, email)
 ) ENGINE=InnoDB";
 
 $sql_create_module[] = 'INSERT INTO ' . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'per_page', '12')";
