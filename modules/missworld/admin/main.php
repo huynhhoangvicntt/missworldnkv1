@@ -96,6 +96,26 @@ if (!empty($array_search['to'])) {
     $where[] = "dob<=" . $array_search['to'];
 }
 
+// Phần sắp xếp
+$array_order = [];
+$array_order['field'] = $nv_Request->get_title('of', 'get', '');
+$array_order['value'] = $nv_Request->get_title('ov', 'get', '');
+$base_url_order = $base_url;
+if ($page > 1) {
+    $base_url_order .= '&amp;page=' . $page;
+}
+
+// Định nghĩa các field và các value được phép sắp xếp
+$order_fields = ['vote'];
+$order_values = ['asc', 'desc'];
+
+if (!in_array($array_order['field'], $order_fields)) {
+    $array_order['field'] = '';
+}
+if (!in_array($array_order['value'], $order_values)) {
+    $array_order['value'] = '';
+}
+
 if (!empty($where)) {
     $db->where(implode(' AND ', $where));
 }
@@ -103,7 +123,12 @@ if (!empty($where)) {
 $sql = $db->sql();
 $total = $db->query($sql)->fetchColumn();
 
-$db->select('*')->order("id DESC")->limit($per_page)->offset(($page - 1) * $per_page);
+if (!empty($array_order['field']) and !empty($array_order['value'])) {
+    $order = $array_order['field'] . ' ' . $array_order['value'];
+} else {
+    $order = 'id DESC';
+}
+$db->select('*')->order($order)->limit($per_page)->offset(($page - 1) * $per_page);
 
 $sql = $db->sql();
 $result = $db->query($sql);
@@ -154,6 +179,28 @@ $generate_page = nv_generate_page($base_url, $total, $per_page, $page);
 if (!empty($generate_page)) {
     $xtpl->assign('GENERATE_PAGE', $generate_page);
     $xtpl->parse('main.generate_page');
+}
+
+// Xuất các phần sắp xếp
+foreach ($order_fields as $field) {
+    $url = $base_url_order;
+    if ($array_order['field'] == $field) {
+        if (empty($array_order['value'])) {
+            $url .= '&amp;of=' . $field . '&amp;ov=asc';
+            $icon = '<i class="fa fa-sort" aria-hidden="true"></i>';
+        } elseif ($array_order['value'] == 'asc') {
+            $url .= '&amp;of=' . $field . '&amp;ov=desc';
+            $icon = '<i class="fa fa-sort-asc" aria-hidden="true"></i>';
+        } else {
+            $icon = '<i class="fa fa-sort-desc" aria-hidden="true"></i>';
+        }
+    } else {
+        $url .= '&amp;of=' . $field . '&amp;ov=asc';
+        $icon = '<i class="fa fa-sort" aria-hidden="true"></i>';
+    }
+
+    $xtpl->assign(strtoupper('URL_ORDER_' . $field), $url);
+    $xtpl->assign(strtoupper('ICON_ORDER_' . $field), $icon);
 }
 
 $xtpl->parse('main');

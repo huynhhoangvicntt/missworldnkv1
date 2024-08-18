@@ -60,7 +60,9 @@
                     <th class="text-nowrap text-center" title="{LANG.id}">{LANG.id}</th>
                     <th class="text-nowrap text-center" title="{LANG.images}">{LANG.images}</th>
                     <th class="text-nowrap text-center" title="{LANG.fullname}">{LANG.fullname}</th>
-                    <th class="text-nowrap text-center" title="{LANG.vote}">{LANG.vote}</th>
+                    <th class="text-nowrap text-center" title="{LANG.vote}">
+                        <a href="{URL_ORDER_VOTE}">{ICON_ORDER_VOTE} {LANG.vote}</a>
+                    </th>
                     <th class="text-nowrap text-center" title="{LANG.status}">{LANG.status}</th>
                     <th class="text-nowrap text-center" title="{LANG.function}">{LANG.function}</th>
                 </tr>
