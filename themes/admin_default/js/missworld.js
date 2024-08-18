@@ -64,3 +64,16 @@ function nv_main_action(oForm, checkss, msgnocheck) {
         alert(msgnocheck);
     }
 }
+
+function nv_change_contestant_status(id, checksess) {
+    $('#change_status' + id).prop('disabled', true);
+    $.post(
+        script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&nocache=' + new Date().getTime(),
+        'changestatus=' + checksess + '&id=' + id, function(res) {
+        $('#change_status' + id).prop('disabled', false);
+        if (res != 'OK') {
+            alert(nv_is_change_act_confirm[2]);
+            location.reload();
+        }
+    });
+}

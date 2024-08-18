@@ -61,6 +61,7 @@
                     <th class="text-nowrap text-center" title="{LANG.images}">{LANG.images}</th>
                     <th class="text-nowrap text-center" title="{LANG.fullname}">{LANG.fullname}</th>
                     <th class="text-nowrap text-center" title="{LANG.vote}">{LANG.vote}</th>
+                    <th class="text-nowrap text-center" title="{LANG.status}">{LANG.status}</th>
                     <th class="text-nowrap text-center" title="{LANG.function}">{LANG.function}</th>
                 </tr>
             </thead>
@@ -78,6 +79,9 @@
                     </td>
                     <td class="text-ellipsis fullname" title="{DATA.fullname}">{DATA.fullname}</td>
                     <td class="text-nowrap vote">{DATA.vote}</td>
+                    <td class="text-center">
+                        <input type="checkbox" name="status" id="change_status{DATA.id}" value="1" onclick="nv_change_contestant_status('{DATA.id}', '{NV_CHECK_SESSION}');" {DATA.status_checked}/>
+                    </td>
                     <td class="text-center">
                         <a href="{DATA.url_edit}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {GLANG.edit}</a>
                         <a href="javascript:void(0);" onclick="nv_delete_contestant('{DATA.id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>

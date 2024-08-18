@@ -36,6 +36,23 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     nv_htmlOutput("OK");
 }
 
+// Thay đổi hoạt động
+if ($nv_Request->get_title('changestatus', 'post', '') === NV_CHECK_SESSION) {
+    $id = $nv_Request->get_int('id', 'post', 0);
+
+    $sql = "SELECT status FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $id;
+    $row = $db->query($sql)->fetch();
+    if (!empty($row)) {
+        $status = $row['status'] ? 0 : 1;
+
+        $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET status=" . $status . " WHERE id=" . $id;
+        $db->query($sql);
+
+        $nv_Cache->delMod($module_name);
+        nv_htmlOutput('OK');
+    }
+}
+
 $page_title = $lang_module['main'];
 
 $array = [];
@@ -123,6 +140,8 @@ if (!empty($array)) {
             $value['image'] = NV_BASE_SITEURL . "themes/" . $global_config['module_theme'] . "/images/" . $module_file . "/" . "default.jpg";
         }
 
+        $value['status_checked'] = $value['status'] ? ' checked="checked"' : '';
+        
         $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
         
         $xtpl->assign('DATA', $value);

@@ -58,6 +58,7 @@ $lang_module['waist_invalid_error'] = 'Vòng eo phải lớn hơn 0';
 $lang_module['hips_empty_error'] = 'Vòng mông không được để trống';
 $lang_module['hips_invalid_error'] = 'Vòng mông phải lớn hơn 0';
 $lang_module['msgnocheck'] = 'Vui lòng chọn ít nhất một dòng để thực hiện';
+$lang_module['status'] = 'Hoạt động';
 $lang_module['function'] = 'Chức năng';
 $lang_module['view_details'] = 'Xem chi tiết';
 $lang_module['close'] = 'Đóng';
