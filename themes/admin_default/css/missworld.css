@@ -104,22 +104,6 @@ td.fullname {
 }
 
 @media only screen and (max-width: 767px) {
-    .table-responsive {
-        border: none;
-    }
-
-    .table > thead > tr > th {
-        border-bottom: 2px solid #ddd;
-    }
-
-    .table > tbody > tr > td {
-        border-top: none;
-    }
-
-    .btn-group-xs > .btn, .btn-xs {
-        margin-bottom: 5px;
-    }
-
     .img-responsive-wrap {
         width: 60px;
         height: 60px;
