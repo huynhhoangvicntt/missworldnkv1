@@ -77,11 +77,10 @@ $result = $db->query($db->sql());
 
 $xtpl = new XTemplate('voters.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
-$xtpl->assign('NV_LANG_VARIABLE', NV_LANG_VARIABLE);
-$xtpl->assign('NV_LANG_DATA', NV_LANG_DATA);
-$xtpl->assign('NV_NAME_VARIABLE', NV_NAME_VARIABLE);
-$xtpl->assign('NV_OP_VARIABLE', NV_OP_VARIABLE);
+$xtpl->assign('GLANG', $lang_global);
 $xtpl->assign('MODULE_NAME', $module_name);
+$xtpl->assign('MODULE_FILE', $module_file);
+$xtpl->assign('OP', $op);
 
 if ($contestant_id > 0) {
     $xtpl->assign('CONTESTANT', $contestant);
