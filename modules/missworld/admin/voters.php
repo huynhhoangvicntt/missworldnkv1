@@ -28,9 +28,7 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
         
         // Cập nhật lượt bình chọn
         if ($contestant_id) {
-            $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows 
-                        SET vote = vote - 1 
-                        WHERE id = ' . $contestant_id);
+            $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET vote = vote - 1 WHERE id = ' . $contestant_id);
         }
         
         $nv_Cache->delMod($module_name);
