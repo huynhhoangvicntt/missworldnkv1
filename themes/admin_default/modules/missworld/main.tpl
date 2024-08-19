@@ -172,7 +172,7 @@ $(document).ready(function() {
         hips: '{LANG.hips}',
         email: '{LANG.email}',
         vote: '{LANG.vote}',
-        contestant_image: '{LANG.contestant_image}'
+        images: '{LANG.images}'
     };
     
     function populateContestantDetails(data) {
@@ -185,7 +185,7 @@ $(document).ready(function() {
         if (data.image) {
             detailsHtml += '<div id="contestantImage" class="text-center mb-3">'
                 + '<img src="' + data.image + '" '
-                + 'alt="' + langKeys.contestant_image + '" '
+                + 'alt="' + langKeys.images + '" '
                 + 'class="img-responsive" '
                 + 'style="max-height: 200px; margin: 0 auto;">'
                 + '</div>';
