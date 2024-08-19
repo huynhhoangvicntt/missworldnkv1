@@ -82,15 +82,13 @@ function nv_delete_vote(id, checksess) {
     if (confirm(nv_is_del_confirm[0])) {
         $.post(
             script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=voters&nocache=' + new Date().getTime(),
-            'delete=' + checksess + '&vote_id=' + id,
-            function(res) {
-                var r_split = res.split("_");
-                if (r_split[0] == 'OK') {
-                    location.reload();
-                } else {
-                    alert(nv_is_del_confirm[2]);
-                }
+            'delete=' + checksess + '&vote_id=' + id, function(res) {
+            var r_split = res.split("_");
+            if (r_split[0] == 'OK') {
+                location.reload();
+            } else {
+                alert(nv_is_del_confirm[2]);
             }
-        );
+        });
     }
 }

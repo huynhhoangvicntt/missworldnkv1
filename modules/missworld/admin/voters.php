@@ -15,7 +15,7 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 $page_title = $lang_module['voter_manager'];
 
 // Xử lý yêu cầu xóa
-if ($nv_Request->isset_request('delete', 'post')) {
+if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
     $vote_id = $nv_Request->get_int('vote_id', 'post', 0);
     
     if ($vote_id > 0) {
@@ -28,12 +28,14 @@ if ($nv_Request->isset_request('delete', 'post')) {
         
         // Cập nhật lượt bình chọn
         if ($contestant_id) {
-            $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET vote = vote - 1 WHERE id = ' . $contestant_id);
+            $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows 
+                        SET vote = vote - 1 
+                        WHERE id = ' . $contestant_id);
         }
         
-        nv_jsonOutput('OK_' . $lang_module['vote_deleted']);
+        $nv_Cache->delMod($module_name);
+        nv_htmlOutput('OK');
     }
-    nv_jsonOutput('ERROR_' . $lang_module['vote_delete_error']);
 }
 
 $contestant_id = $nv_Request->get_int('contestant_id', 'get', 0);

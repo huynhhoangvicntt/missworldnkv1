@@ -32,9 +32,7 @@
                 <td>{ROW.contestant_name}</td>
                 <!-- END: contestant_name -->
                 <td>
-                    <a href="javascript:void(0);" onclick="nv_delete_vote('{ROW.vote_id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger">
-                        <i class="fa fa-trash"></i> {GLANG.delete}
-                    </a>
+                    <a href="javascript:void(0);" onclick="nv_delete_vote('{ROW.vote_id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {GLANG.delete}</a>
                 </td>
             </tr>
             <!-- END: loop -->
