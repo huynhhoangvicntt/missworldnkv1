@@ -14,6 +14,30 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 
 $page_title = $lang_module['voter_manager'];
 
+// Xử lý yêu cầu xóa
+if ($nv_Request->isset_request('delete', 'post')) {
+    $vote_id = $nv_Request->get_int('vote_id', 'post', 0);
+    
+    if ($vote_id > 0) {
+        // Lấy contestant_id trước khi xóa bình chọn
+        $sql = "SELECT contestant_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE id = " . $vote_id;
+        $contestant_id = $db->query($sql)->fetchColumn();
+
+        // Xóa
+        $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_votes WHERE id = ' . $vote_id);
+        
+        // Cập nhật lượt bình chọn
+        if ($contestant_id) {
+            $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows 
+                        SET vote = vote - 1 
+                        WHERE id = ' . $contestant_id);
+        }
+        
+        nv_jsonOutput(['status' => 'OK', 'message' => $lang_module['vote_deleted']]);
+    }
+    nv_jsonOutput(['status' => 'ERROR', 'message' => $lang_module['vote_delete_error']]);
+}
+
 $contestant_id = $nv_Request->get_int('contestant_id', 'get', 0);
 
 // Nếu contestant_id được cung cấp, hiển thị lượt bình chọn cho thí sinh đó
@@ -40,7 +64,7 @@ $page = $nv_Request->get_int('page', 'get', 1);
 
 $num_items = $db->query($db->sql())->fetchColumn();
 
-$db->select('v.*, r.fullname AS contestant_name')
+$db->select('v.id as vote_id, v.*, r.fullname AS contestant_name')
    ->from(NV_PREFIXLANG . '_' . $module_data . '_votes v')
    ->join('LEFT JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_rows r ON v.contestant_id = r.id')
    ->order('v.vote_time DESC')
@@ -55,6 +79,11 @@ $result = $db->query($db->sql());
 
 $xtpl = new XTemplate('voters.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
+$xtpl->assign('NV_LANG_VARIABLE', NV_LANG_VARIABLE);
+$xtpl->assign('NV_LANG_DATA', NV_LANG_DATA);
+$xtpl->assign('NV_NAME_VARIABLE', NV_NAME_VARIABLE);
+$xtpl->assign('NV_OP_VARIABLE', NV_OP_VARIABLE);
+$xtpl->assign('MODULE_NAME', $module_name);
 
 if ($contestant_id > 0) {
     $xtpl->assign('CONTESTANT', $contestant);
@@ -68,7 +97,7 @@ while ($row = $result->fetch()) {
     $row['vote_time'] = nv_date('H:i d/m/Y', $row['vote_time']);
     $xtpl->assign('ROW', $row);
     if ($contestant_id == 0) {
-        $xtpl->parse('main.loop.contestant_column');
+        $xtpl->parse('main.loop.contestant_name');
     }
     $xtpl->parse('main.loop');
 }

@@ -72,3 +72,6 @@ $lang_module['voter_email'] = 'Email người bình chọn';
 $lang_module['vote_time'] = 'Thời gian bình chọn';
 $lang_module['user_id'] = 'ID người dùng';
 $lang_module['contestant'] = 'Thí sinh';
+$lang_module['vote_deleted'] = 'Đã xóa thành công phiếu bầu';
+$lang_module['confirm_delete_vote'] = 'Bạn có chắc chắn muốn xóa phiếu bầu này?';
+$lang_module['error_deleting_vote'] = 'Có lỗi xảy ra khi xóa phiếu bầu';
