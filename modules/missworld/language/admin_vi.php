@@ -38,7 +38,6 @@ $lang_module['keywords'] = 'Từ khóa';
 $lang_module['vote'] = 'Lượt bình chọn';
 $lang_module['time_add'] = 'Tạo lúc';
 $lang_module['time_update'] = 'Cập nhật lúc';
-$lang_module['voter_manager'] = 'Danh sách người vote';
 $lang_module['config_manager'] = 'Cấu hình module';
 $lang_module['setting_per_page'] = 'Số thí sinh hiển thị trên một trang';
 $lang_module['search_contestant_keywords'] = 'Tìm kiếm thí sinh';
