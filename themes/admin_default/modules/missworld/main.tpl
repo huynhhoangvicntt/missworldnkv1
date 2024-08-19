@@ -183,9 +183,12 @@ $(document).ready(function() {
         var detailsHtml = '';
     
         if (data.image) {
-            detailsHtml += '<div id="contestantImage" class="text-center mb-3">' +
-                '<img src="' + data.image + '" alt="' + langKeys.contestant_image + '" class="img-responsive" style="max-height: 200px; margin: 0 auto;">' +
-                '</div>';
+            detailsHtml += '<div id="contestantImage" class="text-center mb-3">'
+                + '<img src="' + data.image + '" '
+                + 'alt="' + langKeys.contestant_image + '" '
+                + 'class="img-responsive" '
+                + 'style="max-height: 200px; margin: 0 auto;">'
+                + '</div>';
         }
     
         detailsHtml += '<table id="contestantDetails" class="table">';
