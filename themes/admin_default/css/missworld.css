@@ -78,12 +78,6 @@ td.fullname {
     margin-bottom: 15px;
 }
 
-.modal-body .player-image {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 15px;
-}
-
 .modal-header,
 .modal-footer {
     background-color: #f5f5f5;
