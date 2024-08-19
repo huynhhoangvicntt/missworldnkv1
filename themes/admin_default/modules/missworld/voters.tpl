@@ -33,9 +33,9 @@
                 <td>{ROW.contestant_name}</td>
                 <!-- END: contestant_name -->
                 <td>
-                    <button class="btn btn-danger btn-xs delete-vote" data-vote-id="{ROW.vote_id}">
-                        <i class="fa fa-trash"></i> {LANG.delete}
-                    </button>
+                    <a href="javascript:void(0);" onclick="nv_delete_vote('{ROW.vote_id}', '{NV_CHECK_SESSION}');" class="btn btn-xs btn-danger">
+                        <i class="fa fa-trash"></i> {GLANG.delete}
+                    </a>
                 </td>
             </tr>
             <!-- END: loop -->
@@ -48,33 +48,4 @@
     {GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.delete-vote').click(function() {
-        var voteId = $(this).data('vote-id');
-        if (confirm('{LANG.confirm_delete_vote}')) {
-            $.ajax({
-                url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=voters',
-                method: 'POST',
-                data: {
-                    delete: 1,
-                    vote_id: voteId
-                },
-                success: function(response) {
-                    if (response.status === 'OK') {
-                        $('#vote-' + voteId).remove();
-                        alert(response.message);
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function() {
-                    alert('{LANG.error_deleting_vote}');
-                }
-            });
-        }
-    });
-});
-</script>
 <!-- END: main -->

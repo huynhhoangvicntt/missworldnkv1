@@ -33,9 +33,9 @@ if ($nv_Request->isset_request('delete', 'post')) {
                         WHERE id = ' . $contestant_id);
         }
         
-        nv_jsonOutput(['status' => 'OK', 'message' => $lang_module['vote_deleted']]);
+        nv_jsonOutput('OK_' . $lang_module['vote_deleted']);
     }
-    nv_jsonOutput(['status' => 'ERROR', 'message' => $lang_module['vote_delete_error']]);
+    nv_jsonOutput('ERROR_' . $lang_module['vote_delete_error']);
 }
 
 $contestant_id = $nv_Request->get_int('contestant_id', 'get', 0);
