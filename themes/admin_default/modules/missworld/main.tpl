@@ -98,13 +98,13 @@
             <tfoot>
                 <!-- BEGIN: generate_page -->
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         {GENERATE_PAGE}
                     </td>
                 </tr>
                 <!-- END: generate_page -->
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <div class="row">
                             <div class="col-sm-24">
                                 <div class="form-group form-inline">
