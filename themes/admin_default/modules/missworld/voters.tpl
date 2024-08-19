@@ -7,7 +7,6 @@
     <h2>{LANG.all_votes}</h2>
     <!-- END: all_votes -->
 </div>
-
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover">
         <thead>
@@ -42,7 +41,6 @@
         </tbody>
     </table>
 </div>
-
 <!-- BEGIN: generate_page -->
 <div class="text-center">
     {GENERATE_PAGE}
