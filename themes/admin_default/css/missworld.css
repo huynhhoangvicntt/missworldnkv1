@@ -21,8 +21,11 @@ td.id, td.vote, td.check-column, th.check-column {
 }
 
 td.fullname {
-    max-width: 25%;
+    max-width: 200px;
     min-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .img-responsive-wrap {

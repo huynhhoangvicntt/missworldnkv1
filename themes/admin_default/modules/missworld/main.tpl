@@ -79,7 +79,9 @@
                             <img class="img-inner" src="{DATA.image}" alt="{DATA.fullname}"/>
                         </div>
                     </td>
-                    <td class="text-ellipsis fullname" title="{DATA.fullname}">{DATA.fullname}</td>
+                    <td class="fullname" title="{DATA.fullname}">
+                        <span class="text-ellipsis">{DATA.fullname}</span>
+                    </td>
                     <td class="text-nowrap vote">{DATA.vote}</td>
                     <td class="text-center">
                         <input type="checkbox" name="status" id="change_status{DATA.id}" value="1" onclick="nv_change_contestant_status('{DATA.id}', '{NV_CHECK_SESSION}');" {DATA.status_checked}/>
