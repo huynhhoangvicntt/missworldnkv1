@@ -125,10 +125,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="contestantDetailsModalLabel">{LANG.contestant_details}</h4>
             </div>
             <div class="modal-body">
+                <div id="contestantImage" class="text-center mb-3"></div>
+                <table id="contestantDetails" class="table"></table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{LANG.close}</button>
@@ -138,6 +142,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
+    // Khởi tạo Datepicker
     $('.datepicker').datepicker({
         language: '{NV_LANG_INTERFACE}',
         format: 'dd-mm-yyyy',
@@ -147,39 +152,56 @@ $(document).ready(function() {
         todayHighlight: true,
         zIndexOffset: 1000
     });
-
+    
     $('#from-btn').click(function(){
         $("#element_from").datepicker('show');
     });
-
+    
     $('#to-btn').click(function(){
         $("#element_to").datepicker('show');
     });
-
+    
+    // Xử lý modal
+    var langKeys = {
+        fullname: '{LANG.fullname}',
+        dob: '{LANG.date_of_birth}',
+        address: '{LANG.address}',
+        height: '{LANG.height}',
+        chest: '{LANG.chest}',
+        waist: '{LANG.waist}',
+        hips: '{LANG.hips}',
+        email: '{LANG.email}',
+        vote: '{LANG.vote}',
+        contestant_image: '{LANG.contestant_image}'
+    };
+    
+    function populateContestantDetails(data) {
+        var $modalBody = $('#contestantDetailsModal .modal-body');
+    
+        $modalBody.empty();
+    
+        var detailsHtml = '';
+    
+        if (data.image) {
+            detailsHtml += '<div id="contestantImage" class="text-center mb-3">' +
+                '<img src="' + data.image + '" alt="' + langKeys.contestant_image + '" class="img-responsive" style="max-height: 200px; margin: 0 auto;">' +
+                '</div>';
+        }
+    
+        detailsHtml += '<table id="contestantDetails" class="table">';
+        for (var key in data) {
+            if (key !== 'image' && langKeys.hasOwnProperty(key)) {
+                detailsHtml += '<tr><th>' + langKeys[key] + '</th><td>' + data[key] + '</td></tr>';
+            }
+        }
+        detailsHtml += '</table>';
+    
+        $modalBody.html(detailsHtml);
+    }
+    
     $('.view-details').on('click', function() {
         var contestantData = JSON.parse($(this).attr('data-contestant'));
-        var modalBody = $('#contestantDetailsModal .modal-body');
-        
-        modalBody.empty();
-        
-        var detailsHtml = '<table class="table">';
-        detailsHtml += '<tr><th>{LANG.fullname}</th><td>' + contestantData.fullname + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.date_of_birth}</th><td>' + contestantData.dob + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.address}</th><td>' + contestantData.address + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.height}</th><td>' + contestantData.height + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.chest}</th><td>' + contestantData.chest + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.waist}</th><td>' + contestantData.waist + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.hips}</th><td>' + contestantData.hips + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.email}</th><td>' + contestantData.email + '</td></tr>';
-        detailsHtml += '<tr><th>{LANG.vote}</th><td>' + contestantData.vote + '</td></tr>';
-        detailsHtml += '</table>';
-        
-        if (contestantData.image) {
-            detailsHtml = '<div class="text-center mb-3"><img src="' + contestantData.image + '" alt="{LANG.contestant_image}" class="img-responsive" style="max-height: 200px;"></div>' + detailsHtml;
-        }
-        
-        modalBody.html(detailsHtml);
-        
+        populateContestantDetails(contestantData);
         $('#contestantDetailsModal').modal('show');
     });
 });
