@@ -26,6 +26,7 @@ themes/
 │   ├── js/
 │   └── modules/
 └── missworld/
+```
 
 ## Cài đặt
 Để cài đặt module **MissWorld**, thực hiện các bước sau:
