@@ -9,22 +9,9 @@ Dưới đây là cấu trúc thư mục của module **MissWorld**:
 ```markdown
 missworld/
 ├── admin/
-│   ├── config.php
-│   ├── content.php
-│   ├── dashboard.php
-│   ├── index.html
-│   ├── main.php
-│   └── voters.php
 ├── blocks/
 ├── funcs/
-│   ├── detail.php
-│   ├── index.html
-│   ├── main.php
-│   └── search.php
 ├── language/
-│   ├── admin_vi.php
-│   ├── index.html
-│   └── vi.php
 ├── action_mysql.php
 ├── admin.functions.php
 ├── admin.menu.php
@@ -38,23 +25,7 @@ themes/
 │   ├── images/
 │   ├── js/
 │   └── modules/
-│       ├── authors/
-│       ├── banners/
-│       ├── comment/
-│       ├── contact/
-│       ├── database/
-│       ├── extensions/
-│       ├── feeds/
-│       ├── freecontent/
-│       ├── language/
-│       └── menu/
 └── missworld/
-├── config.tpl
-├── content.tpl
-├── dashboard.tpl
-├── index.html
-├── main.tpl
-└── voters.tpl
 
 ## Cài đặt
 Để cài đặt module **MissWorld**, thực hiện các bước sau:
