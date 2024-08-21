@@ -1,11 +1,13 @@
 # missworld
-Module bình chọn hoa hậu. Quản lý và hiển thị danh sách thí sinh tham gia cuộc thi.
+
+Module bình chọn cuộc thi hoa hậu dành cho NukeViet.
 
 **Chức năng admin:**
 
 - Danh sách thí sinh.
-- Chức năng thêm thí sinh.
-- Danh sách người vote.
+- Thêm/Sửa/Xóa/Tìm kiếm thí sinh.
+- Danh sách người bình chọn.
+- Thống kê cuộc thi.
 - Cấu hình module.
 
 **Chức năng ngoài site:**
