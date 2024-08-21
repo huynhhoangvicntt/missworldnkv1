@@ -4,6 +4,22 @@
     width: 100%;
 }
 
+.text-nowrap,
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-ellipsis {
+    max-width: 100%;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+/* Định dạng ô bảng */
 td.id, td.vote, td.check-column, th.check-column {
     width: 1%;
     white-space: nowrap;
@@ -17,15 +33,45 @@ td.fullname {
     text-overflow: ellipsis;
 }
 
-.text-nowrap,
-.text-ellipsis {
+.voter-name, .voter-email, .contestant-name {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Định dạng chiều rộng cột */
+.col-voter-name,
+.col-voter-email,
+.col-contestant {
+    width: 25%;
+}
+
+.col-vote-time {
+    width: 15%;
+}
+
+.col-user-id,
+.col-function {
+    width: 10%;
+}
+
+/* Định dạng xử lý tên dài và email */
+.fullname-wrapper,
+.email-wrapper,
+.contestant-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.fullname-text,
+.email-text,
+.contestant-text {
+    display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.text-ellipsis {
-    max-width: 100%;
 }
 
 /* Định dạng ảnh */
@@ -86,6 +132,12 @@ td.fullname {
     overflow-y: auto;
 }
 
+.modal-header,
+.modal-footer {
+    background-color: #f5f5f5;
+    border-color: #e5e5e5;
+}
+
 #contestantDetails {
     margin-bottom: 0;
 }
@@ -94,20 +146,10 @@ td.fullname {
     width: 30%;
 }
 
-.modal-header,
-.modal-footer {
-    background-color: #f5f5f5;
-    border-color: #e5e5e5;
-}
-
 #contestantImage img {
     max-height: 200px;
     margin: 0 auto;
     display: block;
-}
-
-.mb-3 {
-    margin-bottom: 15px;
 }
 
 /* Định dạng bảng điều khiển */
@@ -169,5 +211,20 @@ td.fullname {
     .dashboard .table .fullname {
         max-width: 150px;
         min-width: 100px;
+    }
+
+    .col-voter-name,
+    .col-voter-email,
+    .col-contestant,
+    .col-vote-time,
+    .col-user-id,
+    .col-function {
+        width: auto;
+    }
+
+    .fullname-wrapper,
+    .email-wrapper,
+    .contestant-wrapper {
+        max-width: 150px;
     }
 }
