@@ -50,7 +50,7 @@ $xtpl->assign('AVG_CHEST', $avg_measurements['avg_chest']);
 $xtpl->assign('AVG_WAIST', $avg_measurements['avg_waist']);
 $xtpl->assign('AVG_HIPS', $avg_measurements['avg_hips']);
 
-// Lấy top 5 thí sinh theo số lượt bình chọn
+// Lấy 5 thí sinh theo số lượt bình chọn
 $sql = "SELECT fullname, vote FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows ORDER BY vote DESC LIMIT 5";
 $result = $db->query($sql);
 $rank = 1;
