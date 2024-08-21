@@ -82,7 +82,7 @@
             <div class="form-group">
                 <label class="col-sm-6 control-label" for="element_email">{LANG.email}:</label>
                 <div class="col-sm-18 col-lg-10">
-                    <input type="email" id="element_email" name="email" value="{DATA.email}" class="form-control" placeholder="example@domain.com">
+                    <input type="email" id="element_email" name="email" value="{DATA.email}" class="form-control" placeholder="email@mail.com">
                 </div>
             </div>
             <div class="form-group">
