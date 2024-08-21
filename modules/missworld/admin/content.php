@@ -53,7 +53,7 @@ if (!empty($id)) {
     $is_edit = true;
     $page_title = $lang_module['contestant_edit'];
     $array['dob'] = nv_date('d/m/Y', $array['dob']);
-    $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $id ;
+    $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $id;
 } else {
     $array = [
         'id' => 0,
@@ -110,7 +110,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
     $array['keywords'] = $nv_Request->get_title('keywords', 'post', '');
-    $array['vote'] = $nv_Request->get_int('vote', 'post', 0);
 
     // Xử lý dữ liệu
     $array['alias'] = empty($array['alias']) ? change_alias($array['fullname']) : change_alias($array['alias']);
@@ -164,11 +163,11 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_rows (
                 fullname, alias, dob, address, height, chest, waist, hips, email, image, keywords, vote, weight, time_add, time_update
             ) VALUES (
-                :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :keywords, :vote, " . $weight . ", " . NV_CURRENTTIME . ", 0
+                :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :keywords, 0, " . $weight . ", " . NV_CURRENTTIME . ", 0
             )";
         } else {
             $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET
-                fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, keywords = :keywords, vote = :vote, time_update = " . NV_CURRENTTIME . "
+                fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, keywords = :keywords, time_update = " . NV_CURRENTTIME . "
                 WHERE id = " . $id;
         }
 
@@ -185,7 +184,6 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
             $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
             $sth->bindParam(':keywords', $array['keywords'], PDO::PARAM_STR, strlen($array['keywords']));
-            $sth->bindParam(':vote', $array['vote'], PDO::PARAM_INT);
             $sth->execute();
 
             if ($id) {
@@ -216,6 +214,7 @@ $xtpl->assign('DATA', $array);
 $xtpl->assign('UPLOAD_CURRENT', $currentpath);
 $xtpl->assign('UPLOAD_PATH', NV_UPLOADS_DIR . '/' . $module_upload);
 $xtpl->assign('OP', $op);
+$xtpl->assign('IS_EDIT', $is_edit);
 
 // Hiển thị lỗi
 if (!empty($error)) {
@@ -226,6 +225,11 @@ if (!empty($error)) {
 // Tự động lấy alias mỗi khi thêm tiêu đề
 if (empty($array['alias'])) {
    $xtpl->parse('main.getalias');
+}
+
+// Chỉ hiển thị số phiếu bầu khi chỉnh sửa thí sinh hiện tại
+if ($is_edit) {
+    $xtpl->parse('main.edit_vote');
 }
 
 $xtpl->parse('main');

@@ -102,12 +102,14 @@
                     <input type="text" id="element_keywords" name="keywords" value="{DATA.keywords}" class="form-control">
                 </div>
             </div>
+            <!-- BEGIN: edit_vote -->
             <div class="form-group">
-                <label class="col-sm-6 control-label" for="element_vote">{LANG.vote}</span>:</label>
+                <label class="col-sm-6 control-label" for="element_vote">{LANG.vote}:</label>
                 <div class="col-sm-18 col-lg-10">
-                    <input type="text" id="element_vote" name="vote" value="{DATA.vote}" class="form-control"/>
+                    <input type="text" id="element_vote" name="vote" value="{DATA.vote}" class="form-control" readonly/>
                 </div>
             </div>
+            <!-- END: edit_vote -->
             <div class="row">
                 <div class="col-sm-18 col-sm-offset-6">
                     <input type="hidden" name="save" value="{NV_CHECK_SESSION}"/>
