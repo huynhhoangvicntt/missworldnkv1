@@ -194,7 +194,11 @@ $(document).ready(function() {
         detailsHtml += '<table id="contestantDetails" class="table">';
         for (var key in data) {
             if (key !== 'image' && langKeys.hasOwnProperty(key)) {
-                detailsHtml += '<tr><th>' + langKeys[key] + '</th><td>' + data[key] + '</td></tr>';
+                var value = data[key];
+                if (['height', 'chest', 'waist', 'hips'].includes(key) && value !== '' && value !== null) {
+                    value += ' cm';
+                }
+                detailsHtml += '<tr><th>' + langKeys[key] + '</th><td>' + value + '</td></tr>';
             }
         }
         detailsHtml += '</table>';
