@@ -16,11 +16,11 @@ $allow_func = [
     'main',
     'content',
     'voters',
-    'config',
     'dashboard',
+    'config',
 ];
 
 $submenu['content'] = $lang_module['contestant_manager'];
 $submenu['voters'] = $lang_module['voter_manager'];
-$submenu['config'] = $lang_module['config_manager'];
 $submenu['dashboard'] = $lang_module['dashboard'];
+$submenu['config'] = $lang_module['config_manager'];
