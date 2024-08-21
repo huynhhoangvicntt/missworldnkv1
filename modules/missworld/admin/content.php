@@ -233,7 +233,7 @@ if (!empty($error)) {
    $xtpl->parse('main.error');
 }
 
-// Tự động lấy alias mỗi khi thêm tiêu đề
+// Tự động lấy alias mỗi khi thêm tên thí sinh
 if (empty($array['alias'])) {
    $xtpl->parse('main.getalias');
 }
