@@ -106,6 +106,45 @@ td.fullname {
     display: block;
 }
 
+.dashboard h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.dashboard .panel {
+    margin-bottom: 20px;
+}
+
+.dashboard .panel-heading {
+    font-weight: bold;
+}
+
+.dashboard .table {
+    margin-bottom: 0;
+}
+
+.dashboard .table td, 
+.dashboard .table th {
+    padding: 8px;
+}
+
+.dashboard .text-right {
+    text-align: right;
+}
+
+.dashboard .table .fullname {
+    max-width: 200px;
+    min-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboard .table .col-fullname {
+    width: 50%;
+}
+
 @media only screen and (max-width: 992px) {
     td.fullname {
         min-width: auto;
@@ -116,5 +155,14 @@ td.fullname {
     .img-responsive-wrap {
         width: 60px;
         height: 60px;
+    }
+    
+    .dashboard .panel {
+        margin-bottom: 15px;
+    }
+    
+    .dashboard .table .fullname {
+        max-width: 150px;
+        min-width: 100px;
     }
 }

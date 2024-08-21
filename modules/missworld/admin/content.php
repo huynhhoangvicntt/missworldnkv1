@@ -142,11 +142,21 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
         $error[] = $lang_module['dob_empty_error'];
     }
 
+    // Xác định phạm vi đo lường
+    $measurement_ranges = [
+        'height' => ['min' => 150, 'max' => 190],  // 150cm đến 190cm
+        'chest' => ['min' => 75, 'max' => 100],    // 75cm đến 100cm
+        'waist' => ['min' => 55, 'max' => 80],     // 55cm đến 80cm
+        'hips' => ['min' => 80, 'max' => 110]      // 80cm đến 110cm
+    ];
+
     foreach (['height', 'chest', 'waist', 'hips'] as $field) {
         if (empty($array[$field])) {
             $error[$field] = $lang_module[$field . '_empty_error'];
         } elseif ($array[$field] <= 0) {
             $error[$field] = $lang_module[$field . '_invalid_error'];
+        } elseif ($array[$field] < $measurement_ranges[$field]['min'] || $array[$field] > $measurement_ranges[$field]['max']) {
+            $error[$field] = sprintf($lang_module[$field . '_range_error'], $measurement_ranges[$field]['min'], $measurement_ranges[$field]['max']);
         }
     }
 
@@ -155,6 +165,7 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $array[$field] = null;
         }
     }
+    
     if (empty($error)) {
         if (!$id) {
             $sql = "SELECT MAX(weight) weight FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows";
