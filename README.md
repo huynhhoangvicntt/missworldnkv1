@@ -1,6 +1,6 @@
 # missworld
 
-Module bình chọn cuộc thi hoa hậu dành cho NukeViet.
+Module bình chọn cuộc thi sắc đẹp dành cho NukeViet.
 
 **Chức năng admin:**
 
@@ -16,3 +16,9 @@ Module bình chọn cuộc thi hoa hậu dành cho NukeViet.
 - Trang chi tiết thí sinh hiển thị các thông tin cá nhân.
 - Block tìm kiếm.
 - Bình chọn.
+
+## Yêu cầu
+
+## Hướng dẫn
+
+## Ghi chú
