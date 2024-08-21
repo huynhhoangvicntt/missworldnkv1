@@ -59,6 +59,24 @@ td.fullname {
     border-radius: 3px;
 }
 
+.input-group-addon {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-left: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    border-radius: 0 4px 4px 0;
+}
+
+.input-group .form-control {
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
 .modal-body {
     max-height: 70vh;
     overflow-y: auto;
