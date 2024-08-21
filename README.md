@@ -55,12 +55,6 @@ themes/
 ├── index.html
 ├── main.tpl
 └── voters.tpl
-```markdown
-missworld/
-├── admin/
-│   ├── config.php
-...
-└── voters.tpl
 
 ## Cài đặt
 Để cài đặt module **MissWorld**, thực hiện các bước sau:
