@@ -16,11 +16,24 @@ missworld/
 ├── admin.functions.php
 ├── admin.menu.php
 ├── functions.php
+├── global.functions.php
 ├── index.html
 ├── theme.php
 └── version.php
 themes/
 ├── admin_default/
+│   ├── css/
+│   ├── images/
+│   ├── js/
+│   └── modules/
+└── missworld/
+├── default/
+│   ├── css/
+│   ├── images/
+│   ├── js/
+│   └── modules/
+└── missworld/
+├── missworld/
 │   ├── css/
 │   ├── images/
 │   ├── js/
