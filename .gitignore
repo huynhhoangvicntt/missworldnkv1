@@ -42,6 +42,21 @@
 !/themes/default/images/missworld
 !/themes/default/modules/missworld
 
+!/themes/missworld
+/themes/missworld/*
+!/themes/missworld/css
+!/themes/missworld/js
+!/themes/missworld/images
+!/themes/missworld/modules
+/themes/missworld/css/*
+/themes/missworld/js/*
+/themes/missworld/images/*
+/themes/missworld/modules/*
+!/themes/missworld/css/missworld.css
+!/themes/missworld/js/missworld.js
+!/themes/missworld/images/missworld
+!/themes/missworld/modules/missworld
+
 !/themes/admin_default
 /themes/admin_default/*
 !/themes/admin_default/css

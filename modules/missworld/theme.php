@@ -27,7 +27,7 @@ function nv_theme_missworld_list($array_data, $page)
             if (!empty($value['image'])) {
                 $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
             } else {
-                $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . 'default_1.jpg';
+                $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . 'default.jpg';
             }
             $xtpl->assign('DATA', $value);
             $xtpl->parse('main.loop');

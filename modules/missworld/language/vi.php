@@ -22,3 +22,5 @@ $lang_translator['langtype'] = 'lang_module';
 $lang_module['main'] = 'Danh sách thí sinh';
 $lang_module['detail'] = 'Xem chi tiết';
 $lang_module['search'] = 'Tìm kiếm';
+$lang_module['vote'] = 'Bình chọn';
+$lang_module['vote_count'] = 'Tổng bình chọn';

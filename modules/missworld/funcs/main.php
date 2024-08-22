@@ -12,6 +12,35 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
     exit('Stop!!!');
 }
 
+include NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
+
+if ($nv_Request->isset_request('action', 'post')) {
+    $action = $nv_Request->get_string('action', 'post', '');
+    
+    if ($action === 'vote') {
+        $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
+        $fullname = $nv_Request->get_title('fullname', 'post', '');
+        $email = $nv_Request->get_title('email', 'post', '');
+
+        $errors = [];
+        if (empty($fullname)) {
+            $errors[] = 'Họ tên không được để trống';
+        }
+        if (empty($email)) {
+            $errors[] = 'Email không được để trống';
+        } elseif (nv_check_valid_email($email) != '') {
+            $errors[] = 'Email không hợp lệ';
+        }
+
+        if (!empty($errors)) {
+            nv_jsonOutput(array('success' => false, 'message' => implode(', ', $errors)));
+        }
+
+        $result = nv_vote_contestant($contestant_id, $fullname, $email);
+        nv_jsonOutput($result);
+    }
+}
+
 // Lấy dữ liệu
 $array_data = [];
 
@@ -33,7 +62,7 @@ while ($row = $result->fetch()) {
 
 $page_title = $lang_module['main'];
 // Gọi hàm xử lý giao diện
-$contents = nv_theme_missworld_list($array_data,$page);
+$contents = nv_theme_missworld_list($array_data, $page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
