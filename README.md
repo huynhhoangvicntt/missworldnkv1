@@ -49,8 +49,8 @@ themes/
 3. Truy cập trang quản trị của NukeViet CMS và kích hoạt module từ phần quản lý module.
 
 ## Hướng dẫn sử dụng
-- **Quản lý thí sinh**: Truy cập vào phần quản trị, chọn module **MissWorld** để thêm mới, chỉnh sửa hoặc xóa thí sinh tham gia.
-- **Quản lý người bình chọn**: Quản lý thông tin của người bình chọn thông qua phiếu bầu.
+- **Quản lý thí sinh**: Truy cập vào phần quản trị, chọn module **MissWorld** để thêm mới, chỉnh sửa, xóa hoặc tìm kiếm thí sinh tham gia.
+- **Quản lý danh sách bình chọn**: Truy cập danh sách bình chọn để xem thông tin về họ tên, email, thời gian bình chọn, và UserId (nếu có) của từng lượt bình chọn.
 - **Thống kê cuộc thi**: Xem thống kê & kết quả cuộc thi.
 
 ## Góp ý
@@ -60,7 +60,8 @@ Chúng tôi hoan nghênh mọi đóng góp từ cộng đồng. Vui lòng tạo 
 Module **MissWorld** được phát hành dưới giấy phép ...
 
 ## Liên hệ
-Nếu bạn cần hỗ trợ hoặc có câu hỏi, vui lòng liên hệ với chúng tôi qua 
-Email: hoangvicntt2k@gmail.com
-Facebook: https://www.facebook.com/hoangvicntt/
+Nếu bạn cần hỗ trợ hoặc có câu hỏi, vui lòng liên hệ với chúng tôi qua: 
+
+1. Email: hoangvicntt2k@gmail.com.
+2. Facebook: https://www.facebook.com/hoangvicntt/.
 
