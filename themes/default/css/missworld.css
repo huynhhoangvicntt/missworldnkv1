@@ -1,100 +1,133 @@
-/* Danh sách bài dạng list */
-.items-list .item .item-inner {
-    display: flex;
+.contestant-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
 }
 
-.items-list .item .item-image {
-    padding-right: 10px;
-    flex: 0 0 190px;
-    max-width: 190px;
+.contestant-grid h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.items-list .item .item-image a {
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.contestant-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.contestant-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.contestant-card:hover {
+    transform: translateY(-5px);
+}
+
+.contestant-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.contestant-card h3 {
+    padding: 10px;
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.contestant-card p {
+    padding: 0 10px 10px;
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.vote-button {
     display: block;
-    height: 0;
-    padding-bottom: 65%;
-    background-size: cover;
-    background-position: center center;
+    width: 100%;
+    padding: 10px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.items-list .item .item-content {
-    flex-grow: 1;
-    flex-shrink: 1;
+.vote-button:hover {
+    background-color: #c2185b;
 }
 
-.items-list .item .item-content .meta {
-    margin: 4px 0;
-}
-
-@media (max-width: 576.98px) {
-    .items-list .item .item-image {
-        flex: 0 0 130px;
-        max-width: 130px;
-    }
-
-    .items-list .item .item-content .item-hometext {
-        display: none;
+@media (max-width: 768px) {
+    .contestant-cards {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
 }
 
-/* Chi tiết tin */
-.item-detail .meta {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 5px 0;
-}
-
-.item-detail .meta li {
-    display: inline-block;
-    margin: 4px 15px 4px 0;
-}
-
-.item-detail .detail-summary {
-    font-weight: 700;
-}
-
-.item-detail .detail-html ul {
-    list-style: disc;
-}
-
-.item-detail .detail-html ol {
-    list-style: decimal;
-}
-
-.item-detail .detail-html img {
-    margin-bottom: 5px;
-}
-
-.item-detail-other .head {
-    margin-bottom: 15px;
-}
-
-.item-detail-other .items {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -5px;
-    margin-right: -5px;
-}
-
-.item-detail-other .items .item {
-    padding: 0 5px;
-    margin-bottom: 15px;
-    flex: 0 0 33.333333333%;
-    max-width: 33.333333333%;
-}
-
-.item-detail-other .items .item .img {
-    display: block;
-    height: 0;
-    padding-bottom: 65%;
-    background-size: cover;
-    background-position: center center;
-    margin-bottom: 5px;
-}
-
-@media (max-width: 576.98px) {
-    .item-detail-other .items .item {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  #voteForm input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  #voteForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
