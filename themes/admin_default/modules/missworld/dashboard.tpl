@@ -1,6 +1,6 @@
 <!-- BEGIN: main -->
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">{LANG.general_statistics}</div>
             <table class="table table-striped">
@@ -15,7 +15,7 @@
             </table>
         </div>
     </div>
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">{LANG.average_measurements}</div>
             <table class="table table-striped">
@@ -40,15 +40,15 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-24">
+    <div class="col-md-24">
         <div class="panel panel-default">
             <div class="panel-heading">{LANG.top_contestants}</div>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="col-xs-2">{LANG.rank}</th>
+                        <th>{LANG.rank}</th>
                         <th>{LANG.fullname}</th>
-                        <th class="col-xs-6 text-right">{LANG.vote}</th>
+                        <th class="text-right">{LANG.vote}</th>
                     </tr>
                 </thead>
                 <tbody>
