@@ -181,15 +181,6 @@ h2 {
     text-align: right;
 }
 
-/* NukeViet 24-column grid adjustments */
-.col-sm-12 {
-    width: 50%; /* 12/24 = 50% */
-}
-
-.col-sm-24 {
-    width: 100%;
-}
-
 @media only screen and (max-width: 992px) {
     td.fullname, .fullname-cell {
         min-width: auto;
@@ -205,10 +196,6 @@ h2 {
     td.fullname, .fullname-cell {
         max-width: 150px;
         min-width: 100px;
-    }
-
-    .col-xs-24 {
-        width: 100%;
     }
 
     .col-voter-name,
