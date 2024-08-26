@@ -198,7 +198,8 @@ $(document).ready(function() {
                 if (['height', 'chest', 'waist', 'hips'].includes(key) && value !== '' && value !== null) {
                     value += ' cm';
                 }
-                detailsHtml += '<tr><th>' + langKeys[key] + '</th><td>' + value + '</td></tr>';
+                var cellClass = (key === 'fullname') ? 'fullname-cell' : '';
+                detailsHtml += '<tr><th>' + langKeys[key] + '</th><td class="' + cellClass + '"><span class="text-ellipsis">' + value + '</span></td></tr>';
             }
         }
         detailsHtml += '</table>';

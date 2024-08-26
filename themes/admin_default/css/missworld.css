@@ -12,6 +12,7 @@
 }
 
 .text-ellipsis {
+    display: block;
     max-width: 100%;
 }
 
@@ -25,7 +26,7 @@ td.id, td.vote, td.check-column, th.check-column {
     white-space: nowrap;
 }
 
-td.fullname {
+td.fullname, .fullname-cell {
     max-width: 200px;
     min-width: 150px;
     white-space: nowrap;
@@ -153,47 +154,44 @@ td.fullname {
 }
 
 /* Định dạng bảng điều khiển */
-.dashboard h2 {
+h2 {
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
 }
 
-.dashboard .panel {
+.panel {
     margin-bottom: 20px;
 }
 
-.dashboard .panel-heading {
+.panel-heading {
     font-weight: bold;
 }
 
-.dashboard .table {
+.table {
     margin-bottom: 0;
 }
 
-.dashboard .table td, 
-.dashboard .table th {
+.table td, 
+.table th {
     padding: 8px;
 }
 
-.dashboard .text-right {
+.text-right {
     text-align: right;
 }
 
-.dashboard .table .fullname {
-    max-width: 200px;
-    min-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+/* NukeViet 24-column grid adjustments */
+.col-sm-12 {
+    width: 50%; /* 12/24 = 50% */
 }
 
-.dashboard .table .col-fullname {
-    width: 50%;
+.col-sm-24 {
+    width: 100%;
 }
 
 @media only screen and (max-width: 992px) {
-    td.fullname {
+    td.fullname, .fullname-cell {
         min-width: auto;
     }
 }
@@ -204,13 +202,13 @@ td.fullname {
         height: 60px;
     }
     
-    .dashboard .panel {
-        margin-bottom: 15px;
-    }
-    
-    .dashboard .table .fullname {
+    td.fullname, .fullname-cell {
         max-width: 150px;
         min-width: 100px;
+    }
+
+    .col-xs-24 {
+        width: 100%;
     }
 
     .col-voter-name,
