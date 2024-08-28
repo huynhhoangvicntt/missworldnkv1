@@ -39,7 +39,6 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>{LANG.email_verification}</h2>
-        <p id="verification-message">{LANG.verification_instructions}</p>
         <form id="verification-form">
             <input type="hidden" id="verification-contestant-id" name="contestant_id">
             <input type="hidden" id="verification-email" name="email">

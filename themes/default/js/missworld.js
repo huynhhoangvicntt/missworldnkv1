@@ -102,7 +102,6 @@ $(document).ready(function() {
     function showVerificationModal(contestantId, email) {
         $('#verification-contestant-id').val(contestantId);
         $('#verification-email').val(email);
-        $('#verification-message').text('Mã xác minh có hiệu lực trong 10 phút.');
         hideModal(votingModal);
         showModal(verificationModal);
     }

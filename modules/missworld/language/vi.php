@@ -94,11 +94,10 @@ $lang_module['avg_hips'] = 'Số đo vòng mông trung bình';
 $lang_module['rank'] = 'Xếp hạng';
 $lang_module['submit_vote'] = 'Bình chọn';
 
-$lang_module['email_verification'] = 'xác minh email';
+$lang_module['email_verification'] = 'Mã xác minh đã gửi đến email của bạn, vui lòng kiểm tra email!';
 $lang_module['verification_instructions'] = 'hướng dẫn xác minh';
-$lang_module['verification_code'] = 'mã xác minh';
-$lang_module['verify_vote'] = 'xác minh_phiếu bầu';
+$lang_module['verification_code'] = 'Nhập mã tại đây';
+$lang_module['verify_vote'] = 'Hoàn tất';
 $lang_module['vote_for'] = 'Bình chọn cho';
 $lang_module['vote_count'] = 'Tổng lượt bình chọn';
-$lang_module['resend_verification_code'] = 'Gửi lại mã xác minh';
-$lang_module['verification_instructions'] = 'Hướng dẫn xác minh, bao gồm thông tin về thời gian hiệu lực của mã';
+$lang_module['resend_verification_code'] = 'Gửi lại mã';
