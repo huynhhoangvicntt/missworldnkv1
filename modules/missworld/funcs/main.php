@@ -14,55 +14,123 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 
 include NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
 
+// Xử lý các yêu cầu AJAX
 if ($nv_Request->isset_request('action', 'post')) {
-    $action = $nv_Request->get_string('action', 'post', '');
-    
-    if ($action === 'vote') {
-        $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
-        $fullname = $nv_Request->get_title('fullname', 'post', '');
-        $email = $nv_Request->get_title('email', 'post', '');
+    try {
+        $action = $nv_Request->get_string('action', 'post', '');
+        
+        if ($action === 'check_user') {
+            if (defined('NV_IS_USER')) {
+                $user_info = isset($user_info) ? $user_info : array();
+                nv_jsonOutput(array(
+                    'success' => true,
+                    'isLoggedIn' => true,
+                    'fullname' => isset($user_info['full_name']) ? $user_info['full_name'] : '',
+                    'email' => isset($user_info['email']) ? $user_info['email'] : ''
+                ));
+            } else {
+                nv_jsonOutput(array(
+                    'success' => true,
+                    'isLoggedIn' => false
+                ));
+            }
+        } elseif ($action === 'vote') {
+            $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
+            $voter_name = $nv_Request->get_title('voter_name', 'post', '');
+            $email = $nv_Request->get_title('email', 'post', '');
 
-        $errors = [];
-        if (empty($fullname)) {
-            $errors[] = 'Họ tên không được để trống';
-        }
-        if (empty($email)) {
-            $errors[] = 'Email không được để trống';
-        } elseif (nv_check_valid_email($email) != '') {
-            $errors[] = 'Email không hợp lệ';
-        }
+            // Kiểm tra dữ liệu đầu vào
+            $errors = [];
+            if (empty($voter_name)) {
+                $errors[] = 'Họ tên không được để trống';
+            }
+            if (empty($email)) {
+                $errors[] = 'Email không được để trống';
+            } elseif (nv_check_valid_email($email) != '') {
+                $errors[] = 'Email không hợp lệ';
+            }
 
-        if (!empty($errors)) {
-            nv_jsonOutput(array('success' => false, 'message' => implode(', ', $errors)));
-        }
+            if (!empty($errors)) {
+                nv_jsonOutput(array('success' => false, 'message' => implode(', ', $errors)));
+            }
 
-        $result = nv_vote_contestant($contestant_id, $fullname, $email);
-        nv_jsonOutput($result);
+            // Kiểm tra xem người dùng đã đăng ký chưa
+            $sql = "SELECT userid FROM " . NV_USERS_GLOBALTABLE . " WHERE email = :email";
+            $sth = $db->prepare($sql);
+            $sth->bindParam(':email', $email, PDO::PARAM_STR);
+            $sth->execute();
+            $userid = $sth->fetchColumn();
+
+            if ($userid) {
+                // Người dùng đã đăng ký
+                $result = nv_vote_contestant($contestant_id, $voter_name, $email, $userid);
+                nv_jsonOutput($result);
+            } else {
+                // Người dùng chưa đăng ký - bắt đầu quá trình xác minh
+                $verification_code = nv_genpass(6);
+                $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
+                if ($result['success']) {
+                    $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
+                    if ($email_result['success']) {
+                        nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => 'Vui lòng kiểm tra email của bạn để xác minh.'));
+                    } else {
+                        nv_jsonOutput(array('success' => false, 'message' => 'Không thể gửi email xác minh. Vui lòng thử lại sau.'));
+                    }
+                } else {
+                    nv_jsonOutput($result);
+                }
+            }
+        } elseif ($action === 'verify') {
+            $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
+            $email = $nv_Request->get_title('email', 'post', '');
+            $verification_code = $nv_Request->get_title('verification_code', 'post', '');
+
+            $result = nv_verify_and_vote($contestant_id, $email, $verification_code);
+            nv_jsonOutput($result);
+        } elseif ($action === 'resend_verification') {
+            $email = $nv_Request->get_title('email', 'post', '');
+            $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
+            
+            $result = nv_resend_verification_code($email, $contestant_id);
+            nv_jsonOutput($result);
+        } else {
+            nv_jsonOutput(array('success' => false, 'message' => 'Invalid action'));
+        }
+    } catch (Exception $e) {
+        error_log("Error in AJAX request: " . $e->getMessage());
+        nv_jsonOutput(array('success' => false, 'message' => 'An error occurred. Please try again later.'));
     }
 }
 
-// Lấy dữ liệu
-$array_data = [];
+// Xử lý hiển thị danh sách thí sinh
+$page_title = $module_info['custom_title'];
+$key_words = $module_info['keywords'];
 
+$array_data = [];
 $per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
 
-// Gọi CSDL để lấy dữ liệu
+// Lấy tổng số thí sinh
 $db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_rows");
-$sql = $db->sql();
-$total = $db->query($sql)->fetchColumn();
+$num_items = $db->query($db->sql())->fetchColumn();
 
-$db->select('*')->order("id DESC")->limit($per_page)->offset(($page - 1) * $per_page);
+// Lấy danh sách thí sinh cho trang hiện tại
+$db->select('*')
+   ->order('weight ASC')
+   ->limit($per_page)
+   ->offset(($page - 1) * $per_page);
 
-$sql = $db->sql();
-$result = $db->query($sql);
+$result = $db->query($db->sql());
 while ($row = $result->fetch()) {
+    $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=detail/' . $row['alias'];
     $array_data[$row['id']] = $row;
 }
 
-$page_title = $lang_module['main'];
-// Gọi hàm xử lý giao diện
-$contents = nv_theme_missworld_list($array_data, $page);
+// Tạo phân trang
+$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$generate_page = nv_generate_page($base_url, $num_items, $per_page, $page);
+
+$contents = nv_theme_missworld_list($array_data, $generate_page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);

@@ -24,7 +24,7 @@
         <tbody>
             <!-- BEGIN: loop -->
             <tr id="vote-{ROW.vote_id}">
-                <td class="voter-name"><div class="fullname-wrapper" title="{ROW.fullname}"><span class="fullname-text">{ROW.fullname}</span></div></td>
+                <td class="voter-name"><div class="fullname-wrapper" title="{ROW.fullname}"><span class="fullname-text">{ROW.voter_name}</span></div></td>
                 <td class="voter-email"><div class="email-wrapper" title="{ROW.email}"><span class="email-text">{ROW.email}</span></div></td>
                 <td class="vote-time">{ROW.vote_time}</td>
                 <td class="user-id">{ROW.userid}</td>

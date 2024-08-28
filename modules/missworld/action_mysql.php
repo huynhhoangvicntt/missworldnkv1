@@ -15,43 +15,58 @@ if (!defined('NV_IS_FILE_MODULES')) {
 $sql_drop_module = [];
 
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows;";
-$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_voters;";
+$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_votes;";
+$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_email_verifications;";
 
 $sql_create_module = $sql_drop_module;
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows (
-id smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-fullname varchar(190) NOT NULL COMMENT 'Họ và tên thí sinh',
-alias varchar(190) NOT NULL COMMENT 'Liên kết tĩnh không trùng',
-dob int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Ngày sinh',
-address varchar(190) NOT NULL COMMENT 'Địa chỉ',
-height smallint(5) NOT NULL DEFAULT '0' COMMENT 'Chiều cao',
-chest smallint(5) NOT NULL DEFAULT '0' COMMENT 'Số đo vòng ngực',
-waist smallint(5) NOT NULL DEFAULT '0' COMMENT 'Số đo vòng eo',
-hips smallint(5) NOT NULL DEFAULT '0' COMMENT 'Số đo vòng mông',
-email varchar(190) NOT NULL DEFAULT '' COMMENT 'Địa chỉ email',
-image varchar(255) NOT NULL DEFAULT '' COMMENT 'Ảnh hồ sơ',
-keywords text NOT NULL COMMENT 'Từ khóa, phân cách bởi dấu phảy',
-vote int(11) NOT NULL DEFAULT '0' COMMENT 'Số lượt bình chọn',
-time_add int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Tạo lúc',
-time_update int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Cập nhật lúc',
-weight smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Sắp thứ tự',
-status tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Trạng thái 1 bật 0 tắt',
+id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+fullname varchar(190) NOT NULL,
+alias varchar(190) NOT NULL,
+dob int(11) unsigned NOT NULL DEFAULT '0',
+address varchar(190) NOT NULL,
+height smallint(5) NOT NULL DEFAULT '0',
+chest smallint(5) NOT NULL DEFAULT '0',
+waist smallint(5) NOT NULL DEFAULT '0',
+hips smallint(5) NOT NULL DEFAULT '0',
+email varchar(190) NOT NULL DEFAULT '',
+image varchar(255) NOT NULL DEFAULT '',
+keywords text NOT NULL,
+vote int(11) NOT NULL DEFAULT '0',
+time_add int(11) unsigned NOT NULL DEFAULT '0',
+time_update int(11) unsigned NOT NULL DEFAULT '0',
+weight smallint(4) unsigned NOT NULL DEFAULT '0',
+status tinyint(1) NOT NULL DEFAULT '1',
 PRIMARY KEY (id),
 UNIQUE KEY alias (alias)
-) ENGINE=InnoDB";
+) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_votes (
-id int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-contestant_id smallint(5) unsigned NOT NULL COMMENT 'ID của thí sinh được bình chọn',
-userid int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Id người dùng có tài khoản',
-fullname varchar(190) NOT NULL COMMENT 'Họ tên người bình chọn',
-email varchar(190) NOT NULL DEFAULT '' COMMENT 'Email người bình chọn',
-vote_time int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian bình chọn',
+id int(11) unsigned NOT NULL AUTO_INCREMENT,
+contestant_id smallint(5) unsigned NOT NULL,
+userid int(11) unsigned DEFAULT NULL,
+voter_name varchar(190) NOT NULL,
+email varchar(190) NOT NULL DEFAULT '',
+vote_time int(11) unsigned NOT NULL DEFAULT '0',
+is_verified tinyint(1) NOT NULL DEFAULT '0',
 PRIMARY KEY (id),
 KEY contestant_id (contestant_id),
 KEY userid (userid),
 UNIQUE KEY unique_vote (contestant_id, email)
-) ENGINE=InnoDB";
+) ENGINE=MyISAM";
+
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_email_verifications (
+id int(11) unsigned NOT NULL AUTO_INCREMENT,
+email varchar(190) NOT NULL,
+verification_code varchar(10) NOT NULL,
+contestant_id smallint(5) unsigned NOT NULL,
+voter_name varchar(190) NOT NULL,
+created_at int(11) unsigned NOT NULL,
+expires_at int(11) unsigned NOT NULL,
+PRIMARY KEY (id),
+UNIQUE KEY email_contestant (email, contestant_id),
+KEY expires_at (expires_at)
+) ENGINE=MyISAM";
 
 $sql_create_module[] = 'INSERT INTO ' . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'per_page', '12')";
