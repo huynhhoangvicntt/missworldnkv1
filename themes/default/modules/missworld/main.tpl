@@ -1,7 +1,6 @@
 <!-- BEGIN: main -->
 <div class="missworld-contestants">
     <h2>{LANG.contestant_list}</h2>
-
     <div class="contestant-grid">
         <!-- BEGIN: loop -->
         <div class="contestant-card" data-id="{DATA.id}">
@@ -12,7 +11,6 @@
         </div>
         <!-- END: loop -->
     </div>
-
     <!-- BEGIN: generate_page -->
     <div class="text-center">
         {GENERATE_PAGE}

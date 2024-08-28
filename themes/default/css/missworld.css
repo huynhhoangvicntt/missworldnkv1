@@ -1,33 +1,51 @@
-.contestant-grid {
+/* Bố cục chung */
+.missworld-contestants {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
 }
 
-.contestant-grid h2 {
+.missworld-contestants h2 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
 }
 
-.search-bar {
-    margin-bottom: 20px;
-}
-
-.search-bar input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.contestant-cards {
+/* Bố cục lưới responsive */
+.contestant-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
+    padding: 20px;
 }
 
+/* Mặc định cho màn hình nhỏ (< 576px): 1 cột */
+.contestant-grid {
+    grid-template-columns: 1fr;
+}
+
+/* Màn hình > 576px: 2 cột */
+@media (min-width: 576px) {
+    .contestant-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Màn hình > 768px: 3 cột */
+@media (min-width: 768px) {
+    .contestant-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Màn hình > 992px: 4 cột */
+@media (min-width: 992px) {
+    .contestant-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Thẻ thí sinh */
 .contestant-card {
     background-color: #fff;
     border-radius: 10px;
@@ -42,15 +60,19 @@
 
 .contestant-card img {
     width: 100%;
-    height: 300px;
+    height: auto;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
 }
 
 .contestant-card h3 {
     padding: 10px;
     margin: 0;
-    font-size: 18px;
+    font-size: 16px;
     color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .contestant-card p {
@@ -69,22 +91,40 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 14px;
 }
 
 .vote-button:hover {
     background-color: #c2185b;
 }
 
+/* Điều chỉnh kích thước font cho màn hình nhỏ hơn */
 @media (max-width: 768px) {
-    .contestant-cards {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    .contestant-card h3 {
+        font-size: 14px;
+    }
+    
+    .contestant-card p {
+        font-size: 12px;
+    }
+    
+    .vote-button {
+        font-size: 12px;
+        padding: 8px;
     }
 }
 
+/* Phân trang */
+.text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Modal styles */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000; /* Increased z-index to ensure it's on top */
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
@@ -100,7 +140,7 @@
     border: 1px solid #888;
     width: 80%;
     max-width: 500px;
-    position: relative; /* Added to ensure proper stacking context */
+    position: relative;
 }
 
 .close {
@@ -109,7 +149,7 @@
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-    position: absolute; /* Changed to absolute positioning */
+    position: absolute;
     right: 10px;
     top: 5px;
 }
@@ -121,38 +161,17 @@
     cursor: pointer;
 }
 
+/* Form styles */
 #voting-form input,
 #verification-form input {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+    box-sizing: border-box;
 }
 
 #voting-form button,
-#verification-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-/* Ensure modals are visible when displayed */
-#voting-modal.modal,
-#verification-modal.modal {
-    display: none;
-}
-
-#voting-modal.modal[style*="display: block"],
-#verification-modal.modal[style*="display: block"] {
-    display: block !important;
-}
-
-/* Thêm vào cuối file CSS hiện tại */
-
+#verification-form button,
 .verify-btn,
 .resend-btn {
     width: 100%;
@@ -165,6 +184,8 @@
     font-size: 16px;
 }
 
+#voting-form button,
+#verification-form button,
 .verify-btn {
     background-color: #4CAF50;
 }
@@ -174,6 +195,8 @@
     margin-top: 15px;
 }
 
+#voting-form button:hover,
+#verification-form button:hover,
 .verify-btn:hover {
     background-color: #45a049;
 }
@@ -186,21 +209,13 @@
     margin-bottom: 15px;
 }
 
-/* Điều chỉnh lại style cho nút trong form */
-#voting-form button,
-#verification-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-    border-radius: 5px;
-    font-size: 16px;
+/* Ensure modals are visible when displayed */
+#voting-modal.modal,
+#verification-modal.modal {
+    display: none;
 }
 
-#voting-form button:hover,
-#verification-form button:hover {
-    background-color: #45a049;
+#voting-modal.modal[style*="display: block"],
+#verification-modal.modal[style*="display: block"] {
+    display: block !important;
 }
