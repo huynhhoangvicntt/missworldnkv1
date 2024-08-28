@@ -68,7 +68,7 @@
 .contestant-card h3 {
     padding: 10px;
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
     color: #333;
     white-space: nowrap;
     overflow: hidden;
@@ -78,7 +78,7 @@
 .contestant-card p {
     padding: 0 10px 10px;
     margin: 0;
-    font-size: 14px;
+    font-size: 11px;
     color: #666;
 }
 
@@ -91,7 +91,8 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 14px;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
 .vote-button:hover {
@@ -209,7 +210,6 @@
     margin-bottom: 15px;
 }
 
-/* Ensure modals are visible when displayed */
 #voting-modal.modal,
 #verification-modal.modal {
     display: none;
