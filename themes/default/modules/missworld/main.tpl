@@ -26,9 +26,9 @@
             </div>
             <div class="modal-form">
                 <h2>{LANG.vote_for} <span id="contestant-name"></span></h2>
-                <div class="progress-bar">
-                    <div class="progress-step active">1</div>
-                    <div class="progress-step">2</div>
+                <div class="progress-dots">
+                    <div class="progress-dot active">1</div>
+                    <div class="progress-dot">2</div>
                 </div>
                 <form id="voting-form">
                     <input type="hidden" id="contestant-id" name="contestant_id">
@@ -51,9 +51,9 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>{LANG.email_verification}</h2>
-        <div class="progress-bar">
-            <div class="progress-step">1</div>
-            <div class="progress-step active">2</div>
+        <div class="progress-dots">
+            <div class="progress-dot">1</div>
+            <div class="progress-dot active">2</div>
         </div>
         <form id="verification-form">
             <input type="hidden" id="verification-contestant-id" name="contestant_id">

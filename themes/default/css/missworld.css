@@ -202,55 +202,34 @@
     text-overflow: ellipsis;
 }
 
-.progress-bar {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-    position: relative;
-    padding: 0;
-    width: 100%;
-}
 .form-group {
     margin-bottom: 15px;
 }
 
 /* Progress bar */
-.progress-bar {
+.progress-dots {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    position: relative;
-    padding: 0;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #3498db; */
+    padding: 10px;
+    border-radius: 15px;
 }
 
-.progress-bar::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    right: 15px;
-    height: 2px;
-    background-color: #ddd;
-    z-index: 1;
-}
-.progress-step {
+.progress-dot {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid #ddd;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    position: relative;
-    z-index: 2;
+    margin: 0 5px;
+    background-color: #bdc3c7; /* Màu xám cho bước chưa hoàn thành */
+    color: #fff;
 }
-.progress-step.active {
-    background-color: #4CAF50;
-    border-color: #4CAF50;
-    color: white;
+.progress-dot.active {
+    background-color: #2ecc71; /* Màu xanh lá cho bước active */
 }
 
 /* Form styles */
