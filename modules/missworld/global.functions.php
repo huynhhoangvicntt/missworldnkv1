@@ -14,7 +14,7 @@ if (!defined('NV_MAINFILE')) {
 
 function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
 {
-    global $db, $module_data;
+    global $db, $module_data, $lang_module;
 
     $contestant_id = intval($contestant_id);
 
@@ -24,7 +24,7 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     $contestant = $result->fetch();
 
     if (empty($contestant)) {
-        return array('success' => false, 'message' => 'Thí sinh không tồn tại.');
+        return array('success' => false, 'message' => $lang_module['contestant_not_exist']);
     }
 
     // Kiểm tra xem người dùng đã bỏ phiếu chưa
@@ -32,7 +32,7 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     $has_voted = $db->query($sql)->fetchColumn();
 
     if ($has_voted) {
-        return array('success' => false, 'message' => 'Bạn đã bình chọn cho thí sinh này rồi.');
+        return array('success' => false, 'message' => $lang_module['already_voted']);
     }
 
     // Cập nhật số lượt bình chọn
@@ -52,11 +52,11 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
 
     $new_vote_count = $contestant['vote'] + 1;
 
-    return array('success' => true, 'message' => 'Bình chọn thành công.', 'newVoteCount' => $new_vote_count);
+    return array('success' => true, 'message' => $lang_module['vote_success'], 'newVoteCount' => $new_vote_count);
 }
 
 function nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code) {
-    global $db, $module_data;
+    global $db, $module_data, $lang_module;
 
     $expires_in = 600; // Hết hạn 10 phút
     $expiration_time = NV_CURRENTTIME + $expires_in;
@@ -68,7 +68,7 @@ function nv_create_email_verification($contestant_id, $voter_name, $email, $veri
     $resend_count = $db->query($sql)->fetchColumn();
 
     if ($resend_count >= 3) {
-        return array('success' => false, 'message' => 'Bạn đã yêu cầu gửi lại mã xác minh quá nhiều lần. Vui lòng thử lại sau 1 giờ.');
+        return array('success' => false, 'message' => $lang_module['verification_limit_reached']);
     }
 
     $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
@@ -84,32 +84,34 @@ function nv_create_email_verification($contestant_id, $voter_name, $email, $veri
     if ($db->query($sql)) {
         return array('success' => true, 'expires_in' => $expires_in);
     } else {
-        return array('success' => false, 'message' => 'Không thể tạo yêu cầu xác minh email.');
+        return array('success' => false, 'message' => $lang_module['verification_create_fail']);
     }
 }
 
 function nv_send_verification_email($email, $verification_code, $expires_in)
 {
-    global $global_config, $module_name;
+    global $global_config, $module_name, $lang_module;
 
-    $subject = "Xác minh email để hoàn tất bình chọn";
-    $message = "Mã xác minh của bạn là: " . $verification_code;
-    $message .= "\nMã này sẽ hết hạn sau " . ($expires_in / 60) . " phút.";
-    $message .= "\nVui lòng nhập mã này vào trang web để hoàn tất quá trình bình chọn.";
+    $subject =  $lang_module['verification_email_subject'];
+    $message = $lang_module['verification_code_is'] . ' ' . $verification_code . "\n";
+    $message .= $lang_module['code_expires_in'] . ' ' . ($expires_in / 60) . ' ' . $lang_module['minutes'] . "\n";
+    $message .= $lang_module['enter_code_to_complete_voting'];
+    $message = nl2br($message);
+
 
     $from = array($global_config['site_name'], $global_config['site_email']);
     $is_sent = nv_sendmail($from, $email, $subject, $message);
 
     if ($is_sent) {
-        return array('success' => true, 'message' => 'Email đã được gửi thành công');
+        return array('success' => true, 'message' => $lang_module['email_sent_success']);
     } else {
-        return array('success' => false, 'message' => 'Không thể gửi email xác minh.');
+        return array('success' => false, 'message' => $lang_module['email_send_fail']);
     }
 }
 
 function nv_verify_and_vote($contestant_id, $email, $verification_code)
 {
-    global $db, $module_data;
+    global $db, $module_data, $lang_module;
 
     try {
         $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
@@ -121,7 +123,7 @@ function nv_verify_and_vote($contestant_id, $email, $verification_code)
         $verification = $db->query($sql)->fetch();
 
         if (empty($verification)) {
-            return array('success' => false, 'message' => 'Mã xác minh không hợp lệ hoặc đã hết hạn.');
+            return array('success' => false, 'message' => $lang_module['verification_invalid']);
         }
 
         // Xóa bản ghi mã xác minh
@@ -133,13 +135,13 @@ function nv_verify_and_vote($contestant_id, $email, $verification_code)
         return $result;
     } catch (Exception $e) {
         error_log("Error in nv_verify_and_vote: " . $e->getMessage());
-        return array('success' => false, 'message' => 'Đã xảy ra lỗi khi xác minh và bình chọn. Vui lòng thử lại sau.');
+        return array('success' => false, 'message' => $lang_module['verification_vote_error']);
     }
 }
 
 function nv_resend_verification_code($email, $contestant_id)
 {
-    global $db, $module_data;
+    global $db, $module_data, $lang_module;
 
     // Kiểm tra xem có yêu cầu xác minh cũ không
     $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
@@ -156,7 +158,7 @@ function nv_resend_verification_code($email, $contestant_id)
         $resend_count = $db->query($sql)->fetchColumn();
 
         if ($resend_count >= 3) {
-            return array('success' => false, 'message' => 'Bạn đã yêu cầu gửi lại mã xác minh quá nhiều lần. Vui lòng thử lại sau 1 giờ.');
+            return array('success' => false, 'message' => $lang_module['verification_limit_reached']);
         }
 
         // Tạo mã xác minh mới
@@ -169,6 +171,6 @@ function nv_resend_verification_code($email, $contestant_id)
             return $result;
         }
     } else {
-        return array('success' => false, 'message' => 'Mã xác minh cũ vẫn còn hiệu lực. Vui lòng kiểm tra email của bạn.');
+        return array('success' => false, 'message' => $lang_module['verification_still_valid']);
     }
 }

@@ -42,12 +42,12 @@ if ($nv_Request->isset_request('action', 'post')) {
             // Kiểm tra dữ liệu đầu vào
             $errors = [];
             if (empty($voter_name)) {
-                $errors[] = 'Họ tên không được để trống';
+                $errors[] = $lang_module['fullname_empty_error'];
             }
             if (empty($email)) {
-                $errors[] = 'Email không được để trống';
+                $errors[] = $lang_module['email_empty_error'];
             } elseif (nv_check_valid_email($email) != '') {
-                $errors[] = 'Email không hợp lệ';
+                $errors[] = $lang_module['email_invalid_error'];
             }
 
             if (!empty($errors)) {
@@ -72,9 +72,9 @@ if ($nv_Request->isset_request('action', 'post')) {
                 if ($result['success']) {
                     $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
                     if ($email_result['success']) {
-                        nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => 'Vui lòng kiểm tra email của bạn để xác minh.'));
+                        nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']));
                     } else {
-                        nv_jsonOutput(array('success' => false, 'message' => 'Không thể gửi email xác minh. Vui lòng thử lại sau.'));
+                        nv_jsonOutput(array('success' => false, 'message' => $lang_module['email_verification_failed']));
                     }
                 } else {
                     nv_jsonOutput($result);
@@ -94,11 +94,11 @@ if ($nv_Request->isset_request('action', 'post')) {
             $result = nv_resend_verification_code($email, $contestant_id);
             nv_jsonOutput($result);
         } else {
-            nv_jsonOutput(array('success' => false, 'message' => 'Invalid action'));
+            nv_jsonOutput(array('success' => false, 'message' => $lang_module['invalid_action']));
         }
     } catch (Exception $e) {
         error_log("Error in AJAX request: " . $e->getMessage());
-        nv_jsonOutput(array('success' => false, 'message' => 'An error occurred. Please try again later.'));
+        nv_jsonOutput(array('success' => false, 'message' => $lang_module['error_occurred']));
     }
 }
 
