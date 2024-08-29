@@ -86,17 +86,19 @@
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #e91e63;
+    background-color: #2980b9;
     color: white;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 12px;
+    font-size: 14px;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 .vote-button:hover {
-    background-color: #c2185b;
+    background-color: #3498db;
 }
 
 /* Điều chỉnh kích thước font cho màn hình nhỏ hơn */
