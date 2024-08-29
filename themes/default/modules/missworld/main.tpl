@@ -20,25 +20,41 @@
 <div id="voting-modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2>{LANG.vote_for} <span id="contestant-name"></span></h2>
-        <form id="voting-form">
-            <input type="hidden" id="contestant-id" name="contestant_id">
-            <div class="form-group">
-                <label for="voter-name">{LANG.voter_name}:</label>
-                <input type="text" id="voter-name" name="voter_name" required>
+        <div class="modal-grid">
+            <div class="modal-image">
+                <img id="modal-contestant-image" src="" alt="Contestant Image">
             </div>
-            <div class="form-group">
-                <label for="email">{LANG.email}:</label>
-                <input type="email" id="email" name="email" required>
+            <div class="modal-form">
+                <h2>{LANG.vote_for} <span id="contestant-name"></span></h2>
+                <div class="progress-bar">
+                    <div class="progress-step active">1</div>
+                    <div class="progress-step">2</div>
+                </div>
+                <form id="voting-form">
+                    <input type="hidden" id="contestant-id" name="contestant_id">
+                    <div class="form-group">
+                        <label for="voter-name">{LANG.voter_name}:</label>
+                        <input type="text" id="voter-name" name="voter_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">{LANG.email}:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit">{LANG.submit_vote}</button>
+                </form>
             </div>
-            <button type="submit">{LANG.submit_vote}</button>
-        </form>
+        </div>
     </div>
 </div>
+
 <div id="verification-modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>{LANG.email_verification}</h2>
+        <div class="progress-bar">
+            <div class="progress-step">1</div>
+            <div class="progress-step active">2</div>
+        </div>
         <form id="verification-form">
             <input type="hidden" id="verification-contestant-id" name="contestant_id">
             <input type="hidden" id="verification-email" name="email">
@@ -50,5 +66,10 @@
         </form>
         <button id="resend-code-btn" type="button" class="resend-btn">{LANG.resend_verification_code}</button>
     </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<div id="loading-overlay" class="loading-overlay">
+    <div class="loader"></div>
 </div>
 <!-- END: main -->

@@ -5,14 +5,18 @@ $(document).ready(function() {
     const votingForm = $('#voting-form');
     const verificationForm = $('#verification-form');
     const resendCodeBtn = $('#resend-code-btn');
+    const toast = $('.toast');
+    const loadingOverlay = $('.loading-overlay');
 
     voteButtons.on('click', function() {
         const contestantId = $(this).data('contestant-id');
         const contestantName = $(this).closest('.contestant-card').find('.contestant-name').text();
-        checkUserLoginStatus(contestantId, contestantName);
+        const contestantImage = $(this).closest('.contestant-card').find('img').attr('src');
+        checkUserLoginStatus(contestantId, contestantName, contestantImage);
     });
 
-    function checkUserLoginStatus(contestantId, contestantName) {
+    function checkUserLoginStatus(contestantId, contestantName, contestantImage) {
+        showLoading();
         $.ajax({
             type: 'POST',
             url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main',
@@ -21,25 +25,30 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(response) {
+                hideLoading();
                 if (response.success) {
                     if (response.isLoggedIn) {
                         $('#contestant-id').val(contestantId);
                         $('#contestant-name').text(contestantName);
+                        $('#modal-contestant-image').attr('src', contestantImage);
                         $('#voter-name').val(response.fullname).prop('disabled', true);
                         $('#email').val(response.email).prop('disabled', true);
                     } else {
                         $('#contestant-id').val(contestantId);
                         $('#contestant-name').text(contestantName);
+                        $('#modal-contestant-image').attr('src', contestantImage);
                         $('#voter-name, #email').val('').prop('disabled', false);
                     }
                     showModal(votingModal);
+                    updateProgressBar(1);
                 } else {
-                    alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                    showToast('Có lỗi xảy ra. Vui lòng thử lại sau.');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                hideLoading();
                 console.error('AJAX error:', textStatus, errorThrown);
-                alert('Có lỗi xảy ra khi kiểm tra trạng thái đăng nhập. Vui lòng thử lại sau.');
+                showToast('Có lỗi xảy ra khi kiểm tra trạng thái đăng nhập. Vui lòng thử lại sau.');
             }
         });
     }
@@ -69,6 +78,7 @@ $(document).ready(function() {
     });
 
     function submitVote(contestantId, voterName, email) {
+        showLoading();
         $.ajax({
             type: 'POST',
             url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main',
@@ -80,6 +90,7 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(response) {
+                hideLoading();
                 console.log('Server response:', response);
                 if (response.success) {
                     if (response.requiresVerification) {
@@ -89,12 +100,13 @@ $(document).ready(function() {
                         hideModal(votingModal);
                     }
                 } else {
-                    alert(response.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.');
+                    showToast(response.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                hideLoading();
                 console.error('AJAX error:', textStatus, errorThrown);
-                alert('Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại sau.');
+                showToast('Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại sau.');
             }
         });
     }
@@ -104,9 +116,11 @@ $(document).ready(function() {
         $('#verification-email').val(email);
         hideModal(votingModal);
         showModal(verificationModal);
+        updateProgressBar(2);
     }
 
     function resendVerificationCode(contestantId, email) {
+        showLoading();
         $.ajax({
             type: 'POST',
             url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main',
@@ -117,19 +131,22 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(response) {
+                hideLoading();
                 if (response.success) {
-                    alert('Mã xác minh mới đã được gửi đến email của bạn.');
+                    showToast('Mã xác minh mới đã được gửi đến email của bạn.');
                 } else {
-                    alert(response.message || 'Có lỗi xảy ra khi gửi lại mã xác minh. Vui lòng thử lại sau.');
+                    showToast(response.message || 'Có lỗi xảy ra khi gửi lại mã xác minh. Vui lòng thử lại sau.');
                 }
             },
             error: function() {
-                alert('Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại sau.');
+                hideLoading();
+                showToast('Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại sau.');
             }
         });
     }
 
     function verifyVote(contestantId, email, verificationCode) {
+        showLoading();
         $.ajax({
             type: 'POST',
             url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main',
@@ -141,16 +158,18 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(response) {
+                hideLoading();
                 if (response.success) {
                     handleSuccessfulVote(contestantId, response.newVoteCount);
                     hideModal(verificationModal);
                 } else {
-                    alert(response.message || 'Mã xác minh không hợp lệ. Vui lòng thử lại.');
+                    showToast(response.message || 'Mã xác minh không hợp lệ. Vui lòng thử lại.');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                hideLoading();
                 console.error('AJAX error:', textStatus, errorThrown);
-                alert('Có lỗi xảy ra khi xác minh. Vui lòng thử lại sau.');
+                showToast('Có lỗi xảy ra khi xác minh. Vui lòng thử lại sau.');
             }
         });
     }
@@ -166,7 +185,7 @@ $(document).ready(function() {
             voteCountElement.text(newVoteCount);
         }
 
-        alert('Cảm ơn bạn đã bình chọn!');
+        showToast('Cảm ơn bạn đã bình chọn!');
     }
 
     function showModal(modal) {
@@ -175,6 +194,27 @@ $(document).ready(function() {
 
     function hideModal(modal) {
         modal.hide();
+    }
+
+    function updateProgressBar(step) {
+        $('.progress-step').removeClass('active');
+        $('.progress-step:nth-child(' + step + ')').addClass('active');
+    }
+
+    function showToast(message) {
+        toast.text(message);
+        toast.addClass('show');
+        setTimeout(function() {
+            toast.removeClass('show');
+        }, 5000);
+    }
+
+    function showLoading() {
+        loadingOverlay.show();
+    }
+
+    function hideLoading() {
+        loadingOverlay.hide();
     }
 
     $('.close').on('click', function() {
