@@ -146,6 +146,7 @@
     position: relative;
     box-sizing: border-box;
 }
+
 .close {
     color: #aaa;
     float: right;
@@ -172,14 +173,14 @@
 }
 
 .modal-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 20px;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .modal-image {
-    width: 100%;
+    flex: 1;
+    max-width: 50%;
 }
 
 .modal-image img {
@@ -190,9 +191,27 @@
 }
 
 .modal-form {
+    flex: 1;
+    max-width: 50%;
+}
+
+.modal-form h2 {
+    margin-bottom: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.progress-bar {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    margin: 20px 0;
+    position: relative;
+    padding: 0;
     width: 100%;
+}
+.form-group {
+    margin-bottom: 15px;
 }
 
 /* Progress bar */
@@ -246,9 +265,7 @@
 }
 
 #voting-form input,
-#verification-form input,
-.verify-btn,
-.resend-btn {
+#verification-form input {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -337,5 +354,5 @@
     
     .modal-image {
         margin-bottom: 20px;
-    }
+    } 
 }
