@@ -174,25 +174,3 @@ function nv_resend_verification_code($email, $contestant_id)
         return array('success' => false, 'message' => $lang_module['verification_still_valid']);
     }
 }
-
-// Hàm để lấy thông tin người dùng và trạng thái đăng nhập
-function nv_get_user_info()
-{
-    global $user_info, $lang_module;
-
-    if (!empty($user_info['userid'])) {
-        return array(
-            'success' => true,
-            'isLoggedIn' => true,
-            'fullname' => $user_info['full_name'],
-            'email' => $user_info['email'],
-            'message' => $lang_module['welcome_user']
-        );
-    } else {
-        return array(
-            'success' => true,
-            'isLoggedIn' => false,
-            'message' => $lang_module['please_login_or_enter_info']
-        );
-    }
-}
