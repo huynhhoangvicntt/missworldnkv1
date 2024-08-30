@@ -134,3 +134,21 @@ $lang_module['current_rank'] = 'Xếp hạng hiện tại';
 $lang_module['ranking'] = 'Hạng';
 $lang_module['info'] = 'Thông tin';
 $lang_module['measurements'] = 'Số đo 3 vòng';
+
+
+$lang_module['contestant_not_exist'] = 'Thí sinh không tồn tại';
+$lang_module['already_voted'] = 'Bạn đã bình chọn cho thí sinh này rồi';
+$lang_module['vote_success'] = 'Cảm ơn bạn đã bình chọn!';
+$lang_module['verification_limit_reached'] = 'Bạn đã vượt quá giới hạn gửi mã xác minh. Vui lòng thử lại sau.';
+$lang_module['verification_created'] = 'Mã xác minh đã được tạo';
+$lang_module['verification_create_fail'] = 'Không thể tạo mã xác minh. Vui lòng thử lại.';
+$lang_module['verification_email_subject'] = 'Mã xác minh bình chọn của bạn';
+$lang_module['verification_code_is'] = 'Mã xác minh của bạn là:';
+$lang_module['code_expires_in'] = 'Mã sẽ hết hạn sau';
+$lang_module['minutes'] = 'phút';
+$lang_module['enter_code_to_complete_voting'] = 'Vui lòng nhập mã này để hoàn tất quá trình bình chọn.';
+$lang_module['email_sent_success'] = 'Mã xác minh đã được gửi đến email của bạn';
+$lang_module['email_send_fail'] = 'Không thể gửi email xác minh. Vui lòng thử lại sau.';
+$lang_module['verification_invalid'] = 'Mã xác minh không hợp lệ hoặc đã hết hạn';
+$lang_module['verification_vote_error'] = 'Có lỗi xảy ra trong quá trình xác minh và bình chọn';
+$lang_module['verification_still_valid'] = 'Mã xác minh cũ vẫn còn hiệu lực. Vui lòng kiểm tra email của bạn.';
