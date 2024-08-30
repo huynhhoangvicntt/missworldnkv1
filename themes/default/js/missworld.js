@@ -1,17 +1,17 @@
 $(document).ready(function() {
-    const voteButtons = $('.vote-button');
-    const votingModal = $('#voting-modal');
-    const verificationModal = $('#verification-modal');
-    const votingForm = $('#voting-form');
-    const verificationForm = $('#verification-form');
-    const resendCodeBtn = $('#resend-code-btn');
-    const toast = $('.toast');
-    const loadingOverlay = $('.loading-overlay');
+    var voteButtons = $('.vote-button');
+    var votingModal = $('#voting-modal');
+    var verificationModal = $('#verification-modal');
+    var votingForm = $('#voting-form');
+    var verificationForm = $('#verification-form');
+    var resendCodeBtn = $('#resend-code-btn');
+    var toast = $('.toast');
+    var loadingOverlay = $('.loading-overlay');
 
     voteButtons.on('click', function() {
-        const contestantId = $(this).data('contestant-id');
-        const contestantName = $(this).closest('.contestant-card').find('.contestant-name').text();
-        const contestantImage = $(this).closest('.contestant-card').find('img').attr('src');
+        var contestantId = $(this).data('contestant-id');
+        var contestantName = $(this).closest('.contestant-card').find('.contestant-name').text();
+        var contestantImage = $(this).closest('.contestant-card').find('img').attr('src');
         checkUserLoginStatus(contestantId, contestantName, contestantImage);
     });
 
@@ -52,25 +52,25 @@ $(document).ready(function() {
 
     votingForm.on('submit', function(e) {
         e.preventDefault();
-        const contestantId = $('#contestant-id').val();
-        const voterName = $('#voter-name').val();
-        const email = $('#email').val();
+        var contestantId = $('#contestant-id').val();
+        var voterName = $('#voter-name').val();
+        var email = $('#email').val();
 
         submitVote(contestantId, voterName, email);
     });
 
     verificationForm.on('submit', function(e) {
         e.preventDefault();
-        const verificationCode = $('#verification-code').val();
-        const contestantId = $('#verification-contestant-id').val();
-        const email = $('#verification-email').val();
+        var verificationCode = $('#verification-code').val();
+        var contestantId = $('#verification-contestant-id').val();
+        var email = $('#verification-email').val();
 
         verifyVote(contestantId, email, verificationCode);
     });
 
     resendCodeBtn.on('click', function() {
-        const contestantId = $('#verification-contestant-id').val();
-        const email = $('#verification-email').val();
+        var contestantId = $('#verification-contestant-id').val();
+        var email = $('#verification-email').val();
         resendVerificationCode(contestantId, email);
     });
 
@@ -163,9 +163,9 @@ $(document).ready(function() {
     }
 
     function handleSuccessfulVote(contestantId, newVoteCount) {
-        const contestantCard = $('.contestant-card[data-id="' + contestantId + '"]');
-        const voteCountElement = contestantCard.find('.vote-count span');
-        if (newVoteCount !== undefined) {
+        var contestantCard = $('.contestant-card[data-id="' + contestantId + '"]');
+        var voteCountElement = contestantCard.find('.vote-count span');
+        if (typeof newVoteCount !== 'undefined') {
             voteCountElement.text(newVoteCount);
         }
     }
@@ -192,22 +192,12 @@ $(document).ready(function() {
     }
 
     function handleAjaxError(xhr) {
-        let errorMessage = 'An error occurred. Please try again later.';
+        var errorMessage = 'An error occurred. Please try again later.';
         if (xhr.responseJSON && xhr.responseJSON.message) {
             errorMessage = xhr.responseJSON.message;
         }
         showToast(errorMessage);
     }
-
-    // function showToast(message) {
-    //     // Implement your toast notification here
-    //     // For example:
-    //     if (typeof toastr !== 'undefined') {
-    //         toastr.info(message);
-    //     } else {
-    //         alert(message);
-    //     }
-    // }
 
     function showToast(message) {
         toast.text(message);
