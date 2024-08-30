@@ -1,38 +1,35 @@
 <!-- BEGIN: main -->
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-hover">
-    <colgroup>
-      <col class="w100" />
-    </colgroup>
-    <thead>
-      <tr>
-        <th style="width: 15%" class="text-nowrap">
-          {LANG.onecat2_id}Số thứ tự
-        </th>
-        <th style="width: 15%" class="text-nowrap">
-          {LANG.onecat2_title}Họ và tên
-        </th>
-        <th style="width: 15%" class="text-nowrap">
-          {LANG.onecat2_description}
-        </th>
-        <th style="width: 15%" class="text-nowrap">{LANG.onecat2_image}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- BEGIN: loop -->
-      <tr>
-        <td>
-          <div class="text-nowrap">{ROW.id}</div>
-        </td>
-        <td>
-          <div class="text-nowrap">
-            <a href="{ROW.url_view}" title="{ROW.title}">{ROW.title}</a>
-          </div>
-        </td>
-      </tr>
-      <!-- END: loop -->
-    </tbody>
-  </table>
+<div class="missworld-contestants">
+    <div class="contestant-detail-container">
+        <div class="contestant-detail-card">
+            <div class="contestant-detail-image-container">
+                <div class="contestant-detail-rank">10</div>
+                <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-detail-image">
+            </div>
+            <div class="contestant-detail-info">
+                <h1 class="contestant-detail-name">{DATA.fullname}</h1>
+                <h2 class="contestant-detail-in">Thông tin</h2>
+                <table class="contestant-detail-table">
+                    <tr>
+                        <td class="info-label"><span class="label-text">{LANG.address}</span><span class="info-colon">:</span></td>
+                        <td class="info-value">{DATA.address}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label"><span class="label-text">{LANG.height}</span><span class="info-colon">:</span></td>
+                        <td class="info-value">{DATA.height}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label"><span class="label-text">{LANG.chest}</span><span class="info-colon">:</span></td>
+                        <td class="info-value">{DATA.chest}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label"><span class="label-text">{LANG.keywords}</span><span class="info-colon">:</span></td>
+                        <td class="info-value">{DATA.keywords}</td>
+                    </tr>
+                </table>
+                <button class="contestant-detail-vote-button" data-contestant-id="{DATA.id}">{LANG.vote}</button>
+            </div>
+        </div>
+    </div>
 </div>
-
 <!-- END: main -->

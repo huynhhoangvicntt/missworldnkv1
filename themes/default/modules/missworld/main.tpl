@@ -4,7 +4,10 @@
     <div class="contestant-grid">
         <!-- BEGIN: loop -->
         <div class="contestant-card" data-id="{DATA.id}">
-            <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image">
+            <!-- <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image"> -->
+            <a href="{DATA.url_view}">
+                <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image">
+              </a>
             <h3 class="contestant-name">{DATA.fullname}</h3>
             <p class="vote-count">{LANG.vote_count}: <span>{DATA.vote}</span></p>
             <button class="vote-button" data-contestant-id="{DATA.id}">{LANG.vote}</button>
@@ -39,11 +42,11 @@
                 <form id="voting-form">
                     <input type="hidden" id="contestant-id" name="contestant_id">
                     <div class="form-group">
-                        <label for="voter-name">{LANG.voter_name}:</label>
+                        <label for="voter-name">{LANG.voter_name}</label>
                         <input type="text" id="voter-name" name="voter_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">{LANG.email}:</label>
+                        <label for="email">{LANG.email}</label>
                         <input type="email" id="email" name="email" required>
                     </div>
                     <button type="submit">{LANG.submit_vote}</button>

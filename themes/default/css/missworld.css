@@ -206,28 +206,6 @@
     margin-bottom: 15px;
 }
 
-/* Progress bar */
-/* .progress-dots {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border-radius: 15px;
-}
-
-.progress-dot {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin: 0 5px;
-    background-color: #bdc3c7; 
-    color: #fff;
-} */
-
 .progress-dots {
     display: flex;
     align-items: center;
@@ -278,6 +256,7 @@
 #voting-form,
 #verification-form {
     width: 100%;
+    margin-top: 15px;
 }
 
 #voting-form input,
@@ -371,4 +350,130 @@
     .modal-image {
         margin-bottom: 20px;
     } 
+}
+
+/* Bổ sung styles cho trang chi tiết thí sinh */
+/* Styles cho trang chi tiết thí sinh */
+.contestant-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.contestant-detail-card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contestant-detail-image-container {
+    flex: 1;
+    position: relative;
+}
+
+.contestant-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.contestant-detail-rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contestant-detail-info {
+    flex: 1;
+    padding: 20px;
+}
+
+.contestant-detail-name {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.contestant-detail-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+
+.contestant-detail-table td {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.contestant-detail-table .info-label {
+    white-space: nowrap;
+    position: relative;
+    padding-right: 20px;
+    color: inherit !important;
+}
+
+.contestant-detail-table .label-text {
+    display: inline-block;
+    color: inherit !important;
+}
+
+.contestant-detail-table .info-colon {
+    position: absolute;
+    right: 10px;
+    color: inherit !important;
+}
+
+.contestant-detail-table .info-value {
+    padding-left: 10px;
+    font-weight: bold;
+    color: inherit !important;
+}
+
+.contestant-detail-vote-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contestant-detail-vote-button:hover {
+    background-color: #c2185b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contestant-detail-card {
+        flex-direction: column;
+    }
+
+    .contestant-detail-image-container,
+    .contestant-detail-info {
+        width: 100%;
+    }
+
+    .contestant-detail-name {
+        font-size: 20px;
+    }
+
+    .contestant-detail-table td {
+        font-size: 14px;
+    }
 }
