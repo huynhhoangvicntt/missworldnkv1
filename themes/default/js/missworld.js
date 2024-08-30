@@ -192,19 +192,19 @@ $(document).ready(function() {
     }
 
     function handleAjaxError(xhr) {
-        var errorMessage = 'An error occurred. Please try again later.';
         if (xhr.responseJSON && xhr.responseJSON.message) {
-            errorMessage = xhr.responseJSON.message;
+            showToast(xhr.responseJSON.message);
         }
-        showToast(errorMessage);
     }
-
+    
     function showToast(message) {
-        toast.text(message);
-        toast.addClass('show');
-        setTimeout(function() {
-            toast.removeClass('show');
-        }, 5000);
+        if (message) {
+            toast.text(message);
+            toast.addClass('show');
+            setTimeout(function() {
+                toast.removeClass('show');
+            }, 5000);
+        }
     }
 
     $('.close').on('click', function() {
