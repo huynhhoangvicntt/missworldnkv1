@@ -173,7 +173,8 @@ $(document).ready(function() {
         email: '{LANG.email}',
         vote: '{LANG.vote}',
         images: '{LANG.images}',
-        rank: '{LANG.rank}'
+        rank: '{LANG.rank}',
+        units: '{LANG.units}'
     };
     
     function populateContestantDetails(data) {
@@ -197,7 +198,7 @@ $(document).ready(function() {
             if (key !== 'image' && langKeys.hasOwnProperty(key)) {
                 var value = data[key];
                 if (['height', 'chest', 'waist', 'hips'].includes(key) && value !== '' && value !== null) {
-                    value += ' cm';
+                    value += ' ' + langKeys.units;
                 }
                 var cellClass = (key === 'fullname') ? 'fullname-cell' : '';
                 detailsHtml += '<tr><th>' + langKeys[key] + '</th><td class="' + cellClass + '"><span class="text-ellipsis">' + value + '</span></td></tr>';

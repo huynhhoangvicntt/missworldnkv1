@@ -39,6 +39,8 @@ if ($id > 0) {
     // Thêm thông tin xếp hạng vào mảng $row
     $row['rank_text'] = $lang_module['current_rank'] . ': ' . $row['rank'];
 
+    $row['dob'] = empty($row['dob']) ? '' : nv_date('d/m/Y', $row['dob']);
+
 } else {
     nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=main');
 }

@@ -3,7 +3,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: tahoma, Arial, sans-serif;
 }
 
 .missworld-contestants h2 {
@@ -385,23 +385,41 @@
     left: 10px;
     background-color: white;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    font-size: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .contestant-detail-rank span {
+    font-size: 15px;
+    line-height: 1.2;
+  }
+  
+  .contestant-detail-rank .rank-number {
+    font-size: 32px;
+  } 
 
 .contestant-detail-info {
     flex: 1;
     padding: 20px;
 }
 
+.contestant-detail-table .contestant-detail-in td {
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: none;
+}
+
 .contestant-detail-name {
-    font-size: 24px;
+    font-size: 32px;
     color: #333;
     margin-bottom: 15px;
 }

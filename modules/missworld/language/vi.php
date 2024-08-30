@@ -93,6 +93,8 @@ $lang_module['avg_waist'] = 'Số đo vòng eo trung bình';
 $lang_module['avg_hips'] = 'Số đo vòng mông trung bình';
 $lang_module['rank'] = 'Xếp hạng';
 $lang_module['submit_vote'] = 'Bình chọn';
+$lang_module['units'] = 'cm';
+$lang_module['separator'] = '-';
 
 $lang_module['email_verification'] = 'Mã xác minh đã gửi đến email của bạn, vui lòng kiểm tra email!';
 $lang_module['verification_instructions'] = 'hướng dẫn xác minh';
@@ -129,3 +131,6 @@ $lang_module['number_two'] = '2';
 $lang_module['choose_contestant'] = 'Nhập thông tin';
 $lang_module['verify'] = 'Xác minh';
 $lang_module['current_rank'] = 'Xếp hạng hiện tại';
+$lang_module['ranking'] = 'Hạng';
+$lang_module['info'] = 'Thông tin';
+$lang_module['measurements'] = 'Số đo 3 vòng';

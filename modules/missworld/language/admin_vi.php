@@ -87,3 +87,4 @@ $lang_module['avg_waist'] = 'Số đo vòng eo trung bình';
 $lang_module['avg_hips'] = 'Số đo vòng mông trung bình';
 $lang_module['rank'] = 'Xếp hạng';
 $lang_module['current_rank'] = 'Xếp hạng hiện tại';
+$lang_module['units'] = 'cm';
