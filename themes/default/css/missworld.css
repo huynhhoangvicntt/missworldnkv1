@@ -207,11 +207,10 @@
 }
 
 /* Progress bar */
-.progress-dots {
+/* .progress-dots {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: #3498db; */
     padding: 10px;
     border-radius: 15px;
 }
@@ -225,11 +224,49 @@
     justify-content: center;
     font-weight: bold;
     margin: 0 5px;
-    background-color: #bdc3c7; /* Màu xám cho bước chưa hoàn thành */
+    background-color: #bdc3c7; 
     color: #fff;
+} */
+
+.progress-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
+
+.progress-step {
+    display: flex;
+    align-items: center;
+}
+
+.progress-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: #bdc3c7;
+    color: #fff;
+    margin-right: 10px;
+}
+
 .progress-dot.active {
-    background-color: #2ecc71; /* Màu xanh lá cho bước active */
+    background-color: #2ecc71;
+}
+
+.progress-step span {
+    font-size: 14px;
+    line-height: 30px;
+}
+
+.progress-step:first-child {
+    margin-right: 40px
 }
 
 /* Form styles */
