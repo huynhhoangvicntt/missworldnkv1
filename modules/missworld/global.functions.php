@@ -14,7 +14,7 @@ if (!defined('NV_MAINFILE')) {
 
 function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
 {
-    global $db, $module_data, $lang_module;
+    global $db, $module_data, $lang_module, $user_info;
 
     $contestant_id = intval($contestant_id);
 
@@ -39,6 +39,7 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET vote = vote + 1 WHERE id=" . $contestant_id;
     $db->query($sql);
 
+    // Thêm bản ghi bình chọn
     $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_votes 
             (contestant_id, userid, voter_name, email, vote_time, is_verified) 
             VALUES 
@@ -50,7 +51,9 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
             1)";
     $db->query($sql);
 
-    $new_vote_count = $contestant['vote'] + 1;
+    // Lấy số vote mới
+    $sql = "SELECT vote FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $contestant_id;
+    $new_vote_count = $db->query($sql)->fetchColumn();
 
     return array('success' => true, 'message' => $lang_module['vote_success'], 'newVoteCount' => $new_vote_count);
 }
@@ -98,7 +101,6 @@ function nv_send_verification_email($email, $verification_code, $expires_in)
     $message .= $lang_module['enter_code_to_complete_voting'];
     $message = nl2br($message);
 
-
     $from = array($global_config['site_name'], $global_config['site_email']);
     $is_sent = nv_sendmail($from, $email, $subject, $message);
 
@@ -130,9 +132,7 @@ function nv_verify_and_vote($contestant_id, $email, $verification_code)
         $db->query("DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications WHERE id = " . $verification['id']);
 
         // Tiến hành bình chọn
-        $result = nv_vote_contestant($contestant_id, $verification['voter_name'], $email);
-        
-        return $result;
+        return nv_vote_contestant($contestant_id, $verification['voter_name'], $email);
     } catch (Exception $e) {
         error_log("Error in nv_verify_and_vote: " . $e->getMessage());
         return array('success' => false, 'message' => $lang_module['verification_vote_error']);
@@ -172,5 +172,27 @@ function nv_resend_verification_code($email, $contestant_id)
         }
     } else {
         return array('success' => false, 'message' => $lang_module['verification_still_valid']);
+    }
+}
+
+// Hàm để lấy thông tin người dùng và trạng thái đăng nhập
+function nv_get_user_info()
+{
+    global $user_info, $lang_module;
+
+    if (!empty($user_info['userid'])) {
+        return array(
+            'success' => true,
+            'isLoggedIn' => true,
+            'fullname' => $user_info['full_name'],
+            'email' => $user_info['email'],
+            'message' => $lang_module['welcome_user']
+        );
+    } else {
+        return array(
+            'success' => true,
+            'isLoggedIn' => false,
+            'message' => $lang_module['please_login_or_enter_info']
+        );
     }
 }

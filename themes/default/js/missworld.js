@@ -27,28 +27,25 @@ $(document).ready(function() {
             success: function(response) {
                 hideLoading();
                 if (response.success) {
+                    $('#contestant-id').val(contestantId);
+                    $('#contestant-name').text(contestantName);
+                    $('#modal-contestant-image').attr('src', contestantImage);
                     if (response.isLoggedIn) {
-                        $('#contestant-id').val(contestantId);
-                        $('#contestant-name').text(contestantName);
-                        $('#modal-contestant-image').attr('src', contestantImage);
                         $('#voter-name').val(response.fullname).prop('disabled', true);
                         $('#email').val(response.email).prop('disabled', true);
                     } else {
-                        $('#contestant-id').val(contestantId);
-                        $('#contestant-name').text(contestantName);
-                        $('#modal-contestant-image').attr('src', contestantImage);
                         $('#voter-name, #email').val('').prop('disabled', false);
                     }
                     showModal(votingModal);
                     updateProgressBar(1);
-                } else {
-                    showToast('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                }
+                if (response.message) {
+                    showToast(response.message);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(xhr) {
                 hideLoading();
-                console.error('AJAX error:', textStatus, errorThrown);
-                showToast('Có lỗi xảy ra khi kiểm tra trạng thái đăng nhập. Vui lòng thử lại sau.');
+                handleAjaxError(xhr);
             }
         });
     }
@@ -91,7 +88,6 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 hideLoading();
-                console.log('Server response:', response);
                 if (response.success) {
                     if (response.requiresVerification) {
                         showVerificationModal(contestantId, email);
@@ -99,14 +95,12 @@ $(document).ready(function() {
                         handleSuccessfulVote(contestantId, response.newVoteCount);
                         hideModal(votingModal);
                     }
-                } else {
-                    showToast(response.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.');
                 }
+                showToast(response.message);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(xhr) {
                 hideLoading();
-                console.error('AJAX error:', textStatus, errorThrown);
-                showToast('Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại sau.');
+                handleAjaxError(xhr);
             }
         });
     }
@@ -132,15 +126,11 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 hideLoading();
-                if (response.success) {
-                    showToast('Mã xác minh mới đã được gửi đến email của bạn.');
-                } else {
-                    showToast(response.message || 'Có lỗi xảy ra khi gửi lại mã xác minh. Vui lòng thử lại sau.');
-                }
+                showToast(response.message);
             },
-            error: function() {
+            error: function(xhr) {
                 hideLoading();
-                showToast('Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại sau.');
+                handleAjaxError(xhr);
             }
         });
     }
@@ -162,30 +152,22 @@ $(document).ready(function() {
                 if (response.success) {
                     handleSuccessfulVote(contestantId, response.newVoteCount);
                     hideModal(verificationModal);
-                } else {
-                    showToast(response.message || 'Mã xác minh không hợp lệ. Vui lòng thử lại.');
                 }
+                showToast(response.message);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(xhr) {
                 hideLoading();
-                console.error('AJAX error:', textStatus, errorThrown);
-                showToast('Có lỗi xảy ra khi xác minh. Vui lòng thử lại sau.');
+                handleAjaxError(xhr);
             }
         });
     }
 
     function handleSuccessfulVote(contestantId, newVoteCount) {
         const contestantCard = $('.contestant-card[data-id="' + contestantId + '"]');
-        const voteButton = contestantCard.find('.vote-button');
         const voteCountElement = contestantCard.find('.vote-count span');
-
-        voteButton.prop('disabled', true);
-        voteButton.text('ĐÃ BÌNH CHỌN');
         if (newVoteCount !== undefined) {
             voteCountElement.text(newVoteCount);
         }
-
-        showToast('Cảm ơn bạn đã bình chọn!');
     }
 
     function showModal(modal) {
@@ -201,20 +183,38 @@ $(document).ready(function() {
         $('.progress-step:nth-child(' + step + ')').addClass('active');
     }
 
-    function showToast(message) {
-        toast.text(message);
-        toast.addClass('show');
-        setTimeout(function() {
-            toast.removeClass('show');
-        }, 5000);
-    }
-
     function showLoading() {
         loadingOverlay.show();
     }
 
     function hideLoading() {
         loadingOverlay.hide();
+    }
+
+    function handleAjaxError(xhr) {
+        let errorMessage = 'An error occurred. Please try again later.';
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+            errorMessage = xhr.responseJSON.message;
+        }
+        showToast(errorMessage);
+    }
+
+    // function showToast(message) {
+    //     // Implement your toast notification here
+    //     // For example:
+    //     if (typeof toastr !== 'undefined') {
+    //         toastr.info(message);
+    //     } else {
+    //         alert(message);
+    //     }
+    // }
+
+    function showToast(message) {
+        toast.text(message);
+        toast.addClass('show');
+        setTimeout(function() {
+            toast.removeClass('show');
+        }, 5000);
     }
 
     $('.close').on('click', function() {
