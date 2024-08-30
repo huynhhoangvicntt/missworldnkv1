@@ -106,8 +106,9 @@ if ($page > 1) {
 }
 
 // Định nghĩa các field và các value được phép sắp xếp
-$order_fields = ['vote'];
+$order_fields = ['vote', 'rank'];
 $order_values = ['asc', 'desc'];
+
 
 if (!in_array($array_order['field'], $order_fields)) {
     $array_order['field'] = '';
@@ -162,8 +163,16 @@ if (!empty($array)) {
         $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $value['id'];
         $value['status_checked'] = $value['status'] ? ' checked="checked"' : '';
-        $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
         $value['url_view_votes'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=voters&amp;contestant_id=' . $value['id'];
+
+        // Tính toán xếp hạng
+        $sql_rank = "SELECT 
+        (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows 
+        WHERE vote > " . $value['vote'] . ") + 1 AS rank";
+        $result_rank = $db->query($sql_rank);
+        $value['rank'] = $result_rank->fetchColumn();
+
+        $value['encoded_data'] = htmlspecialchars(json_encode($value), ENT_QUOTES, 'UTF-8');
 
         $xtpl->assign('DATA', $value);
         $xtpl->parse('main.loop');

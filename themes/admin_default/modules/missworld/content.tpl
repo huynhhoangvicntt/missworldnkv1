@@ -110,6 +110,14 @@
                 </div>
             </div>
             <!-- END: edit_vote -->
+            <!-- BEGIN: show_rank -->
+            <div class="form-group">
+                <label class="col-sm-6 control-label" for="element_rank">{LANG.current_rank}:</label>
+                <div class="col-sm-18 col-lg-10">
+                    <input type="text" id="element_rank" value="{DATA.rank}" class="form-control" readonly/>
+                </div>
+            </div>
+            <!-- END: show_rank -->
             <div class="row">
                 <div class="col-sm-18 col-sm-offset-6">
                     <input type="hidden" name="save" value="{NV_CHECK_SESSION}"/>

@@ -38,9 +38,14 @@ time_add int(11) unsigned NOT NULL DEFAULT '0',
 time_update int(11) unsigned NOT NULL DEFAULT '0',
 weight smallint(4) unsigned NOT NULL DEFAULT '0',
 status tinyint(1) NOT NULL DEFAULT '1',
+rank smallint(5) NOT NULL DEFAULT '0',
 PRIMARY KEY (id),
 UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM";
+
+
+
+// Thêm các câu lệnh SQL khác từ artifact vào đây
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_votes (
 id int(11) unsigned NOT NULL AUTO_INCREMENT,

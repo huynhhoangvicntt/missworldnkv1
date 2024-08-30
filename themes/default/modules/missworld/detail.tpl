@@ -3,7 +3,7 @@
     <div class="contestant-detail-container">
         <div class="contestant-detail-card">
             <div class="contestant-detail-image-container">
-                <div class="contestant-detail-rank">10</div>
+                <div class="contestant-detail-rank">{DATA.rank}</div>
                 <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-detail-image">
             </div>
             <div class="contestant-detail-info">

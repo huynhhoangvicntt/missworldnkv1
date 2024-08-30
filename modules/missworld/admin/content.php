@@ -54,6 +54,15 @@ if (!empty($id)) {
     $page_title = $lang_module['contestant_edit'];
     $array['dob'] = nv_date('d/m/Y', $array['dob']);
     $form_action = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $id;
+
+    if ($is_edit) {
+        // Tính toán xếp hạng hiện tại của thí sinh
+        $sql_rank = "SELECT 
+                        (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows 
+                         WHERE vote > " . $array['vote'] . ") + 1 AS rank";
+        $result_rank = $db->query($sql_rank);
+        $array['rank'] = $result_rank->fetchColumn();
+    }
 } else {
     $array = [
         'id' => 0,
@@ -241,6 +250,7 @@ if (empty($array['alias'])) {
 // Chỉ hiển thị số phiếu bầu khi chỉnh sửa thí sinh hiện tại
 if ($is_edit) {
     $xtpl->parse('main.edit_vote');
+    $xtpl->parse('main.show_rank');
 }
 
 $xtpl->parse('main');

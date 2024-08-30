@@ -128,3 +128,4 @@ $lang_module['number_one'] = '1';
 $lang_module['number_two'] = '2';
 $lang_module['choose_contestant'] = 'Nhập thông tin';
 $lang_module['verify'] = 'Xác minh';
+$lang_module['current_rank'] = 'Xếp hạng hiện tại';

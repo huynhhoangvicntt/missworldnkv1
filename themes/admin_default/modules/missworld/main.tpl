@@ -172,7 +172,8 @@ $(document).ready(function() {
         hips: '{LANG.hips}',
         email: '{LANG.email}',
         vote: '{LANG.vote}',
-        images: '{LANG.images}'
+        images: '{LANG.images}',
+        rank: '{LANG.rank}'
     };
     
     function populateContestantDetails(data) {
