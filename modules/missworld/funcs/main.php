@@ -54,27 +54,34 @@ if ($nv_Request->isset_request('action', 'post')) {
                 nv_jsonOutput(array('success' => false, 'message' => implode(', ', $errors)));
             }
 
-            // Kiểm tra trạng thái bình chọn
-            $vote_status = nv_check_vote_status($contestant_id, $email);
-            if ($vote_status === 'voted_for_contestant') {
-                nv_jsonOutput(array('success' => false, 'message' => $lang_module['already_voted_for_contestant']));
-            } elseif ($vote_status === 'voted_for_other') {
-                // Người dùng đã bình chọn cho thí sinh khác, cho phép bình chọn trực tiếp
-                $result = nv_vote_contestant($contestant_id, $voter_name, $email, 0);
+            // Kiểm tra trạng thái đăng nhập
+            if (defined('NV_IS_USER')) {
+                // Người dùng đã đăng nhập
+                $result = nv_vote_contestant($contestant_id, $voter_name, $email, $user_info['userid']);
                 nv_jsonOutput($result);
             } else {
-                // Người dùng chưa bình chọn - bắt đầu quá trình xác minh
-                $verification_code = nv_genpass(6);
-                $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
-                if ($result['success']) {
-                    $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
-                    if ($email_result['success']) {
-                        nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']));
-                    } else {
-                        nv_jsonOutput(array('success' => false, 'message' => $lang_module['email_verification_failed']));
-                    }
-                } else {
+                // Người dùng chưa đăng nhập
+                $vote_status = nv_check_vote_status($contestant_id, $email);
+                if ($vote_status === 'voted_for_contestant') {
+                    nv_jsonOutput(array('success' => false, 'message' => $lang_module['already_voted_for_contestant']));
+                } elseif ($vote_status === 'voted_for_other') {
+                    // Người dùng đã bình chọn cho thí sinh khác, cho phép bình chọn trực tiếp
+                    $result = nv_vote_contestant($contestant_id, $voter_name, $email, 0);
                     nv_jsonOutput($result);
+                } else {
+                    // Người dùng chưa bình chọn - bắt đầu quá trình xác minh
+                    $verification_code = nv_genpass(6);
+                    $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
+                    if ($result['success']) {
+                        $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
+                        if ($email_result['success']) {
+                            nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']));
+                        } else {
+                            nv_jsonOutput(array('success' => false, 'message' => $lang_module['email_verification_failed']));
+                        }
+                    } else {
+                        nv_jsonOutput($result);
+                    }
                 }
             }
         } elseif ($action === 'verify') {
@@ -89,6 +96,12 @@ if ($nv_Request->isset_request('action', 'post')) {
             $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
             
             $result = nv_resend_verification_code($email, $contestant_id);
+            nv_jsonOutput($result);
+        } elseif ($action === 'delete_verification') {
+            $email = $nv_Request->get_title('email', 'post', '');
+            $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
+            
+            $result = nv_delete_verification_code($email, $contestant_id);
             nv_jsonOutput($result);
         } else {
             nv_jsonOutput(array('success' => false, 'message' => $lang_module['invalid_action']));
@@ -132,23 +145,3 @@ $contents = nv_theme_missworld_list($array_data, $generate_page);
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
 include NV_ROOTDIR . '/includes/footer.php';
-
-function nv_check_vote_status($contestant_id, $email)
-{
-    global $db, $module_data;
-
-    $sql = "SELECT contestant_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE email = :email";
-    $sth = $db->prepare($sql);
-    $sth->bindParam(':email', $email, PDO::PARAM_STR);
-    $sth->execute();
-    
-    $voted_contestant_id = $sth->fetchColumn();
-
-    if ($voted_contestant_id === false) {
-        return 'not_voted';
-    } elseif ($voted_contestant_id == $contestant_id) {
-        return 'voted_for_contestant';
-    } else {
-        return 'voted_for_other';
-    }
-}

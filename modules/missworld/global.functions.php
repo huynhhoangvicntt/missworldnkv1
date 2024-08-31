@@ -12,9 +12,49 @@ if (!defined('NV_MAINFILE')) {
     die('Stop!!!');
 }
 
+/**
+ * nv_check_vote_status
+ * 
+ * Kiểm tra trạng thái bình chọn của người dùng
+ *
+ * @param int $contestant_id ID của thí sinh
+ * @param string $email Email của người bình chọn
+ * @return string Trạng thái bình chọn ('not_voted', 'voted_for_contestant', 'voted_for_other')
+ */
+function nv_check_vote_status($contestant_id, $email)
+{
+    global $db, $module_data;
+
+    $sql = "SELECT contestant_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE email = :email";
+    $sth = $db->prepare($sql);
+    $sth->bindParam(':email', $email, PDO::PARAM_STR);
+    $sth->execute();
+    
+    $voted_contestant_id = $sth->fetchColumn();
+
+    if ($voted_contestant_id === false) {
+        return 'not_voted';
+    } elseif ($voted_contestant_id == $contestant_id) {
+        return 'voted_for_contestant';
+    } else {
+        return 'voted_for_other';
+    }
+}
+
+/**
+ * nv_vote_contestant
+ * 
+ * Thực hiện bình chọn cho thí sinh
+ *
+ * @param int $contestant_id ID của thí sinh
+ * @param string $voter_name Tên người bình chọn
+ * @param string $email Email của người bình chọn
+ * @param int $userid ID của người dùng (nếu đã đăng nhập)
+ * @return array Kết quả bình chọn
+ */
 function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
 {
-    global $db, $module_data, $lang_module, $user_info;
+    global $db, $module_data, $lang_module;
 
     $contestant_id = intval($contestant_id);
 
@@ -28,10 +68,8 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     }
 
     // Kiểm tra xem người dùng đã bỏ phiếu chưa
-    $sql = "SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE contestant_id=" . $contestant_id . " AND email='" . $db->dblikeescape($email) . "'";
-    $has_voted = $db->query($sql)->fetchColumn();
-
-    if ($has_voted) {
+    $vote_status = nv_check_vote_status($contestant_id, $email);
+    if ($vote_status === 'voted_for_contestant') {
         return array('success' => false, 'message' => $lang_module['already_voted']);
     }
 
@@ -58,11 +96,28 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     return array('success' => true, 'message' => $lang_module['vote_success'], 'newVoteCount' => $new_vote_count);
 }
 
+/**
+ * nv_create_email_verification
+ * 
+ * Tạo mã xác minh email
+ *
+ * @param int $contestant_id ID của thí sinh
+ * @param string $voter_name Tên người bình chọn
+ * @param string $email Email của người bình chọn
+ * @param string $verification_code Mã xác minh
+ * @return array Kết quả tạo mã xác minh
+ */
 function nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code) {
     global $db, $module_data, $lang_module;
 
     $expires_in = 600; // Hết hạn 10 phút
     $expiration_time = NV_CURRENTTIME + $expires_in;
+
+    // Xóa các mã xác minh cũ cho email và contestant_id này
+    $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
+            WHERE email = " . $db->quote($email) . " 
+            AND contestant_id = " . intval($contestant_id);
+    $db->query($sql);
 
     // Kiểm tra số lần gửi mã xác minh
     $sql = "SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
@@ -91,6 +146,16 @@ function nv_create_email_verification($contestant_id, $voter_name, $email, $veri
     }
 }
 
+/**
+ * nv_send_verification_email
+ * 
+ * Gửi email xác minh
+ *
+ * @param string $email Email của người bình chọn
+ * @param string $verification_code Mã xác minh
+ * @param int $expires_in Thời gian hết hạn (giây)
+ * @return array Kết quả gửi email
+ */
 function nv_send_verification_email($email, $verification_code, $expires_in)
 {
     global $global_config, $module_name, $lang_module;
@@ -111,6 +176,16 @@ function nv_send_verification_email($email, $verification_code, $expires_in)
     }
 }
 
+/**
+ * nv_verify_and_vote
+ * 
+ * Xác minh mã và thực hiện bình chọn
+ *
+ * @param int $contestant_id ID của thí sinh
+ * @param string $email Email của người bình chọn
+ * @param string $verification_code Mã xác minh
+ * @return array Kết quả xác minh và bình chọn
+ */
 function nv_verify_and_vote($contestant_id, $email, $verification_code)
 {
     global $db, $module_data, $lang_module;
@@ -139,6 +214,15 @@ function nv_verify_and_vote($contestant_id, $email, $verification_code)
     }
 }
 
+/**
+ * nv_resend_verification_code
+ * 
+ * Gửi lại mã xác minh
+ *
+ * @param string $email Email của người bình chọn
+ * @param int $contestant_id ID của thí sinh
+ * @return array Kết quả gửi lại mã xác minh
+ */
 function nv_resend_verification_code($email, $contestant_id)
 {
     global $db, $module_data, $lang_module;
@@ -173,4 +257,26 @@ function nv_resend_verification_code($email, $contestant_id)
     } else {
         return array('success' => false, 'message' => $lang_module['verification_still_valid']);
     }
+}
+
+/**
+ * nv_delete_verification_code
+ * 
+ * Xóa mã xác minh
+ *
+ * @param string $email Email của người bình chọn
+ * @param int $contestant_id ID của thí sinh
+ * @return array Kết quả xóa mã xác minh
+ */
+function nv_delete_verification_code($email, $contestant_id)
+{
+    global $db, $module_data, $lang_module;
+
+    $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
+            WHERE email = " . $db->quote($email) . " 
+            AND contestant_id = " . intval($contestant_id);
+    
+    $db->query($sql);
+
+    return array('success' => true, 'message' => $lang_module['verification_code_deleted']);
 }

@@ -96,7 +96,7 @@ $(document).ready(function() {
                         hideModal(votingModal);
                     }
                 } else {
-                    // Xử lý trường hợp đã bình chọn cho thí sinh này trước đó
+                    // Xử lý trường hợp đã bình chọn hoặc lỗi khác
                     hideModal(votingModal);
                 }
                 showToast(response.message);
@@ -173,6 +173,32 @@ $(document).ready(function() {
         }
     }
 
+    function deleteVerificationCode() {
+        var contestantId = $('#verification-contestant-id').val();
+        var email = $('#verification-email').val();
+        
+        $.ajax({
+            type: 'POST',
+            url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main',
+            data: {
+                action: 'delete_verification',
+                contestant_id: contestantId,
+                email: email
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    console.log('Verification code deleted successfully');
+                } else {
+                    console.error('Failed to delete verification code:', response.message);
+                }
+            },
+            error: function(xhr) {
+                console.error('Error deleting verification code:', xhr.responseText);
+            }
+        });
+    }
+
     function showModal(modal) {
         modal.show();
     }
@@ -211,12 +237,20 @@ $(document).ready(function() {
     }
 
     $('.close').on('click', function() {
-        hideModal($(this).closest('.modal'));
+        var modal = $(this).closest('.modal');
+        if (modal.attr('id') === 'verification-modal') {
+            deleteVerificationCode();
+        }
+        hideModal(modal);
     });
 
     $(window).on('click', function(event) {
         if ($(event.target).hasClass('modal')) {
-            hideModal($(event.target));
+            var modal = $(event.target);
+            if (modal.attr('id') === 'verification-modal') {
+                deleteVerificationCode();
+            }
+            hideModal(modal);
         }
     });
 });
