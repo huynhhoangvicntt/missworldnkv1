@@ -54,19 +54,16 @@ if ($nv_Request->isset_request('action', 'post')) {
                 nv_jsonOutput(array('success' => false, 'message' => implode(', ', $errors)));
             }
 
-            // Kiểm tra xem người dùng đã đăng ký chưa
-            $sql = "SELECT userid FROM " . NV_USERS_GLOBALTABLE . " WHERE email = :email";
-            $sth = $db->prepare($sql);
-            $sth->bindParam(':email', $email, PDO::PARAM_STR);
-            $sth->execute();
-            $userid = $sth->fetchColumn();
-
-            if ($userid) {
-                // Người dùng đã đăng ký
-                $result = nv_vote_contestant($contestant_id, $voter_name, $email, $userid);
+            // Kiểm tra trạng thái bình chọn
+            $vote_status = nv_check_vote_status($contestant_id, $email);
+            if ($vote_status === 'voted_for_contestant') {
+                nv_jsonOutput(array('success' => false, 'message' => $lang_module['already_voted_for_contestant']));
+            } elseif ($vote_status === 'voted_for_other') {
+                // Người dùng đã bình chọn cho thí sinh khác, cho phép bình chọn trực tiếp
+                $result = nv_vote_contestant($contestant_id, $voter_name, $email, 0);
                 nv_jsonOutput($result);
             } else {
-                // Người dùng chưa đăng ký - bắt đầu quá trình xác minh
+                // Người dùng chưa bình chọn - bắt đầu quá trình xác minh
                 $verification_code = nv_genpass(6);
                 $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
                 if ($result['success']) {
@@ -135,3 +132,23 @@ $contents = nv_theme_missworld_list($array_data, $generate_page);
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
 include NV_ROOTDIR . '/includes/footer.php';
+
+function nv_check_vote_status($contestant_id, $email)
+{
+    global $db, $module_data;
+
+    $sql = "SELECT contestant_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE email = :email";
+    $sth = $db->prepare($sql);
+    $sth->bindParam(':email', $email, PDO::PARAM_STR);
+    $sth->execute();
+    
+    $voted_contestant_id = $sth->fetchColumn();
+
+    if ($voted_contestant_id === false) {
+        return 'not_voted';
+    } elseif ($voted_contestant_id == $contestant_id) {
+        return 'voted_for_contestant';
+    } else {
+        return 'voted_for_other';
+    }
+}

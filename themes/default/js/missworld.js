@@ -95,6 +95,9 @@ $(document).ready(function() {
                         handleSuccessfulVote(contestantId, response.newVoteCount);
                         hideModal(votingModal);
                     }
+                } else {
+                    // Xử lý trường hợp đã bình chọn cho thí sinh này trước đó
+                    hideModal(votingModal);
                 }
                 showToast(response.message);
             },
