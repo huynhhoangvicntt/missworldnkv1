@@ -15,30 +15,27 @@ if (!defined('NV_MAINFILE')) {
 /**
  * nv_check_vote_status
  * 
- * Kiểm tra trạng thái bình chọn của người dùng
+ * Kiểm tra trạng thái bình chọn của người dùng cho một thí sinh cụ thể
  *
  * @param int $contestant_id ID của thí sinh
  * @param string $email Email của người bình chọn
- * @return string Trạng thái bình chọn ('not_voted', 'voted_for_contestant', 'voted_for_other')
+ * @return string Trạng thái bình chọn ('voted_for_contestant', 'not_voted')
  */
 function nv_check_vote_status($contestant_id, $email)
 {
     global $db, $module_data;
 
-    $sql = "SELECT contestant_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE email = :email";
+    $sql = "SELECT contestant_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE email = :email AND contestant_id = :contestant_id";
     $sth = $db->prepare($sql);
     $sth->bindParam(':email', $email, PDO::PARAM_STR);
+    $sth->bindParam(':contestant_id', $contestant_id, PDO::PARAM_INT);
     $sth->execute();
     
-    $voted_contestant_id = $sth->fetchColumn();
-
-    if ($voted_contestant_id === false) {
-        return 'not_voted';
-    } elseif ($voted_contestant_id == $contestant_id) {
+    if ($sth->fetchColumn()) {
         return 'voted_for_contestant';
-    } else {
-        return 'voted_for_other';
     }
+
+    return 'not_voted';
 }
 
 /**
@@ -279,4 +276,27 @@ function nv_delete_verification_code($email, $contestant_id)
     $db->query($sql);
 
     return array('success' => true, 'message' => $lang_module['verification_code_deleted']);
+}
+
+/**
+ * nv_check_pending_verification
+ * 
+ * Kiểm tra xem có mã xác minh đang chờ xử lý không
+ *
+ * @param string $email Email của người bình chọn
+ * @param int $contestant_id ID của thí sinh
+ * @return bool Có mã xác minh đang chờ hay không
+ */
+function nv_check_pending_verification($email, $contestant_id)
+{
+    global $db, $module_data;
+
+    $sql = "SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
+            WHERE email = :email AND contestant_id = :contestant_id AND expires_at > " . NV_CURRENTTIME;
+    $sth = $db->prepare($sql);
+    $sth->bindParam(':email', $email, PDO::PARAM_STR);
+    $sth->bindParam(':contestant_id', $contestant_id, PDO::PARAM_INT);
+    $sth->execute();
+    
+    return $sth->fetchColumn() > 0;
 }

@@ -56,31 +56,34 @@ if ($nv_Request->isset_request('action', 'post')) {
 
             // Kiểm tra trạng thái đăng nhập
             if (defined('NV_IS_USER')) {
-                // Người dùng đã đăng nhập
+                // Người dùng đã đăng nhập - giữ nguyên logic ban đầu
                 $result = nv_vote_contestant($contestant_id, $voter_name, $email, $user_info['userid']);
                 nv_jsonOutput($result);
             } else {
                 // Người dùng chưa đăng nhập
                 $vote_status = nv_check_vote_status($contestant_id, $email);
+                
                 if ($vote_status === 'voted_for_contestant') {
-                    nv_jsonOutput(array('success' => false, 'message' => $lang_module['already_voted_for_contestant']));
-                } elseif ($vote_status === 'voted_for_other') {
-                    // Người dùng đã bình chọn cho thí sinh khác, cho phép bình chọn trực tiếp
-                    $result = nv_vote_contestant($contestant_id, $voter_name, $email, 0);
-                    nv_jsonOutput($result);
+                    nv_jsonOutput(array('success' => false, 'message' => $lang_module['already_voted']));
                 } else {
-                    // Người dùng chưa bình chọn - bắt đầu quá trình xác minh
-                    $verification_code = nv_genpass(6);
-                    $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
-                    if ($result['success']) {
-                        $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
-                        if ($email_result['success']) {
-                            nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']));
-                        } else {
-                            nv_jsonOutput(array('success' => false, 'message' => $lang_module['email_verification_failed']));
-                        }
+                    // Kiểm tra xem có mã xác minh đang chờ không
+                    $pending_verification = nv_check_pending_verification($email, $contestant_id);
+                    if ($pending_verification) {
+                        nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['verification_pending']));
                     } else {
-                        nv_jsonOutput($result);
+                        // Người dùng chưa bình chọn cho thí sinh này - bắt đầu quá trình xác minh
+                        $verification_code = nv_genpass(6);
+                        $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
+                        if ($result['success']) {
+                            $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
+                            if ($email_result['success']) {
+                                nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']));
+                            } else {
+                                nv_jsonOutput(array('success' => false, 'message' => $lang_module['email_verification_failed']));
+                            }
+                        } else {
+                            nv_jsonOutput($result);
+                        }
                     }
                 }
             }

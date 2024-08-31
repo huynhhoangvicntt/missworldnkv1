@@ -96,7 +96,6 @@ $(document).ready(function() {
                         hideModal(votingModal);
                     }
                 } else {
-                    // Xử lý trường hợp đã bình chọn hoặc lỗi khác
                     hideModal(votingModal);
                 }
                 showToast(response.message);
@@ -187,14 +186,12 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(response) {
-                if (response.success) {
-                    console.log('Verification code deleted successfully');
-                } else {
-                    console.error('Failed to delete verification code:', response.message);
+                if (!response.success) {
+                    showToast(response.message);
                 }
             },
             error: function(xhr) {
-                console.error('Error deleting verification code:', xhr.responseText);
+                handleAjaxError(xhr);
             }
         });
     }
@@ -232,7 +229,7 @@ $(document).ready(function() {
             toast.addClass('show');
             setTimeout(function() {
                 toast.removeClass('show');
-            }, 5000);
+            }, 3000);
         }
     }
 
