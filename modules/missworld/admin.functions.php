@@ -13,3 +13,16 @@ if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN'
 }
 
 define('NV_IS_FILE_ADMIN', true);
+
+/**
+ * Format a decimal number with specified precision
+ * 
+ * @param float $value The number to format
+ * @param int $decimals The number of decimal points (default: 2)
+ * @return string Formatted number as a string
+ */
+function nv_missworld_format_decimal($value, $decimals = 2) {
+    return number_format((float)$value, $decimals, '.', '');
+}
+
+// Add other admin functions here...

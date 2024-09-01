@@ -26,10 +26,10 @@ fullname varchar(190) NOT NULL,
 alias varchar(190) NOT NULL,
 dob int(11) unsigned NOT NULL DEFAULT '0',
 address varchar(190) NOT NULL,
-height smallint(5) NOT NULL DEFAULT '0',
-chest smallint(5) NOT NULL DEFAULT '0',
-waist smallint(5) NOT NULL DEFAULT '0',
-hips smallint(5) NOT NULL DEFAULT '0',
+height DECIMAL(5,2) NOT NULL DEFAULT '0.00',
+chest DECIMAL(5,2) NOT NULL DEFAULT '0.00',
+waist DECIMAL(5,2) NOT NULL DEFAULT '0.00',
+hips DECIMAL(5,2) NOT NULL DEFAULT '0.00',
 email varchar(190) NOT NULL DEFAULT '',
 image varchar(255) NOT NULL DEFAULT '',
 keywords text NOT NULL,
@@ -42,10 +42,6 @@ rank smallint(5) NOT NULL DEFAULT '0',
 PRIMARY KEY (id),
 UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM";
-
-
-
-// Thêm các câu lệnh SQL khác từ artifact vào đây
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_votes (
 id int(11) unsigned NOT NULL AUTO_INCREMENT,

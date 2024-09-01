@@ -112,10 +112,10 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     }
     
     $array['address'] = nv_substr($nv_Request->get_title('address', 'post', ''), 0, 190);
-    $array['height'] = $nv_Request->get_int('height', 'post', null);
-    $array['chest'] = $nv_Request->get_int('chest', 'post', null);
-    $array['waist'] = $nv_Request->get_int('waist', 'post', null);
-    $array['hips'] = $nv_Request->get_int('hips', 'post', null);
+    $array['height'] = $nv_Request->get_float('height', 'post', null);
+    $array['chest'] = $nv_Request->get_float('chest', 'post', null);
+    $array['waist'] = $nv_Request->get_float('waist', 'post', null);
+    $array['hips'] = $nv_Request->get_float('hips', 'post', null);
     $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
     $array['keywords'] = $nv_Request->get_title('keywords', 'post', '');
@@ -153,14 +153,14 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
 
     // Xác định phạm vi đo lường
     $measurement_ranges = [
-        'height' => ['min' => 150, 'max' => 190],  // 150cm đến 190cm
-        'chest' => ['min' => 75, 'max' => 100],    // 75cm đến 100cm
-        'waist' => ['min' => 55, 'max' => 80],     // 55cm đến 80cm
-        'hips' => ['min' => 80, 'max' => 110]      // 80cm đến 110cm
+        'height' => ['min' => 150.00, 'max' => 190.00],  // 150cm đến 190cm
+        'chest' => ['min' => 75.00, 'max' => 100.00],    // 75cm đến 100cm
+        'waist' => ['min' => 55.00, 'max' => 80.00],     // 55cm đến 80cm
+        'hips' => ['min' => 80.00, 'max' => 110.00]      // 80cm đến 110cm
     ];
 
     foreach (['height', 'chest', 'waist', 'hips'] as $field) {
-        if (empty($array[$field])) {
+        if ($array[$field] === null) {
             $error[$field] = $lang_module[$field . '_empty_error'];
         } elseif ($array[$field] <= 0) {
             $error[$field] = $lang_module[$field . '_invalid_error'];
@@ -197,10 +197,10 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth->bindParam(':alias', $array['alias'], PDO::PARAM_STR);
             $sth->bindParam(':dob', $array['dob_timestamp'], PDO::PARAM_INT);
             $sth->bindParam(':address', $array['address'], PDO::PARAM_STR);
-            $sth->bindParam(':height', $array['height'], PDO::PARAM_INT);
-            $sth->bindParam(':chest', $array['chest'], PDO::PARAM_INT);
-            $sth->bindParam(':waist', $array['waist'], PDO::PARAM_INT);
-            $sth->bindParam(':hips', $array['hips'], PDO::PARAM_INT);
+            $sth->bindParam(':height', $array['height'], PDO::PARAM_STR);
+            $sth->bindParam(':chest', $array['chest'], PDO::PARAM_STR);
+            $sth->bindParam(':waist', $array['waist'], PDO::PARAM_STR);
+            $sth->bindParam(':hips', $array['hips'], PDO::PARAM_STR);
             $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
             $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
             $sth->bindParam(':keywords', $array['keywords'], PDO::PARAM_STR, strlen($array['keywords']));
