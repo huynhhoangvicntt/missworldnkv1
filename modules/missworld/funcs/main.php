@@ -129,7 +129,7 @@ $num_items = $db->query($db->sql())->fetchColumn();
 
 // Lấy danh sách thí sinh cho trang hiện tại
 $db->select('*')
-   ->order('weight ASC')
+   ->order('id DESC')  // Sắp xếp theo id giảm dần
    ->limit($per_page)
    ->offset(($page - 1) * $per_page);
 

@@ -14,9 +14,9 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 
 function nv_theme_missworld_list($array_data, $page)
 {
-    global $module_name, $lang_module, $lang_global, $module_info, $page_config, $module_upload, $op;
+    global $module_name, $lang_module, $lang_global, $module_info, $page_config, $module_upload, $module_file;
 
-    $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_theme']);
+    $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('GLANG', $lang_global);
     $num = sizeof($array_data);
