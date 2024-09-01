@@ -24,5 +24,3 @@ define('NV_IS_FILE_ADMIN', true);
 function nv_missworld_format_decimal($value, $decimals = 2) {
     return number_format((float)$value, $decimals, '.', '');
 }
-
-// Add other admin functions here...

@@ -47,32 +47,32 @@ if ($id > 0) {
         WHERE v.contestant_id = " . $id . " 
         ORDER BY v.vote_time DESC 
         LIMIT 10";
-        $result_votes = $db->query($sql_votes);
+    $result_votes = $db->query($sql_votes);
     $voting_history = [];
     while ($vote = $result_votes->fetch()) {
-    // Ẩn 3 ký tự của email
-    $email = $vote['email'];
-    $atpos = strpos($email, '@');
-    if ($atpos !== false) {
-    $username = substr($email, 0, $atpos);
-    $domain = substr($email, $atpos);
+        // Ẩn 3 ký tự của email
+        $email = $vote['email'];
+        $atpos = strpos($email, '@');
+        if ($atpos !== false) {
+            $username = substr($email, 0, $atpos);
+            $domain = substr($email, $atpos);
 
-    if (strlen($username) > 3) {
-    $hidden_username = substr($username, 0, -3) . '***';
-    } else {
-    $hidden_username = '***' . substr($username, 3);
-    }
+            if (strlen($username) > 3) {
+                $hidden_username = substr($username, 0, -3) . '***';
+            } else {
+                $hidden_username = '***' . substr($username, 3);
+            }
 
-    $hidden_email = $hidden_username . $domain;
-    } else {
-    // Trường hợp email không hợp lệ
-    $hidden_email = $email;
-    }
+            $hidden_email = $hidden_username . $domain;
+        } else {
+            // Trường hợp email không hợp lệ
+            $hidden_email = $email;
+        }
 
-    $voting_history[] = [
-    'email' => $hidden_email,
-    'vote_time' => nv_date('H:i d/m/Y', $vote['vote_time'])
-    ];
+        $voting_history[] = [
+            'email' => $hidden_email,
+            'vote_time' => nv_date('H:i d/m/Y', $vote['vote_time'])
+        ];
     }
     $row['voting_history'] = $voting_history;
 
