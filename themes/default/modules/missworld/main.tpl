@@ -4,7 +4,6 @@
     <div class="contestant-grid">
         <!-- BEGIN: loop -->
         <div class="contestant-card" data-id="{DATA.id}">
-            <!-- <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image"> -->
             <a href="{DATA.url_view}">
                 <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image">
               </a>
