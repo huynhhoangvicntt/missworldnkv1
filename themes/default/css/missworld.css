@@ -495,3 +495,60 @@
         font-size: 14px;
     }
 }
+
+
+.contestant-detail-voting-history {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contestant-detail-voting-history h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.voting-history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.voting-history-table th,
+.voting-history-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.voting-history-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.voting-history-table tr:last-child td {
+    border-bottom: none;
+}
+
+.no-votes-message {
+    font-style: italic;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .contestant-detail-voting-history {
+        padding: 15px;
+    }
+
+    .contestant-detail-voting-history h2 {
+        font-size: 20px;
+    }
+
+    .voting-history-table th,
+    .voting-history-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}

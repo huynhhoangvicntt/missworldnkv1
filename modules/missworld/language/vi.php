@@ -152,3 +152,8 @@ $lang_module['email_send_fail'] = 'Không thể gửi email xác minh. Vui lòng
 $lang_module['verification_invalid'] = 'Mã xác minh không hợp lệ hoặc đã hết hạn';
 $lang_module['verification_vote_error'] = 'Có lỗi xảy ra trong quá trình xác minh và bình chọn';
 $lang_module['verification_still_valid'] = 'Mã xác minh cũ vẫn còn hiệu lực. Vui lòng kiểm tra email của bạn.';
+
+$lang_module['voting_history'] = 'Lịch sử bình chọn';
+$lang_module['voter_email'] = 'Email người bình chọn';
+$lang_module['vote_time'] = 'Thời gian bình chọn';
+$lang_module['no_votes_yet'] = 'Chưa có lượt bình chọn nào.';

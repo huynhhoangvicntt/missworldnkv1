@@ -36,16 +36,26 @@ function nv_theme_missworld_list($array_data, $page)
     $xtpl->parse('main');
     return $xtpl->text('main');
 }
-function nv_theme_missworld_detail($array_data)
+
+function nv_theme_missworld_detail($row)
 {
-    global $module_name, $lang_module, $lang_global, $module_info, $page_config, $module_upload, $op;
+    global $module_info, $lang_module, $module_file;
 
-    $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_theme']);
+    $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
-    $xtpl->assign('GLANG', $lang_global);
+    $xtpl->assign('DATA', $row);
 
-    $xtpl->assign('DATA', $array_data);
-    
+    // Xử lý hiển thị lịch sử bình chọn
+    if (!empty($row['voting_history'])) {
+        foreach ($row['voting_history'] as $vote) {
+            $xtpl->assign('VOTE', $vote);
+            $xtpl->parse('main.voting_history.loop');
+        }
+        $xtpl->parse('main.voting_history');
+    } else {
+        $xtpl->parse('main.no_votes');
+    }
+
     $xtpl->parse('main');
     return $xtpl->text('main');
 }

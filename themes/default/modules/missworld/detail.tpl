@@ -35,6 +35,32 @@
                 <button class="contestant-detail-vote-button" data-contestant-id="{DATA.id}">{LANG.vote}</button>
             </div>
         </div>
+        <div class="contestant-detail-voting-history">
+            <h2>{LANG.voting_history}</h2>
+            <!-- BEGIN: voting_history -->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-voter-email">{LANG.voter_email}</th>
+                            <th class="col-vote-time">{LANG.vote_time}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- BEGIN: loop -->
+                        <tr>
+                            <td class="voter-email"><div class="email-wrapper" title="{VOTE.email}"><span class="email-text">{VOTE.email}</span></div></td>
+                            <td class="vote-time">{VOTE.vote_time}</td>
+                        </tr>
+                        <!-- END: loop -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- END: voting_history -->
+            <!-- BEGIN: no_votes -->
+            <p class="no-votes-message">{LANG.no_votes_yet}</p>
+            <!-- END: no_votes -->
+        </div>
     </div>
 </div>
 <!-- END: main -->
