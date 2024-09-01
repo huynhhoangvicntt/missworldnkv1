@@ -29,7 +29,7 @@
                     </tr>
                     <tr>
                         <td class="info-label"><span class="label-text">{LANG.measurements}</span><span class="info-colon">:</span></td>
-                        <td class="info-value">{DATA.chest}{LANG.separator}{DATA.waist}{LANG.separator}{DATA.hips}</td>
+                        <td class="info-value">{DATA.chest} {LANG.separator} {DATA.waist} {LANG.separator} {DATA.hips}</td>
                     </tr>
                 </table>
                 <button class="contestant-detail-vote-button" data-contestant-id="{DATA.id}">{LANG.vote}</button>
