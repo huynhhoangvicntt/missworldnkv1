@@ -251,42 +251,79 @@ $(document).ready(function() {
         }
     });
 
-    function loadPage(url) {
-        $.ajax({
-            url: url + '&ajax=1',
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data && data.content) {
-                    $('#voting-history-container').html(data.content);
-                    if (data.pagination) {
-                        $('#pagination-container').html(data.pagination);
-                    } else {
-                        $('#pagination-container').empty();
-                    }
-                    attachPaginationListeners();
-                } else {
-                    $('#voting-history-container').html('<p>Không có dữ liệu để hiển thị.</p>');
-                    $('#pagination-container').empty();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-                $('#voting-history-container').html('<p>Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.</p>');
-                $('#pagination-container').empty();
-            }
-        });
+    // Cache để lưu trữ kết quả đã tải
+const pageCache = {};
+
+function loadPage(url) {
+    // Kiểm tra cache
+    if (pageCache[url]) {
+        console.log('Loading from cache:', url);
+        updateContent(pageCache[url]);
+        return;
     }
-    
-    function attachPaginationListeners() {
-        $('#pagination-container a').on('click', function(e) {
-            e.preventDefault();
-            loadPage(this.href);
-        });
-    }
-    
-    $(document).ready(function() {
-        attachPaginationListeners();
+
+    // Hiển thị loading indicator
+    showLoading();
+
+    $.ajax({
+        url: url + '&ajax=1',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Lưu vào cache
+            pageCache[url] = data;
+            updateContent(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);
+            $('#voting-history-container').html('<p>Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.</p>');
+            $('#pagination-container').empty();
+        },
+        complete: function() {
+            hideLoading();
+        }
     });
+}
+
+function updateContent(data) {
+    if (data && data.content) {
+        $('#voting-history-container').html(data.content);
+        if (data.pagination) {
+            $('#pagination-container').html(data.pagination);
+        } else {
+            $('#pagination-container').empty();
+        }
+        attachPaginationListeners();
+    } else {
+        $('#voting-history-container').html('<p>Không có dữ liệu để hiển thị.</p>');
+        $('#pagination-container').empty();
+    }
+}
+
+function showLoading() {
+    $('#loading-indicator').show();
+}
+
+function hideLoading() {
+    $('#loading-indicator').hide();
+}
+
+function attachPaginationListeners() {
+    $('#pagination-container a').off('click').on('click', function(e) {
+        e.preventDefault();
+        const url = this.href;
+        history.pushState(null, '', url);
+        loadPage(url);
+    });
+}
+
+$(document).ready(function() {
+    attachPaginationListeners();
+
+    // Xử lý nút back/forward của trình duyệt
+    $(window).on('popstate', function() {
+        loadPage(window.location.href);
+    });
+});
 });
 
