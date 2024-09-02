@@ -12,7 +12,7 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
     exit('Stop!!!');
 }
 
-function nv_theme_missworld_main($array_data, $page)
+function nv_theme_missworld_main($array_data, $generate_page)
 {
     global $module_name, $lang_module, $lang_global, $module_info, $page_config, $module_upload, $module_file;
 
@@ -33,6 +33,10 @@ function nv_theme_missworld_main($array_data, $page)
             }
             $xtpl->assign('DATA', $value);
             $xtpl->parse('main.loop');
+        }
+        if (!empty($generate_page)) {
+            $xtpl->assign('GENERATE_PAGE', $generate_page);
+            $xtpl->parse('main.generate_page');
         }
     }
     $xtpl->parse('main');

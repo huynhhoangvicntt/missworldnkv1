@@ -119,13 +119,15 @@ if ($nv_Request->isset_request('action', 'post')) {
 $page_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
 
-$array_data = [];
-$per_page = 12;
+$array = [];
+$per_page = 4;
 $page = $nv_Request->get_int('page', 'get', 1);
+$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+
 
 // Lấy tổng số thí sinh
 $db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_rows");
-$num_items = $db->query($db->sql())->fetchColumn();
+$total = $db->query($db->sql())->fetchColumn();
 
 // Lấy danh sách thí sinh cho trang hiện tại
 $db->select('*')
@@ -140,8 +142,7 @@ while ($row = $result->fetch()) {
 }
 
 // Tạo phân trang
-$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
-$generate_page = nv_generate_page($base_url, $num_items, $per_page, $page);
+$generate_page = nv_generate_page($base_url, $total, $per_page, $page);
 
 $contents = nv_theme_missworld_main($array_data, $generate_page);
 

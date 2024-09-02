@@ -14,7 +14,7 @@
         <!-- END: loop -->
     </div>
     <!-- BEGIN: generate_page -->
-    <div class="text-center">
+    <div class="text-center generate-page">
         {GENERATE_PAGE}
     </div>
     <!-- END: generate_page -->
@@ -86,5 +86,6 @@
 <div id="loading-overlay" class="loading-overlay">
     <div class="loader"></div>
 </div>
+
 <!-- END: main -->
   
