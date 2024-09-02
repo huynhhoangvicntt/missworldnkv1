@@ -250,4 +250,43 @@ $(document).ready(function() {
             hideModal(modal);
         }
     });
+
+    function loadPage(url) {
+        $.ajax({
+            url: url + '&ajax=1',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data && data.content) {
+                    $('#voting-history-container').html(data.content);
+                    if (data.pagination) {
+                        $('#pagination-container').html(data.pagination);
+                    } else {
+                        $('#pagination-container').empty();
+                    }
+                    attachPaginationListeners();
+                } else {
+                    $('#voting-history-container').html('<p>Không có dữ liệu để hiển thị.</p>');
+                    $('#pagination-container').empty();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                $('#voting-history-container').html('<p>Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.</p>');
+                $('#pagination-container').empty();
+            }
+        });
+    }
+    
+    function attachPaginationListeners() {
+        $('#pagination-container a').on('click', function(e) {
+            e.preventDefault();
+            loadPage(this.href);
+        });
+    }
+    
+    $(document).ready(function() {
+        attachPaginationListeners();
+    });
 });
+
