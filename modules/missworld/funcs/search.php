@@ -8,6 +8,6 @@
  * @Createdate March 01, 2024, 08:00:00 AM
  */
 
-if (!defined('NV_IS_MOD_SEARCH')) {
+if (!defined('NV_IS_MOD_MISSWORLD')) {
     exit('Stop!!!');
 }

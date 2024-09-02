@@ -143,7 +143,7 @@ while ($row = $result->fetch()) {
 $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 $generate_page = nv_generate_page($base_url, $num_items, $per_page, $page);
 
-$contents = nv_theme_missworld_list($array_data, $generate_page);
+$contents = nv_theme_missworld_main($array_data, $generate_page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
