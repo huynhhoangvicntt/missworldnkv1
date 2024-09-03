@@ -54,24 +54,19 @@ if ($nv_Request->isset_request('action', 'post')) {
                 nv_jsonOutput(array('success' => false, 'message' => implode(', ', $errors)));
             }
 
-            // Kiểm tra trạng thái đăng nhập
             if (defined('NV_IS_USER')) {
-                // Người dùng đã đăng nhập - giữ nguyên logic ban đầu
                 $result = nv_vote_contestant($contestant_id, $voter_name, $email, $user_info['userid']);
                 nv_jsonOutput($result);
             } else {
-                // Người dùng chưa đăng nhập
                 $vote_status = nv_check_vote_status($contestant_id, $email);
                 
                 if ($vote_status === 'voted_for_contestant') {
                     nv_jsonOutput(array('success' => false, 'message' => $lang_module['already_voted']));
                 } else {
-                    // Kiểm tra xem có mã xác minh đang chờ không
                     $pending_verification = nv_check_pending_verification($email, $contestant_id);
                     if ($pending_verification) {
                         nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['verification_pending']));
                     } else {
-                        // Người dùng chưa bình chọn cho thí sinh này - bắt đầu quá trình xác minh
                         $verification_code = nv_genpass(6);
                         $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
                         if ($result['success']) {
@@ -134,7 +129,7 @@ $total = $db->query($db->sql())->fetchColumn();
 // Lấy danh sách thí sinh cho trang hiện tại
 $db->select('*')
    ->where('status = 1')
-   ->order('id DESC')  // Sắp xếp theo id giảm dần
+   ->order('id DESC')
    ->limit($per_page)
    ->offset(($page - 1) * $per_page);
 
@@ -146,8 +141,9 @@ while ($row = $result->fetch()) {
 
 $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 if ($keyword != '') {
-    $base_url .= '&keyword = ' . $keyword;
+    $base_url .= '&amp;keyword=' . urlencode($keyword);
 }
+
 // Tạo phân trang
 $generate_page = nv_generate_page($base_url, $total, $per_page, $page);
 
