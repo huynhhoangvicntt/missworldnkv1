@@ -1,57 +1,82 @@
-/* Bố cục chung */
+/* Variables */
+:root {
+    --primary-color: #2980b9;
+    --primary-hover-color: #3498db;
+    --secondary-color: #e91e63;
+    --secondary-hover-color: #c2185b;
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --text-light-color: #666;
+    --border-color: #ddd;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 10px;
+    --transition: 0.3s ease;
+}
+
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Layout */
 .missworld-contestants {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: tahoma, Arial, sans-serif;
 }
 
-.missworld-contestants h2 {
+.text-center {
     text-align: center;
-    color: #333;
+}
+
+/* Typography */
+h2 {
+    text-align: center;
+    color: var(--text-color);
     margin-bottom: 20px;
 }
 
-/* Bố cục lưới responsive */
+/* Grid Layout */
 .contestant-grid {
     display: grid;
     gap: 20px;
     padding: 20px;
-}
-
-/* Mặc định cho màn hình nhỏ (< 576px): 1 cột */
-.contestant-grid {
     grid-template-columns: 1fr;
 }
 
-/* Màn hình > 576px: 2 cột */
 @media (min-width: 576px) {
     .contestant-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Màn hình > 768px: 3 cột */
 @media (min-width: 768px) {
     .contestant-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* Màn hình > 992px: 4 cột */
 @media (min-width: 992px) {
     .contestant-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-/* Thẻ thí sinh */
+/* Contestant Card */
 .contestant-card {
-    background-color: #f5f5f5;
-    border-radius: 10px;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition);
 }
 
 .contestant-card:hover {
@@ -69,7 +94,6 @@
     padding: 10px;
     margin: 0;
     font-size: 14px;
-    color: #333;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -79,51 +103,41 @@
     padding: 0 10px 10px;
     margin: 0;
     font-size: 11px;
-    color: #666;
+    color: var(--text-light-color);
 }
 
-.vote-button {
+/* Buttons */
+.vote-button, .contestant-detail-vote-button {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #2980b9;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition);
     font-size: 14px;
     text-transform: uppercase;
     font-weight: bold;
 }
 
-.vote-button:hover {
-    background-color: #3498db;
+.vote-button:hover, .contestant-detail-vote-button:hover {
+    background-color: var(--primary-hover-color);
 }
 
-/* Điều chỉnh kích thước font cho màn hình nhỏ hơn */
-@media (max-width: 768px) {
-    .contestant-card h3 {
-        font-size: 14px;
-    }
-    
-    .contestant-card p {
-        font-size: 12px;
-    }
-    
-    .vote-button {
-        font-size: 12px;
-        padding: 8px;
-    }
+.contestant-detail-vote-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: var(--secondary-color);
 }
 
-/* Phân trang */
-.text-center {
-    text-align: center;
-    margin-top: 20px;
+.contestant-detail-vote-button:hover {
+    background-color: var(--secondary-hover-color);
 }
 
-/* Modal styles */
+/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -144,7 +158,6 @@
     width: 90%;
     max-width: 800px;
     position: relative;
-    box-sizing: border-box;
 }
 
 .close {
@@ -162,14 +175,6 @@
 .close:focus {
     color: black;
     text-decoration: none;
-    cursor: pointer;
-}
-
-/* ... (giữ nguyên các styles hiện có) ... */
-
-/* Cải thiện modal bình chọn */
-.modal-content {
-    max-width: 800px; /* Tăng kích thước tối đa của modal */
 }
 
 .modal-grid {
@@ -186,8 +191,8 @@
 .modal-image img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
 
 .modal-form {
@@ -202,10 +207,26 @@
     text-overflow: ellipsis;
 }
 
+/* Forms */
 .form-group {
     margin-bottom: 15px;
+    width: 100%;
 }
 
+#voting-form,
+#verification-form {
+    width: 100%;
+    margin-top: 15px;
+}
+
+#voting-form input,
+#verification-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+/* Progress Dots */
 .progress-dots {
     display: flex;
     align-items: center;
@@ -244,30 +265,10 @@
 }
 
 .progress-step:first-child {
-    margin-right: 40px
+    margin-right: 40px;
 }
 
-/* Form styles */
-.form-group {
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-#voting-form,
-#verification-form {
-    width: 100%;
-    margin-top: 15px;
-}
-
-#voting-form input,
-#verification-form input {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    box-sizing: border-box;
-}
-
-/* Toast notification */
+/* Toast Notification */
 .toast {
     visibility: hidden;
     min-width: 250px;
@@ -281,18 +282,12 @@
     z-index: 1001;
     left: 50%;
     bottom: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
 }
 
 .toast.show {
     visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-@-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;} 
-    to {bottom: 30px; opacity: 1;}
 }
 
 @keyframes fadein {
@@ -300,17 +295,12 @@
     to {bottom: 30px; opacity: 1;}
 }
 
-@-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;} 
-    to {bottom: 0; opacity: 0;}
-}
-
 @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
 
-/* Loading overlay */
+/* Loading Overlay */
 .loading-overlay {
     display: none;
     position: fixed;
@@ -341,19 +331,7 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive design for small screens */
-@media (max-width: 768px) {
-    .modal-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .modal-image {
-        margin-bottom: 20px;
-    } 
-}
-
-/* Bổ sung styles cho trang chi tiết thí sinh */
-/* Styles cho trang chi tiết thí sinh */
+/* Contestant Detail Page */
 .contestant-detail-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -363,9 +341,9 @@
 .contestant-detail-card {
     display: flex;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
 }
 
 .contestant-detail-image-container {
@@ -392,35 +370,28 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     text-align: center;
     padding: 5px;
-  }
-  
-  .contestant-detail-rank span {
+}
+
+.contestant-detail-rank span {
     font-size: 15px;
     line-height: 1.2;
-  }
-  
-  .contestant-detail-rank .rank-number {
+}
+
+.contestant-detail-rank .rank-number {
     font-size: 32px;
-  } 
+}
 
 .contestant-detail-info {
     flex: 1;
     padding: 20px;
 }
 
-.contestant-detail-table .contestant-detail-in td {
-    font-weight: bold;
-    font-size: 18px;
-    padding-bottom: 10px;
-    border-bottom: none;
-}
-
 .contestant-detail-name {
     font-size: 32px;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 15px;
 }
 
@@ -433,51 +404,131 @@
 
 .contestant-detail-table td {
     padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.contestant-detail-table .contestant-detail-in td {
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: none;
 }
 
 .contestant-detail-table .info-label {
     white-space: nowrap;
     position: relative;
     padding-right: 20px;
-    color: inherit !important;
 }
 
 .contestant-detail-table .label-text {
     display: inline-block;
-    color: inherit !important;
 }
 
 .contestant-detail-table .info-colon {
     position: absolute;
     right: 10px;
-    color: inherit !important;
 }
 
 .contestant-detail-table .info-value {
     padding-left: 10px;
     font-weight: bold;
-    color: inherit !important;
 }
 
-.contestant-detail-vote-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #e91e63;
-    color: white;
+/* Voting History */
+.contestant-detail-voting-history {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.contestant-detail-voting-history h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.voting-history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.voting-history-table th,
+.voting-history-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.voting-history-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.voting-history-table tr:last-child td {
+    border-bottom: none;
+}
+
+.no-votes-message {
+    font-style: italic;
+    color: var(--text-light-color);
+}
+
+/* Search */
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #f0f2f5;
+    border-radius: 25px;
+    padding: 3px 15px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.search-container form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.search-container input[type="text"] {
+    flex-grow: 1;
     border: none;
-    border-radius: 5px;
+    background: transparent;
+    padding: 8px 10px;
+    font-size: 14px;
+    outline: none;
+    width: calc(100% - 30px);
+}
+
+.search-container .search-icon {
+    color: #65676b;
     font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    margin-right: 8px;
+    flex-shrink: 0;
 }
 
-.contestant-detail-vote-button:hover {
-    background-color: #c2185b;
+.search-container input[type="submit"] {
+    display: none;
 }
 
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
+    .modal-grid {
+        flex-direction: column;
+    }
+    
+    .modal-image, .modal-form {
+        max-width: 100%;
+    }
+    
     .contestant-detail-card {
         flex-direction: column;
     }
@@ -494,50 +545,20 @@
     .contestant-detail-table td {
         font-size: 14px;
     }
-}
-
-
-.contestant-detail-voting-history {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.contestant-detail-voting-history h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.voting-history-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.voting-history-table th,
-.voting-history-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.voting-history-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.voting-history-table tr:last-child td {
-    border-bottom: none;
-}
-
-.no-votes-message {
-    font-style: italic;
-    color: #666;
-}
-
-@media (max-width: 768px) {
+    
+    .contestant-card h3 {
+        font-size: 14px;
+    }
+    
+    .contestant-card p {
+        font-size: 12px;
+    }
+    
+    .vote-button {
+        font-size: 12px;
+        padding: 8px;
+    }
+    
     .contestant-detail-voting-history {
         padding: 15px;
     }
@@ -553,41 +574,65 @@
     }
 }
 
-.search-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0;
+/* Accessibility and Print styles */
+@media print {
+    .contestant-grid {
+        display: block;
+    }
+    
+    .contestant-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    .vote-button,
+    .search-container,
+    .modal,
+    .loading-overlay {
+        display: none !important;
+    }
 }
-.search-container {
-    display: flex;
-    align-items: center;
-    background-color: #f0f2f5;
-    border-radius: 25px;
-    padding: 3px 15px;
-    width: 80%; /* Điều chỉnh chiều rộng ở đây */
-    max-width: 600px; /* Giới hạn chiều rộng tối đa */
+
+/* Focus styles for better accessibility */
+.vote-button:focus,
+.search-container input[type="text"]:focus,
+.modal-content input:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
-.search-container form {
-    display: flex;
-    width: 100%;
-    align-items: center;
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #0000FF;
+        --primary-hover-color: #000080;
+        --secondary-color: #FF0000;
+        --secondary-hover-color: #800000;
+        --text-color: #000000;
+        --text-light-color: #202020;
+        --background-color: #FFFFFF;
+    }
+    
+    .contestant-card,
+    .modal-content,
+    .contestant-detail-card {
+        border: 1px solid var(--text-color);
+    }
 }
-.search-container input[type="text"] {
-    flex-grow: 1;
-    border: none;
-    background: transparent;
-    padding: 8px 10px;
-    font-size: 14px;
-    outline: none;
-    width: calc(100% - 30px);
-}
-.search-container .search-icon {
-    color: #65676b;
-    font-size: 16px;
-    margin-right: 8px;
-    flex-shrink: 0;
-}
-.search-container input[type="submit"] {
-    display: none;
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .contestant-card,
+    .vote-button,
+    .toast {
+        transition: none;
+    }
+    
+    .contestant-card:hover {
+        transform: none;
+    }
+    
+    .loader {
+        animation: none;
+    }
 }
