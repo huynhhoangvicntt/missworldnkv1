@@ -120,7 +120,7 @@ $page_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
 
 $array = [];
-$per_page = 4;
+$per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 
