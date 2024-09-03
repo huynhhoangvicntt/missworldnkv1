@@ -14,26 +14,37 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 
 $page_title = $lang_module['voter_manager'];
 
-// Xử lý yêu cầu xóa
+// Xóa bỏ 1 hoặc nhiều
 if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
-    $vote_id = $nv_Request->get_int('vote_id', 'post', 0);
-    
-    if ($vote_id > 0) {
-        // Lấy contestant_id trước khi xóa bình chọn
-        $sql = "SELECT contestant_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE id = " . $vote_id;
-        $contestant_id = $db->query($sql)->fetchColumn();
+    $id = $nv_Request->get_int('vote_id', 'post', 0);
+    $listid = $nv_Request->get_title('listid', 'post', '');
+    $listid = $listid . ',' . $id;
+    $listid = array_filter(array_unique(array_map('intval', explode(',', $listid))));
 
-        // Xóa
-        $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_votes WHERE id = ' . $vote_id);
-        
-        // Cập nhật lượt bình chọn
-        if ($contestant_id) {
-            $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET vote = vote - 1 WHERE id = ' . $contestant_id);
+    foreach ($listid as $id) {
+        // Kiểm tra tồn tại
+        $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE id=" . $id;
+        $vote = $db->query($sql)->fetch();
+        if (!empty($vote)) {
+            // Lấy contestant_id trước khi xóa bình chọn
+            $contestant_id = $vote['contestant_id'];
+
+            // Ghi log
+            nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_DELETE_VOTE', json_encode($vote), $admin_info['admin_id']);
+
+            // Xóa
+            $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE id=" . $id;
+            $db->query($sql);
+
+            // Cập nhật lượt bình chọn
+            if ($contestant_id) {
+                $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET vote = vote - 1 WHERE id = ' . $contestant_id);
+            }
         }
-        
-        $nv_Cache->delMod($module_name);
-        nv_htmlOutput('OK');
     }
+
+    $nv_Cache->delMod($module_name);
+    nv_htmlOutput("OK");
 }
 
 $contestant_id = $nv_Request->get_int('contestant_id', 'get', 0);
