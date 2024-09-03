@@ -552,3 +552,42 @@
         font-size: 14px;
     }
 }
+
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+}
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #f0f2f5;
+    border-radius: 25px;
+    padding: 3px 15px;
+    width: 80%; /* Điều chỉnh chiều rộng ở đây */
+    max-width: 600px; /* Giới hạn chiều rộng tối đa */
+}
+.search-container form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+.search-container input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    padding: 8px 10px;
+    font-size: 14px;
+    outline: none;
+    width: calc(100% - 30px);
+}
+.search-container .search-icon {
+    color: #65676b;
+    font-size: 16px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+.search-container input[type="submit"] {
+    display: none;
+}

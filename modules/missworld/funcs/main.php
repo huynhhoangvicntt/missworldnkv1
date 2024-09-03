@@ -122,16 +122,18 @@ $key_words = $module_info['keywords'];
 $array = [];
 $per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
-$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
-
 
 // Lấy tổng số thí sinh
-$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_rows")->where('status = 1');
+$keyword = $nv_Request->get_title('keyword', "get", '');
+$db->sqlreset()
+   ->select('COUNT(*)')
+   ->from(NV_PREFIXLANG . '_' . $module_data . '_rows')
+   ->where("(fullname LIKE " . $db->quote('%' . $keyword . '%') . " OR keywords LIKE " . $db->quote('%' . $keyword . '%') . ") AND status = 1");
 $total = $db->query($db->sql())->fetchColumn();
 
 // Lấy danh sách thí sinh cho trang hiện tại
 $db->select('*')
-   ->where('status = 1')
+//    ->where('status = 1')
    ->order('id DESC')  // Sắp xếp theo id giảm dần
    ->limit($per_page)
    ->offset(($page - 1) * $per_page);
@@ -142,10 +144,14 @@ while ($row = $result->fetch()) {
     $array_data[$row['id']] = $row;
 }
 
+$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+if ($keyword != '') {
+    $base_url .= '&keyword = ' . $keyword;
+}
 // Tạo phân trang
 $generate_page = nv_generate_page($base_url, $total, $per_page, $page);
 
-$contents = nv_theme_missworld_main($array_data, $generate_page);
+$contents = nv_theme_missworld_main($array_data, $generate_page, $keyword);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);

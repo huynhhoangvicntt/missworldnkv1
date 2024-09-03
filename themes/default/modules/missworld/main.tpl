@@ -1,4 +1,19 @@
 <!-- BEGIN: main -->
+<div class="row">
+    <div class="col-md-24">
+        <div class="search-wrapper">
+            <div class="search-container">
+                <form action="{NV_BASE_SITEURL}index.php" method="get">
+                    <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                    <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}">
+                    <input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}">
+                    <input type="text" name="keyword" value="{KEYWORD}" maxlength="64" placeholder="{LANG.enter_search_key}">
+                    <input type="submit" value="{GLANG.search}">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="missworld-contestants">
     <h2>{LANG.contestant_list}</h2>
     <div class="contestant-grid">
