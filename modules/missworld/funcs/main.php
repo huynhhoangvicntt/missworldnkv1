@@ -128,7 +128,6 @@ $total = $db->query($db->sql())->fetchColumn();
 
 // Lấy danh sách thí sinh cho trang hiện tại
 $db->select('*')
-   ->where('status = 1')
    ->order('id DESC')
    ->limit($per_page)
    ->offset(($page - 1) * $per_page);
