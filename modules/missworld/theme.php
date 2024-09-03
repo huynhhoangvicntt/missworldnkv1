@@ -41,17 +41,17 @@ function nv_theme_missworld_main($array_data, $generate_page)
     return $xtpl->text('main');
 }
 
-function nv_theme_missworld_detail($row, $generate_page)
+function nv_theme_missworld_detail($array_data)
 {
     global $module_info, $lang_module, $module_file;
 
     $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
-    $xtpl->assign('DATA', $row);
+    $xtpl->assign('DATA', $array_data);
 
     // Xử lý hiển thị lịch sử bình chọn
-    if (!empty($row['voting_history'])) {
-        foreach ($row['voting_history'] as $vote) {
+    if (!empty($array_data['voting_history'])) {
+        foreach ($array_data['voting_history'] as $vote) {
             $xtpl->assign('VOTE', $vote);
             $xtpl->parse('main.voting_history.loop');
         }
@@ -59,9 +59,6 @@ function nv_theme_missworld_detail($row, $generate_page)
     } else {
         $xtpl->parse('main.no_votes');
     }
-    
-    $xtpl->assign('GENERATE_PAGE', $generate_page);
-    $xtpl->parse('main.generate_page');
 
     $xtpl->parse('main');
     return $xtpl->text('main');

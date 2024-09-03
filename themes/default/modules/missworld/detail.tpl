@@ -48,7 +48,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {VOTING_HISTORY_CONTENT}
+                            <!-- BEGIN: loop -->
+                            <tr>
+                                <td class="voter-email"><div class="email-wrapper" title="{VOTE.email}"><span class="email-text">{VOTE.email}</span></div></td>
+                                <td class="vote-time">{VOTE.vote_time}</td>
+                            </tr>
+                            <!-- END: loop -->
                         </tbody>
                     </table>
                 </div>
@@ -56,13 +61,6 @@
                 <!-- BEGIN: no_votes -->
                 <p class="no-votes-message">{LANG.no_votes_yet}</p>
                 <!-- END: no_votes -->
-            </div>
-            <div id="pagination-container">
-                <!-- BEGIN: generate_page -->
-                <div class="text-center generate-page">
-                    {GENERATE_PAGE}
-                </div>
-                <!-- END: generate_page -->
             </div>
         </div>
     </div>

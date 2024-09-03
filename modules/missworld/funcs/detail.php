@@ -15,7 +15,7 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 $page_title = $module_info['site_title'];
 $key_words = $module_info['keywords'];
 
-$array = [];
+$array_data = [];
 
 $id = $nv_Request->get_int('id', 'get', 0);
 if ($id > 0) {
@@ -41,24 +41,12 @@ if ($id > 0) {
 
     $row['dob'] = empty($row['dob']) ? '' : nv_date('d/m/Y', $row['dob']);
 
-    // Kiểm tra xem có phải là yêu cầu AJAX không
-    $is_ajax = $nv_Request->isset_request('ajax', 'get');
-
-    // Pagination for voting history
-    $page = $nv_Request->get_int('page', 'get', 1);
-    $per_page = 2;
-    $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=detail&amp;id=' . $id;
-
-    // Get total number of votes
-    $sql_count = "SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE contestant_id = " . $id;
-    $total_votes = $db->query($sql_count)->fetchColumn();
-
-    // Get paginated voting history
+    // Get the 10 most recent votes
     $sql_votes = "SELECT v.email, v.vote_time 
         FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v
         WHERE v.contestant_id = " . $id . " 
         ORDER BY v.vote_time DESC 
-        LIMIT " . (($page - 1) * $per_page) . ", " . $per_page;
+        LIMIT 20";
 
     $result_votes = $db->query($sql_votes);
     $voting_history = [];
@@ -89,70 +77,12 @@ if ($id > 0) {
     }
     $row['voting_history'] = $voting_history;
 
-    // Generate pagination
-    $generate_page = nv_generate_page($base_url, $total_votes, $per_page, $page);
-
-    $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_theme']);
-    $xtpl->assign('LANG', $lang_module);
-    $xtpl->assign('DATA', $row);
-
-    // Xử lý lịch sử bình chọn
-    if (!empty($row['voting_history'])) {
-        $voting_history_content = '';
-        foreach ($row['voting_history'] as $vote) {
-            $voting_history_content .= '<tr>
-                <td class="voter-email"><div class="email-wrapper" title="' . $vote['email'] . '"><span class="email-text">' . $vote['email'] . '</span></div></td>
-                <td class="vote-time">' . $vote['vote_time'] . '</td>
-            </tr>';
-        }
-        $xtpl->assign('VOTING_HISTORY_CONTENT', $voting_history_content);
-        $xtpl->parse('main.voting_history');
-    } else {
-        $xtpl->parse('main.no_votes');
-    }
-
-    // Xử lý phân trang
-    if (!empty($generate_page)) {
-        $xtpl->assign('GENERATE_PAGE', $generate_page);
-        $xtpl->parse('main.generate_page');
-    }
-
-    $xtpl->parse('main');
-    $contents = $xtpl->text('main');
-
-    if ($is_ajax) {
-        $voting_history_content = '';
-        if (!empty($row['voting_history'])) {
-            $voting_history_content .= '<div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="col-voter-email">' . $lang_module['voter_email'] . '</th>
-                            <th class="col-vote-time">' . $lang_module['vote_time'] . '</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
-            foreach ($row['voting_history'] as $vote) {
-                $voting_history_content .= '<tr>
-                    <td class="voter-email"><div class="email-wrapper" title="' . $vote['email'] . '"><span class="email-text">' . $vote['email'] . '</span></div></td>
-                    <td class="vote-time">' . $vote['vote_time'] . '</td>
-                </tr>';
-            }
-            $voting_history_content .= '</tbody></table></div>';
-        } else {
-            $voting_history_content = '<p class="no-votes-message">' . $lang_module['no_votes_yet'] . '</p>';
-        }
-        
-        $json = [
-            'content' => $voting_history_content,
-            'pagination' => $generate_page
-        ];
-        
-        nv_jsonOutput($json);
-    }
+    $array_data = $row;
 } else {
     nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=main');
 }
+
+$contents = nv_theme_missworld_detail($row);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
