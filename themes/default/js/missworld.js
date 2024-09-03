@@ -251,14 +251,37 @@ $(document).ready(function() {
         }
     });
 
-    // Cache để lưu trữ kết quả đã tải
-const pageCache = {};
+// Cache để lưu trữ kết quả đã tải
+var pageCache = {};
+
+function normalizeUrl(url) {
+    var urlObj = new URL(url, window.location.origin);
+    var id = urlObj.searchParams.get('id');
+    var page = urlObj.searchParams.get('page') || '1';
+    
+    // Tạo URL phù hợp với cấu trúc NukeViet
+    return window.location.origin + '/index.php?language=vi&nv=missworld&op=detail&id=' + id + '&page=' + page;
+}
+
+function updateBrowserUrl(url) {
+    var urlObj = new URL(url, window.location.origin);
+    var id = urlObj.searchParams.get('id');
+    var page = urlObj.searchParams.get('page');
+    var shortUrl = '/missworld/detail/' + id;
+    if (page && page !== '1') {
+        shortUrl += '&page=' + page;
+    }
+    history.pushState(null, '', shortUrl);
+}
 
 function loadPage(url) {
+    var normalizedUrl = normalizeUrl(url);
+    
     // Kiểm tra cache
-    if (pageCache[url]) {
-        console.log('Loading from cache:', url);
-        updateContent(pageCache[url]);
+    if (pageCache[normalizedUrl]) {
+        console.log('Loading from cache:', normalizedUrl);
+        updateContent(pageCache[normalizedUrl]);
+        updateBrowserUrl(normalizedUrl);
         return;
     }
 
@@ -266,13 +289,14 @@ function loadPage(url) {
     showLoading();
 
     $.ajax({
-        url: url + '&ajax=1',
+        url: normalizedUrl + '&ajax=1',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
             // Lưu vào cache
-            pageCache[url] = data;
+            pageCache[normalizedUrl] = data;
             updateContent(data);
+            updateBrowserUrl(normalizedUrl);
         },
         error: function(xhr, status, error) {
             console.error('AJAX Error:', status, error);
@@ -309,10 +333,9 @@ function hideLoading() {
 }
 
 function attachPaginationListeners() {
-    $('#pagination-container a').off('click').on('click', function(e) {
+    $('#pagination-container').off('click', 'a').on('click', 'a', function(e) {
         e.preventDefault();
-        const url = this.href;
-        history.pushState(null, '', url);
+        var url = $(this).attr('href');
         loadPage(url);
     });
 }
