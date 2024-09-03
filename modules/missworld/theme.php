@@ -50,10 +50,17 @@ function nv_theme_missworld_main($array_data, $generate_page, $keyword)
 
 function nv_theme_missworld_detail($array_data)
 {
-    global $module_info, $lang_module, $module_file;
+    global $module_info, $lang_module, $module_file, $module_upload;
 
     $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
+
+    // Xử lý hình ảnh mặc định
+    $images_default = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
+    if (empty($array_data['image'])) {
+        $array_data['image'] = $images_default;
+    }
+
     $xtpl->assign('DATA', $array_data);
 
     // Xử lý hiển thị lịch sử bình chọn

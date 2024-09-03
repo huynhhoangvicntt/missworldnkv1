@@ -119,7 +119,7 @@ if ($nv_Request->isset_request('action', 'post')) {
 $page_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
 
-$array = [];
+$array_data = [];
 $per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
 

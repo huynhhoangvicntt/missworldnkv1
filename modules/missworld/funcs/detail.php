@@ -33,8 +33,17 @@ if ($id > 0) {
     $result_rank = $db->query($sql_rank);
     $row['rank'] = $result_rank->fetchColumn();
     
-    // Xử lý tiếp theo
-    $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+    // Xử lý hình ảnh
+if (!empty($row['image'])) {
+    $image_path = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $row['image'];
+    if (file_exists($image_path)) {
+        $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+    } else {
+        $row['image'] = '';  // Để trống để hàm nv_theme_missworld_detail xử lý
+    }
+} else {
+    $row['image'] = '';  // Để trống để hàm nv_theme_missworld_detail xử lý
+}
     
     // Thêm thông tin xếp hạng vào mảng $row
     $row['rank_text'] = $lang_module['current_rank'] . ': ' . $row['rank'];
@@ -82,7 +91,7 @@ if ($id > 0) {
     nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=main');
 }
 
-$contents = nv_theme_missworld_detail($row);
+$contents = nv_theme_missworld_detail($array_data);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
