@@ -10,8 +10,16 @@ $(document).ready(function() {
 
     voteButtons.on('click', function() {
         var contestantId = $(this).data('contestant-id');
-        var contestantName = $(this).closest('.contestant-card').find('.contestant-name').text();
-        var contestantImage = $(this).closest('.contestant-card').find('img').attr('src');
+        var contestantName, contestantImage;
+        
+        if ($(this).closest('.contestant-detail-container').length) {
+            contestantName = $('.contestant-detail-name').text();
+            contestantImage = $('.contestant-detail-image').attr('src');
+        } else {
+            contestantName = $(this).closest('.contestant-card').find('.contestant-name').text();
+            contestantImage = $(this).closest('.contestant-card').find('img').attr('src');
+        }
+        
         checkUserLoginStatus(contestantId, contestantName, contestantImage);
     });
 
@@ -93,6 +101,7 @@ $(document).ready(function() {
                         showVerificationModal(contestantId, email);
                     } else {
                         handleSuccessfulVote(contestantId, response.newVoteCount);
+                        updateVotingHistory(contestantId);
                         hideModal(votingModal);
                     }
                 } else {
@@ -153,6 +162,7 @@ $(document).ready(function() {
                 hideLoading();
                 if (response.success) {
                     handleSuccessfulVote(contestantId, response.newVoteCount);
+                    updateVotingHistory(contestantId);
                     hideModal(verificationModal);
                 }
                 showToast(response.message);
@@ -165,11 +175,32 @@ $(document).ready(function() {
     }
 
     function handleSuccessfulVote(contestantId, newVoteCount) {
-        var contestantCard = $('.contestant-card[data-id="' + contestantId + '"]');
-        var voteCountElement = contestantCard.find('.vote-count span');
+        var voteButton = $('.vote-button[data-contestant-id="' + contestantId + '"]');
+        var voteCountElement = voteButton.siblings('.vote-count').find('span');
+        
         if (typeof newVoteCount !== 'undefined') {
             voteCountElement.text(newVoteCount);
         }
+
+        if (voteButton.closest('.contestant-detail-container').length) {
+            setTimeout(function() {
+                location.reload();
+            }, 3000);
+        }
+    }
+
+    function updateVotingHistory(contestantId) {
+        $.ajax({
+            type: 'GET',
+            url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=detail&id=' + contestantId,
+            success: function(response) {
+                var newHistory = $(response).find('#voting-history-container').html();
+                $('#voting-history-container').html(newHistory);
+            },
+            error: function(xhr) {
+                handleAjaxError(xhr);
+            }
+        });
     }
 
     function deleteVerificationCode() {
@@ -251,4 +282,3 @@ $(document).ready(function() {
         }
     });
 });
-
