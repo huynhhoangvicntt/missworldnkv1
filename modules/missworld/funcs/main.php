@@ -126,11 +126,12 @@ $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DA
 
 
 // Lấy tổng số thí sinh
-$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_rows");
+$db->sqlreset()->select('COUNT(*)')->from(NV_PREFIXLANG . "_" . $module_data . "_rows")->where('status = 1');
 $total = $db->query($db->sql())->fetchColumn();
 
 // Lấy danh sách thí sinh cho trang hiện tại
 $db->select('*')
+   ->where('status = 1')
    ->order('id DESC')  // Sắp xếp theo id giảm dần
    ->limit($per_page)
    ->offset(($page - 1) * $per_page);
