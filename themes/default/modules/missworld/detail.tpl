@@ -65,7 +65,6 @@
         </div>
     </div>
 </div>
-
 <div id="voting-modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -101,7 +100,6 @@
         </div>
     </div>
 </div>
-
 <div id="verification-modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -128,7 +126,6 @@
         <button id="resend-code-btn" type="button" class="resend-btn">{LANG.resend_verification_code}</button>
     </div>
 </div>
-
 <div id="toast" class="toast"></div>
 <div id="loading-overlay" class="loading-overlay">
     <div class="loader"></div>
