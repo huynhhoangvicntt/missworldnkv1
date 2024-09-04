@@ -61,13 +61,13 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     $contestant = $result->fetch();
 
     if (empty($contestant)) {
-        return array('success' => false, 'message' => $lang_module['contestant_not_exist']);
+        return ['success' => false, 'message' => $lang_module['contestant_not_exist']];
     }
 
     // Kiểm tra xem người dùng đã bỏ phiếu chưa
     $vote_status = nv_check_vote_status($contestant_id, $email);
     if ($vote_status === 'voted_for_contestant') {
-        return array('success' => false, 'message' => $lang_module['already_voted']);
+        return ['success' => false, 'message' => $lang_module['already_voted']];
     }
 
     // Cập nhật số lượt bình chọn
@@ -90,7 +90,7 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     $sql = "SELECT vote FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $contestant_id;
     $new_vote_count = $db->query($sql)->fetchColumn();
 
-    return array('success' => true, 'message' => $lang_module['vote_success'], 'newVoteCount' => $new_vote_count);
+    return ['success' => true, 'message' => $lang_module['vote_success'], 'newVoteCount' => $new_vote_count];
 }
 
 /**
@@ -123,7 +123,7 @@ function nv_create_email_verification($contestant_id, $voter_name, $email, $veri
     $resend_count = $db->query($sql)->fetchColumn();
 
     if ($resend_count >= 3) {
-        return array('success' => false, 'message' => $lang_module['verification_limit_reached']);
+        return ['success' => false, 'message' => $lang_module['verification_limit_reached']];
     }
 
     $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_email_verifications 
@@ -137,9 +137,9 @@ function nv_create_email_verification($contestant_id, $voter_name, $email, $veri
             " . $expiration_time . ")";
 
     if ($db->query($sql)) {
-        return array('success' => true, 'expires_in' => $expires_in);
+        return ['success' => true, 'expires_in' => $expires_in];
     } else {
-        return array('success' => false, 'message' => $lang_module['verification_create_fail']);
+        return ['success' => false, 'message' => $lang_module['verification_create_fail']];
     }
 }
 
@@ -163,13 +163,13 @@ function nv_send_verification_email($email, $verification_code, $expires_in)
     $message .= $lang_module['enter_code_to_complete_voting'];
     $message = nl2br($message);
 
-    $from = array($global_config['site_name'], $global_config['site_email']);
+    $from = [$global_config['site_name'], $global_config['site_email']];
     $is_sent = nv_sendmail($from, $email, $subject, $message);
 
     if ($is_sent) {
-        return array('success' => true, 'message' => $lang_module['email_sent_success']);
+        return ['success' => true, 'message' => $lang_module['email_sent_success']];
     } else {
-        return array('success' => false, 'message' => $lang_module['email_send_fail']);
+        return ['success' => false, 'message' => $lang_module['email_send_fail']];
     }
 }
 
@@ -197,7 +197,7 @@ function nv_verify_and_vote($contestant_id, $email, $verification_code)
         $verification = $db->query($sql)->fetch();
 
         if (empty($verification)) {
-            return array('success' => false, 'message' => $lang_module['verification_invalid']);
+            return ['success' => false, 'message' => $lang_module['verification_invalid']];
         }
 
         // Xóa bản ghi mã xác minh
@@ -207,7 +207,7 @@ function nv_verify_and_vote($contestant_id, $email, $verification_code)
         return nv_vote_contestant($contestant_id, $verification['voter_name'], $email);
     } catch (Exception $e) {
         error_log("Error in nv_verify_and_vote: " . $e->getMessage());
-        return array('success' => false, 'message' => $lang_module['verification_vote_error']);
+        return ['success' => false, 'message' => $lang_module['verification_vote_error']];
     }
 }
 
@@ -239,7 +239,7 @@ function nv_resend_verification_code($email, $contestant_id)
         $resend_count = $db->query($sql)->fetchColumn();
 
         if ($resend_count >= 3) {
-            return array('success' => false, 'message' => $lang_module['verification_limit_reached']);
+            return ['success' => false, 'message' => $lang_module['verification_limit_reached']];
         }
 
         // Tạo mã xác minh mới
@@ -252,7 +252,7 @@ function nv_resend_verification_code($email, $contestant_id)
             return $result;
         }
     } else {
-        return array('success' => false, 'message' => $lang_module['verification_still_valid']);
+        return ['success' => false, 'message' => $lang_module['verification_still_valid']];
     }
 }
 
@@ -275,7 +275,7 @@ function nv_delete_verification_code($email, $contestant_id)
     
     $db->query($sql);
 
-    return array('success' => true, 'message' => $lang_module['verification_code_deleted']);
+    return ['success' => true, 'message' => $lang_module['verification_code_deleted']];
 }
 
 /**

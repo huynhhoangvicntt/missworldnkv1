@@ -21,18 +21,18 @@ if ($nv_Request->isset_request('action', 'post')) {
         
         if ($action === 'check_user') {
             if (defined('NV_IS_USER')) {
-                $user_info = isset($user_info) ? $user_info : array();
-                nv_jsonOutput(array(
+                $user_info = isset($user_info) ? $user_info : [];
+                nv_jsonOutput([
                     'success' => true,
                     'isLoggedIn' => true,
                     'fullname' => isset($user_info['full_name']) ? $user_info['full_name'] : '',
                     'email' => isset($user_info['email']) ? $user_info['email'] : ''
-                ));
+                ]);
             } else {
-                nv_jsonOutput(array(
+                nv_jsonOutput([
                     'success' => true,
                     'isLoggedIn' => false
-                ));
+                ]);
             }
         } elseif ($action === 'vote') {
             $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
@@ -51,7 +51,7 @@ if ($nv_Request->isset_request('action', 'post')) {
             }
 
             if (!empty($errors)) {
-                nv_jsonOutput(array('success' => false, 'message' => implode(', ', $errors)));
+                nv_jsonOutput(['success' => false, 'message' => implode(', ', $errors)]);
             }
 
             if (defined('NV_IS_USER')) {
@@ -61,20 +61,20 @@ if ($nv_Request->isset_request('action', 'post')) {
                 $vote_status = nv_check_vote_status($contestant_id, $email);
                 
                 if ($vote_status === 'voted_for_contestant') {
-                    nv_jsonOutput(array('success' => false, 'message' => $lang_module['already_voted']));
+                    nv_jsonOutput(['success' => false, 'message' => $lang_module['already_voted']]);
                 } else {
                     $pending_verification = nv_check_pending_verification($email, $contestant_id);
                     if ($pending_verification) {
-                        nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['verification_pending']));
+                        nv_jsonOutput(['success' => true, 'requiresVerification' => true, 'message' => $lang_module['verification_pending']]);
                     } else {
                         $verification_code = nv_genpass(6);
                         $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
                         if ($result['success']) {
                             $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
                             if ($email_result['success']) {
-                                nv_jsonOutput(array('success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']));
+                                nv_jsonOutput(['success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']]);
                             } else {
-                                nv_jsonOutput(array('success' => false, 'message' => $lang_module['email_verification_failed']));
+                                nv_jsonOutput(['success' => false, 'message' => $lang_module['email_verification_failed']]);
                             }
                         } else {
                             nv_jsonOutput($result);
@@ -102,11 +102,11 @@ if ($nv_Request->isset_request('action', 'post')) {
             $result = nv_delete_verification_code($email, $contestant_id);
             nv_jsonOutput($result);
         } else {
-            nv_jsonOutput(array('success' => false, 'message' => $lang_module['invalid_action']));
+            nv_jsonOutput(['success' => false, 'message' => $lang_module['invalid_action']]);
         }
     } catch (Exception $e) {
         error_log("Error in AJAX request: " . $e->getMessage());
-        nv_jsonOutput(array('success' => false, 'message' => $lang_module['error_occurred']));
+        nv_jsonOutput(['success' => false, 'message' => $lang_module['error_occurred']]);
     }
 }
 
