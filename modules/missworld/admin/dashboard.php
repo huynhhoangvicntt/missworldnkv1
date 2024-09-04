@@ -48,14 +48,7 @@ $xtpl->assign('AVG_WAIST', $avg_measurements['avg_waist']);
 $xtpl->assign('AVG_HIPS', $avg_measurements['avg_hips']);
 
 // Lấy 5 thí sinh hàng đầu với xếp hạng chính xác
-$sql = "SELECT 
-            fullname, 
-            vote, 
-            (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows b 
-             WHERE b.vote > a.vote) + 1 AS rank
-        FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows a
-        ORDER BY vote DESC, id ASC
-        LIMIT 5";
+$sql = "SELECT fullname, vote, (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows b WHERE b.vote > a.vote) + 1 AS rank FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows a ORDER BY vote DESC, id ASC LIMIT 5";
 $result = $db->query($sql);
 while ($row = $result->fetch()) {
     $xtpl->assign('TOP_CONTESTANT', [

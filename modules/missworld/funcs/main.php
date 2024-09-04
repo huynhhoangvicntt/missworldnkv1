@@ -127,10 +127,7 @@ $db->sqlreset()
 $total = $db->query($db->sql())->fetchColumn();
 
 // Lấy danh sách thí sinh cho trang hiện tại
-$db->select('*')
-   ->order('id DESC')
-   ->limit($per_page)
-   ->offset(($page - 1) * $per_page);
+$db->select('*')->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 
 $result = $db->query($db->sql());
 while ($row = $result->fetch()) {

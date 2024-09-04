@@ -28,12 +28,12 @@ if ($id > 0) {
         nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main");
     }
     
-    // Calculate rank
-    $sql_rank = "SELECT (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE vote>" . $row['vote'] . ") + 1 AS rank";
+    // Tính toán xếp hạng
+    $sql_rank = "SELECT (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE vote > " . $row['vote'] . ") + 1 AS rank";
     $result_rank = $db->query($sql_rank);
     $row['rank'] = $result_rank->fetchColumn();
     
-    // Process image
+    // Xử lý ảnh
     if (!empty($row['image'])) {
         $image_path = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $row['image'];
         $row['image'] = (file_exists($image_path)) ? NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'] : '';
@@ -42,12 +42,8 @@ if ($id > 0) {
     $row['rank_text'] = $lang_module['current_rank'] . ': ' . $row['rank'];
     $row['dob'] = empty($row['dob']) ? '' : nv_date('d/m/Y', $row['dob']);
 
-    // Get recent votes
-    $sql_votes = "SELECT v.email, v.vote_time 
-                  FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v
-                  WHERE v.contestant_id=" . $id . " 
-                  ORDER BY v.vote_time DESC 
-                  LIMIT 20";
+    // Lấy 20 phiếu bầu gần nhất
+    $sql_votes = "SELECT v.email, v.vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v WHERE v.contestant_id=" . $id . " ORDER BY v.vote_time DESC LIMIT 20";
     $result_votes = $db->query($sql_votes);
     $voting_history = [];
     

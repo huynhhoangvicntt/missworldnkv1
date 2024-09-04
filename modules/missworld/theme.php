@@ -14,14 +14,11 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 
 function nv_theme_missworld_main($array_data, $generate_page, $keyword)
 {
-    global $module_name, $lang_module, $lang_global, $module_info, $page_config, $module_upload, $module_file, $op;
+    global $module_name, $lang_module, $lang_global, $module_info, $module_upload, $module_file, $op;
 
     $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('GLANG', $lang_global);
-    $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
-    $xtpl->assign('NV_NAME_VARIABLE', NV_NAME_VARIABLE);
-    $xtpl->assign('NV_OP_VARIABLE', NV_OP_VARIABLE);
     $xtpl->assign('MODULE_NAME', $module_name);
     $xtpl->assign('OP', $op);
     $xtpl->assign('KEYWORD', $keyword);
@@ -50,7 +47,7 @@ function nv_theme_missworld_main($array_data, $generate_page, $keyword)
 
 function nv_theme_missworld_detail($array_data)
 {
-    global $module_info, $lang_module, $module_file, $module_upload;
+    global $module_info, $lang_module, $module_file;
 
     $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
