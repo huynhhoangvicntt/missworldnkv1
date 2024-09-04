@@ -68,3 +68,4 @@ $lang_module['vote_time'] = 'Thời gian bình chọn';
 $lang_module['voter_email'] = 'Email người bình chọn';
 $lang_module['voter_name'] = 'Tên người bình chọn';
 $lang_module['enter_search_key'] = 'Nhập họ tên thí sinh hoặc từ khóa liên quan';
+$lang_module['voting_history'] = 'Lịch sử bình chọn';
