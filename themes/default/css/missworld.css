@@ -1,27 +1,15 @@
 :root {
-    --primary-color: #2980b9;
-    --primary-hover-color: #3498db;
-    --secondary-color: #e91e63;
-    --secondary-hover-color: #c2185b;
-    --background-color: #f5f5f5;
-    --text-color: #333;
-    --text-light-color: #666;
-    --border-color: #ddd;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --border-radius: 10px;
-    --transition: 0.3s ease;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Tahoma, Arial, sans-serif;
-    color: var(--text-color);
-    line-height: 1.6;
+    --mw-primary-color: #2980b9;
+    --mw-primary-hover-color: #3498db;
+    --mw-secondary-color: #e91e63;
+    --mw-secondary-hover-color: #c2185b;
+    --mw-background-color: #f5f5f5;
+    --mw-text-color: #333;
+    --mw-text-light-color: #666;
+    --mw-border-color: #ddd;
+    --mw-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --mw-border-radius: 10px;
+    --mw-transition: 0.3s ease;
 }
 
 .missworld-contestants {
@@ -36,7 +24,7 @@ body {
 
 h2 {
     text-align: center;
-    color: var(--text-color);
+    color: var(--mw-text-color);
     margin-bottom: 20px;
 }
 
@@ -67,11 +55,11 @@ h2 {
 
 /* Contestant Card */
 .contestant-card {
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
+    background-color: var(--mw-background-color);
+    border-radius: var(--mw-border-radius);
     overflow: hidden;
-    box-shadow: var(--box-shadow);
-    transition: transform var(--transition);
+    box-shadow: var(--mw-box-shadow);
+    transition: transform var(--mw-transition);
 }
 
 .contestant-card:hover {
@@ -98,7 +86,7 @@ h2 {
     padding: 0 10px 10px;
     margin: 0;
     font-size: 11px;
-    color: var(--text-light-color);
+    color: var(--mw-text-light-color);
 }
 
 /* Buttons */
@@ -106,30 +94,30 @@ h2 {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: var(--primary-color);
+    background-color: var(--mw-primary-color);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color var(--transition);
+    transition: background-color var(--mw-transition);
     font-size: 14px;
     text-transform: uppercase;
     font-weight: bold;
 }
 
 .vote-button:hover, .contestant-detail-vote-button:hover {
-    background-color: var(--primary-hover-color);
+    background-color: var(--mw-primary-hover-color);
 }
 
 .contestant-detail-vote-button {
     display: inline-block;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: var(--secondary-color);
+    background-color: var(--mw-secondary-color);
 }
 
 .contestant-detail-vote-button:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--mw-secondary-hover-color);
 }
 
 /* Modal */
@@ -186,8 +174,8 @@ h2 {
 .modal-image img {
     width: 100%;
     height: auto;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    border-radius: var(--mw-border-radius);
+    box-shadow: var(--mw-box-shadow);
 }
 
 .modal-form {
@@ -277,7 +265,7 @@ h2 {
     z-index: 1001;
     left: 50%;
     bottom: 30px;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--mw-box-shadow);
 }
 
 .toast.show {
@@ -336,9 +324,9 @@ h2 {
 .contestant-detail-card {
     display: flex;
     background-color: #fff;
-    border-radius: var(--border-radius);
+    border-radius: var(--mw-border-radius);
     overflow: hidden;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--mw-box-shadow);
 }
 
 .contestant-detail-image-container {
@@ -365,7 +353,7 @@ h2 {
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--mw-box-shadow);
     text-align: center;
     padding: 5px;
 }
@@ -386,7 +374,7 @@ h2 {
 
 .contestant-detail-name {
     font-size: 32px;
-    color: var(--text-color);
+    color: var(--mw-text-color);
     margin-bottom: 15px;
 }
 
@@ -399,7 +387,7 @@ h2 {
 
 .contestant-detail-table td {
     padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--mw-border-color);
 }
 
 .contestant-detail-table .contestant-detail-in td {
@@ -434,8 +422,8 @@ h2 {
     margin-top: 30px;
     padding: 20px;
     background-color: #f9f9f9;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    border-radius: var(--mw-border-radius);
+    box-shadow: var(--mw-box-shadow);
 }
 
 .contestant-detail-voting-history h2 {
@@ -452,7 +440,7 @@ h2 {
 .voting-history-table td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--mw-border-color);
 }
 
 .voting-history-table th {
@@ -466,7 +454,7 @@ h2 {
 
 .no-votes-message {
     font-style: italic;
-    color: var(--text-light-color);
+    color: var(--mw-text-light-color);
 }
 
 /* Search */
@@ -573,25 +561,25 @@ h2 {
 .vote-button:focus,
 .search-container input[type="text"]:focus,
 .modal-content input:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--mw-primary-color);
     outline-offset: 2px;
 }
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
     :root {
-        --primary-color: #0000FF;
-        --primary-hover-color: #000080;
-        --secondary-color: #FF0000;
-        --secondary-hover-color: #800000;
-        --text-color: #000000;
-        --text-light-color: #202020;
-        --background-color: #FFFFFF;
+        --mw-primary-color: #0000FF;
+        --mw-primary-hover-color: #000080;
+        --mw-secondary-color: #FF0000;
+        --mw-secondary-hover-color: #800000;
+        --mw-text-color: #000000;
+        --mw-text-light-color: #202020;
+        --mw-background-color: #FFFFFF;
     }
     
     .contestant-card,
     .modal-content,
     .contestant-detail-card {
-        border: 1px solid var(--text-color);
+        border: 1px solid var(--mw-text-color);
     }
 }
