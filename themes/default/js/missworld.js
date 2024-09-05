@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // DOM elements
     var voteButtons = $('.vote-button');
     var votingModal = $('#voting-modal');
     var verificationModal = $('#verification-modal');
@@ -9,7 +8,6 @@ $(document).ready(function() {
     var toast = $('.toast');
     var loadingOverlay = $('.loading-overlay');
 
-    // Event listeners
     voteButtons.on('click', function() {
         var contestantId = $(this).data('contestant-id');
         var contestantName, contestantImage;
@@ -67,7 +65,6 @@ $(document).ready(function() {
         }
     });
 
-    // Main functions
     function checkUserLoginStatus(contestantId, contestantName, contestantImage) {
         showLoading();
         $.ajax({
@@ -174,7 +171,6 @@ $(document).ready(function() {
         });
     }
 
-    // Helper functions
     function showVerificationModal(contestantId, email) {
         $('#verification-contestant-id').val(contestantId);
         $('#verification-email').val(email);
@@ -258,7 +254,6 @@ $(document).ready(function() {
         });
     }
 
-    // UI helper functions
     function showModal(modal) {
         modal.show();
     }
