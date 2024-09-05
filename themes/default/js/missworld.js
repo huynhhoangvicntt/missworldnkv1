@@ -105,6 +105,8 @@ $(document).ready(function() {
 
     function submitVote(contestantId, voterName, email) {
         showLoading();
+        $('.alert.alert-danger').remove();
+        
         $.ajax({
             type: 'POST',
             url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main',
@@ -117,6 +119,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 hideLoading();
+    
                 if (response.success) {
                     if (response.requiresVerification) {
                         showVerificationModal(contestantId, email);
@@ -126,9 +129,16 @@ $(document).ready(function() {
                         hideModal(votingModal);
                     }
                 } else {
-                    hideModal(votingModal);
+                    if (response.error_content) {
+                        $('#voting-form').prepend(response.error_content);
+                    } else {
+                        hideModal(votingModal);
+                    }
                 }
-                showToast(response.message);
+    
+                if (response.isToast && response.message) {
+                    showToast(response.message);
+                }
             },
             error: function(xhr) {
                 hideLoading();
@@ -136,7 +146,6 @@ $(document).ready(function() {
             }
         });
     }
-
     function verifyVote(contestantId, email, verificationCode) {
         showLoading();
         $.ajax({

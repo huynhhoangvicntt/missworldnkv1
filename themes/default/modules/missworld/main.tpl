@@ -43,6 +43,9 @@
             </div>
             <div class="modal-form">
                 <h2>{LANG.vote_for} <span id="contestant-name"></span></h2>
+                <!-- BEGIN: error -->
+                    <div class="alert alert-danger">{ERROR}</div>
+                <!-- END: error -->
                 <div class="progress-dots">
                     <div class="progress-step">
                         <div class="progress-dot active">{LANG.number_one}</div>

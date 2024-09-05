@@ -40,47 +40,70 @@ if ($nv_Request->isset_request('action', 'post')) {
             $email = $nv_Request->get_title('email', 'post', '');
 
             // Kiểm tra dữ liệu đầu vào
-            $errors = [];
+            $error = array();
             if (empty($voter_name)) {
-                $errors[] = $lang_module['fullname_empty_error'];
+                $error[] = $lang_module['fullname_empty_error'];
             }
             if (empty($email)) {
-                $errors[] = $lang_module['email_empty_error'];
+                $error[] = $lang_module['email_empty_error'];
             } elseif (nv_check_valid_email($email) != '') {
-                $errors[] = $lang_module['email_invalid_error'];
+                $error[] = $lang_module['email_invalid_error'];
             }
 
-            if (!empty($errors)) {
-                nv_jsonOutput(['success' => false, 'message' => implode(', ', $errors)]);
-            }
-
-            if (defined('NV_IS_USER')) {
-                $result = nv_vote_contestant($contestant_id, $voter_name, $email, $user_info['userid']);
-                nv_jsonOutput($result);
+            if (!empty($error)) {
+                $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+                $xtpl->assign('ERROR', implode('<br />', $error));
+                $xtpl->parse('main.error');
+                $error_content = $xtpl->text('main.error');
+                nv_jsonOutput(['success' => false, 'error_content' => $error_content]);
             } else {
-                $vote_status = nv_check_vote_status($contestant_id, $email);
-                
-                if ($vote_status === 'voted_for_contestant') {
-                    nv_jsonOutput(['success' => false, 'message' => $lang_module['already_voted']]);
+                if (defined('NV_IS_USER')) {
+                    $result = nv_vote_contestant($contestant_id, $voter_name, $email, $user_info['userid']);
+                    if (!isset($result['isToast'])) {
+                        $result['isToast'] = true;
+                    }
                 } else {
-                    $pending_verification = nv_check_pending_verification($email, $contestant_id);
-                    if ($pending_verification) {
-                        nv_jsonOutput(['success' => true, 'requiresVerification' => true, 'message' => $lang_module['verification_pending']]);
+                    $vote_status = nv_check_vote_status($contestant_id, $email);
+                    
+                    if ($vote_status === 'voted_for_contestant') {
+                        $result = [
+                            'success' => false,
+                            'message' => $lang_module['already_voted'],
+                            'isToast' => true
+                        ];
                     } else {
-                        $verification_code = nv_genpass(6);
-                        $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
-                        if ($result['success']) {
-                            $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
-                            if ($email_result['success']) {
-                                nv_jsonOutput(['success' => true, 'requiresVerification' => true, 'message' => $lang_module['email_verification']]);
-                            } else {
-                                nv_jsonOutput(['success' => false, 'message' => $lang_module['email_verification_failed']]);
-                            }
+                        $pending_verification = nv_check_pending_verification($email, $contestant_id);
+                        if ($pending_verification) {
+                            $result = [
+                                'success' => true,
+                                'requiresVerification' => true,
+                                'message' => $lang_module['verification_pending'],
+                                'isToast' => true
+                            ];
                         } else {
-                            nv_jsonOutput($result);
+                            $verification_code = nv_genpass(6);
+                            $result = nv_create_email_verification($contestant_id, $voter_name, $email, $verification_code);
+                            if ($result['success']) {
+                                $email_result = nv_send_verification_email($email, $verification_code, $result['expires_in']);
+                                if ($email_result['success']) {
+                                    $result = [
+                                        'success' => true,
+                                        'requiresVerification' => true,
+                                        'message' => $lang_module['email_verification'],
+                                        'isToast' => true
+                                    ];
+                                } else {
+                                    $result = [
+                                        'success' => false,
+                                        'message' => $lang_module['email_verification_failed'],
+                                        'isToast' => true
+                                    ];
+                                }
+                            }
                         }
                     }
                 }
+                nv_jsonOutput($result);
             }
         } elseif ($action === 'verify') {
             $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
@@ -88,25 +111,27 @@ if ($nv_Request->isset_request('action', 'post')) {
             $verification_code = $nv_Request->get_title('verification_code', 'post', '');
 
             $result = nv_verify_and_vote($contestant_id, $email, $verification_code);
+            $result['isToast'] = true;
             nv_jsonOutput($result);
         } elseif ($action === 'resend_verification') {
             $email = $nv_Request->get_title('email', 'post', '');
             $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
             
             $result = nv_resend_verification_code($email, $contestant_id);
+            $result['isToast'] = true;
             nv_jsonOutput($result);
         } elseif ($action === 'delete_verification') {
             $email = $nv_Request->get_title('email', 'post', '');
             $contestant_id = $nv_Request->get_int('contestant_id', 'post', 0);
             
             $result = nv_delete_verification_code($email, $contestant_id);
+            $result['isToast'] = true;
             nv_jsonOutput($result);
         } else {
-            nv_jsonOutput(['success' => false, 'message' => $lang_module['invalid_action']]);
+            nv_jsonOutput(['success' => false, 'message' => $lang_module['invalid_action'], 'isToast' => true]);
         }
     } catch (Exception $e) {
-        error_log("Error in AJAX request: " . $e->getMessage());
-        nv_jsonOutput(['success' => false, 'message' => $lang_module['error_occurred']]);
+        nv_jsonOutput(['success' => false, 'message' => $lang_module['error_occurred'], 'isToast' => true]);
     }
 }
 
