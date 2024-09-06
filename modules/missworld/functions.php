@@ -13,3 +13,5 @@ if (!defined('NV_SYSTEM')) {
 }
 
 define('NV_IS_MOD_MISSWORLD', true);
+
+require NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
