@@ -1,29 +1,18 @@
 <!-- BEGIN: main -->
-<div class="row">
-    <div class="col-md-24">
-        <div class="search-wrapper">
-            <div class="search-container">
-                <form action="{NV_BASE_SITEURL}index.php" method="get">
-                    <i class="fa fa-search search-icon" aria-hidden="true"></i>
-                    <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}">
-                    <input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}">
-                    <input type="text" name="keyword" value="{KEYWORD}" maxlength="64" placeholder="{LANG.enter_search_key}">
-                    <input type="submit" value="{GLANG.search}">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="missworld-contestants">
     <h2>{LANG.contestant_list}</h2>
     <div class="contestant-grid">
         <!-- BEGIN: loop -->
-        <div class="contestant-card" data-id="{DATA.id}">
-            <a href="{DATA.url_view}">
-                <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image">
-              </a>
-            <h3 class="contestant-name">{DATA.fullname}</h3>
-            <p class="vote-count">{LANG.vote_count}: <span>{DATA.vote}</span></p>
+        <div class="contestant-card" data-id="{DATA.id}" itemscope itemtype="https://schema.org/Person">
+            <a href="{DATA.link}" itemprop="url">
+                <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image" itemprop="image">
+            </a>
+            <h3 class="contestant-name" itemprop="name">{DATA.fullname}</h3>
+            <p class="vote-count" itemprop="interactionStatistic" itemscope itemtype="https://schema.org/InteractionCounter">
+                <span itemprop="interactionType" itemscope itemtype="https://schema.org/VoteAction">
+                    {LANG.vote_count}: <span itemprop="userInteractionCount">{DATA.vote}</span>
+                </span>
+            </p>
             <button class="vote-button" data-contestant-id="{DATA.id}">{LANG.vote}</button>
         </div>
         <!-- END: loop -->
@@ -103,4 +92,3 @@
     <div class="loader"></div>
 </div>
 <!-- END: main -->
-  

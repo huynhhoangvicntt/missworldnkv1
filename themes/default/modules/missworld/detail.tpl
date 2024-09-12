@@ -1,31 +1,31 @@
 <!-- BEGIN: main -->
 <div class="missworld-contestants">
     <div class="contestant-detail-container">
-        <div class="contestant-detail-card">
+        <div class="contestant-detail-card" itemscope itemtype="https://schema.org/Person">
             <div class="contestant-detail-image-container">
                 <div class="contestant-detail-rank">
                     <span>{LANG.ranking}</span>
-                    <span class="rank-number">{DATA.rank}</span>
+                    <span class="rank-number" itemprop="award">{DATA.rank}</span>
                 </div>
-                <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-detail-image">
+                <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-detail-image" itemprop="image">
             </div>
             <div class="contestant-detail-info">
-                <h1 class="contestant-detail-name">{DATA.fullname}</h1>
+                <h1 class="contestant-detail-name" itemprop="name">{DATA.fullname}</h1>
                 <table class="contestant-detail-table">
                     <tr class="contestant-detail-in">
                         <td colspan="2">{LANG.info}</td>
                     </tr>
                     <tr>
                         <td class="info-label"><span class="label-text">{LANG.address}</span><span class="info-colon">:</span></td>
-                        <td class="info-value">{DATA.address}</td>
+                        <td class="info-value" itemprop="homeLocation">{DATA.address}</td>
                     </tr>
                     <tr>
                         <td class="info-label"><span class="label-text">{LANG.date_of_birth}</span><span class="info-colon">:</span></td>
-                        <td class="info-value">{DATA.dob}</td>
+                        <td class="info-value"><span itemprop="birthDate">{DATA.dob}</span></td>
                     </tr>
                     <tr>
                         <td class="info-label"><span class="label-text">{LANG.height}</span><span class="info-colon">:</span></td>
-                        <td class="info-value">{DATA.height}&nbsp;{LANG.units}</td>
+                        <td class="info-value"><span itemprop="height">{DATA.height}&nbsp;{LANG.units}</span></td>
                     </tr>
                     <tr>
                         <td class="info-label"><span class="label-text">{LANG.measurements}</span><span class="info-colon">:</span></td>
@@ -130,4 +130,19 @@
 <div id="loading-overlay" class="loading-overlay">
     <div class="loader"></div>
 </div>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{DATA.fullname}",
+    "image": "{DATA.image}",
+    "birthDate": "{DATA.dob}",
+    "height": "{DATA.height} {LANG.units}",
+    "award": "{LANG.ranking} {DATA.rank}",
+    "homeLocation": {
+        "@type": "Place",
+        "name": "{DATA.address}"
+    }
+}
+</script>
 <!-- END: main -->

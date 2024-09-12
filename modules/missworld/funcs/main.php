@@ -130,13 +130,23 @@ if ($nv_Request->isset_request('action', 'post')) {
 }
 
 // Xử lý hiển thị danh sách thí sinh
-$page_title = $module_info['fullname'];
+$page_title = $module_info['site_title'];
 $key_words = $module_info['keywords'];
-$description = $module_info['body_dimensions'];
+$description = $module_info['description'];
 
 $array_data = [];
 $per_page = 12;
 $page = $nv_Request->get_int('page', 'get', 1);
+
+$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$page_url = $base_url;
+
+// Xử lý URL cho phân trang
+if ($page > 1) {
+    $page_url .= '&amp;' . NV_OP_VARIABLE . '=page-' . $page;
+    $page_title .= NV_TITLEBAR_DEFIS . $lang_global['page'] . ' ' . $page;
+}
+$canonicalUrl = getCanonicalUrl($page_url);
 
 // Lấy tổng số thí sinh
 $keyword = $nv_Request->get_title('keyword', "get", '');
@@ -151,17 +161,34 @@ $db->select('*')->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_
 
 $result = $db->query($db->sql());
 while ($row = $result->fetch()) {
-    $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=detail/' . $row['alias'];
+    // Xử lý link cho từng thí sinh
+    if ($global_config['rewrite_enable']) {
+        $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
+    } else {
+        $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=detail&amp;id=' . $row['id'];
+    }
+    
+    // Xử lý hình ảnh
+    if (!empty($row['image'])) {
+        $image_path = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $row['image'];
+        if (file_exists($image_path)) {
+            $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+        } else {
+            $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
+        }
+    } else {
+        $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
+    }
+    
     $array_data[$row['id']] = $row;
 }
 
-$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 if ($keyword != '') {
     $base_url .= '&amp;keyword=' . urlencode($keyword);
 }
 
 // Tạo phân trang
-$generate_page = nv_generate_page($base_url, $total, $per_page, $page);
+$generate_page = nv_alias_page($page_title, $base_url, $total, $per_page, $page);
 
 $contents = nv_theme_missworld_main($array_data, $generate_page, $keyword);
 

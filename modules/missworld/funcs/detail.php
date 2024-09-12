@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @Project Module Missworld
  * @Author HUYNH HOANG VI (hoangvicntt2k@gmail.com)
@@ -7,43 +6,59 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate March 01, 2024, 08:00:00 AM
  */
-
 if (!defined('NV_IS_MOD_MISSWORLD')) {
     exit('Stop!!!');
 }
 
 $page_title = $module_info['site_title'];
 $key_words = $module_info['keywords'];
+$description = $module_info['description'];
 
 $array_data = [];
 
-$id = $nv_Request->get_int('id', 'get', 0);
+// Lấy alias từ URL
+$alias = $nv_Request->get_title('alias', 'get', '');
+if (empty($alias)) {
+    $alias = isset($array_op[0]) ? $array_op[0] : '';
+}
 
-if ($id > 0) {
-    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $id;
+if (!empty($alias)) {
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE alias=" . $db->quote($alias);
     $result = $db->query($sql);
     $row = $result->fetch();
     
     if (empty($row)) {
-        nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main");
+        nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name);
     }
+    
+    // Cập nhật tiêu đề trang
+    $page_title = !empty($row['title']) ? $row['title'] : $page_title;
+    $key_words = !empty($row['keywords']) ? $row['keywords'] : $key_words;
+    $description = !empty($row['description']) ? $row['description'] : $description;
     
     // Tính toán xếp hạng
     $sql_rank = "SELECT (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE vote > " . $row['vote'] . ") + 1 AS rank";
     $result_rank = $db->query($sql_rank);
     $row['rank'] = $result_rank->fetchColumn();
     
-    // Xử lý ảnh
+    // Xử lý hình ảnh
+    $images_default = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
     if (!empty($row['image'])) {
         $image_path = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $row['image'];
-        $row['image'] = (file_exists($image_path)) ? NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'] : '';
+        if (file_exists($image_path)) {
+            $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+        } else {
+            $row['image'] = $images_default;
+        }
+    } else {
+        $row['image'] = $images_default;
     }
     
     $row['rank_text'] = $lang_module['current_rank'] . ': ' . $row['rank'];
     $row['dob'] = empty($row['dob']) ? '' : nv_date('d/m/Y', $row['dob']);
 
     // Lấy 20 phiếu bầu gần nhất
-    $sql_votes = "SELECT v.email, v.vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v WHERE v.contestant_id=" . $id . " ORDER BY v.vote_time DESC LIMIT 20";
+    $sql_votes = "SELECT v.email, v.vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v WHERE v.contestant_id=" . $row['id'] . " ORDER BY v.vote_time DESC LIMIT 20";
     $result_votes = $db->query($sql_votes);
     $voting_history = [];
     
@@ -69,7 +84,7 @@ if ($id > 0) {
     $row['voting_history'] = $voting_history;
     $array_data = $row;
 } else {
-    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main");
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name);
 }
 
 $contents = nv_theme_missworld_detail($array_data);
