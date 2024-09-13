@@ -135,25 +135,24 @@ $db->sqlreset()->from(NV_PREFIXLANG . '_' . $module_data . '_rows');
 $where = [];
 $where[] = 'status=1';
 
-$where = [];
 $is_search = false;
 if (!empty($array_search['q'])) {
     $base_url .= '&amp;q=' . urlencode($array_search['q']);
     $dblikekey = $db->dblikeescape($array_search['q']);
     $where[] = "(
-        title LIKE '%" . $dblikekey . "%' OR
-        description LIKE '%" . $dblikekey . "%'
+        fullname LIKE '%" . $dblikekey . "%' OR
+        keywords LIKE '%" . $dblikekey . "%'
     )";
     $is_search = true;
 }
 if (!empty($array_search['from'])) {
     $base_url .= '&amp;f=' . nv_date('d-m-Y', $array_search['from']);
-    $where[] = "add_time>=" . $array_search['from'];
+    $where[] = "dob>=" . $array_search['from'];
     $is_search = true;
 }
 if (!empty($array_search['to'])) {
     $base_url .= '&amp;t=' . nv_date('d-m-Y', $array_search['to']);
-    $where[] = "add_time<=" . $array_search['to'];
+    $where[] = "dob<=" . $array_search['to'];
     $is_search = true;
 }
 
@@ -175,40 +174,19 @@ if ($is_search) {
     betweenURLs($page, ceil($num_items / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
 
     // Lấy danh sách tin
-    $db->select('id, catid, title, alias, description, image, is_thumb, admin_id, add_time');
-    $db->order('add_time DESC')->limit($per_page)->offset(($page - 1) * $per_page);
+    $db->select('*');
+    $db->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 
     $result = $db->query($db->sql());
 
     while ($row = $result->fetch()) {
-        // Xác định ảnh đại diện
-        if ($row['is_thumb'] == 1) {
-            // Ảnh nhỏ assets
-            $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];
-            $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
-        } elseif ($row['is_thumb'] == 2) {
-            // Ảnh upload lớn
-            $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
-            $row['thumb'] = $row['image'];
-        } elseif ($row['is_thumb'] == 3) {
-            // Ảnh remote
-            $row['thumb'] = $row['image'];
-        } else {
-            // Không có ảnh
-            $row['thumb'] = $row['image'] = '';
-        }
-
         // Xác định link bài
-        if (isset($global_array_cats[$row['catid']])) {
-            $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cats[$row['catid']]['alias'] . '/' . $row['alias'] . $global_config['rewrite_exturl'];
-        } else {
-            $row['link'] = '#';
-        }
+        $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
 
         if (!empty($array_search['q'])) {
-            $row['title_text'] = $row['title'];
-            $row['title'] = BoldKeywordInStr($row['title'], $array_search['q']);
-            $row['description'] = BoldKeywordInStr($row['description'], $array_search['q']);
+            $row['title_text'] = $row['fullname'];
+            $row['title'] = BoldKeywordInStr($row['fullname'], $array_search['q']);
+            $row['description'] = BoldKeywordInStr($row['keywords'], $array_search['q']);
         }
 
         $array[$row['id']] = $row;

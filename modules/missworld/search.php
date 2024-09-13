@@ -12,22 +12,26 @@ if (!defined('NV_IS_MOD_SEARCH')) {
     exit('Stop!!!');
 }
 
-$db_slave->sqlreset()
+$db->sqlreset()
     ->select('COUNT(*)')
-    ->from(NV_PREFIXLANG . '_missworld_rows')
+    ->from(NV_PREFIXLANG . '_' . $m_values['module_data'] . '_rows')
     ->where('status=1 AND (' . nv_like_logic('fullname', $dbkeyword, $logic) . ' OR ' . nv_like_logic('keywords', $dbkeyword, $logic) . ')');
-$num_items = $db->query($db_slave->sql())->fetchColumn();
+
+$num_items = $db->query($db->sql())->fetchColumn();
 
 if ($num_items) {
-    $link = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $m_values['module_name'] . '&amp;' . NV_OP_VARIABLE . '=detail';
-
-    $db->select('*')
+    $db->select('id, fullname, alias, keywords')
+        ->order('id DESC')
         ->limit($limit)
         ->offset(($page - 1) * $limit);
+
     $result = $db->query($db->sql());
     while ($row = $result->fetch()) {
+        $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $m_values['module_name'] . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'];
+
+
         $result_array[] = [
-            'link' => $link . change_alias($row['fullname']) . $row['id'] . $global_config['rewrite_exturl'],
+            'link' => $row['link'],
             'title' => BoldKeywordInStr($row['fullname'], $key, $logic),
             'content' => BoldKeywordInStr($row['fullname'] . ' ' . $row['keywords'], $key, $logic)
         ];

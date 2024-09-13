@@ -1,4 +1,7 @@
 <!-- BEGIN: main -->
+<!-- BEGIN: search_form -->
+{SEARCH_FORM}
+<!-- END: search_form -->
 <div class="missworld-contestants">
     <h2>{LANG.contestant_list}</h2>
     <div class="contestant-grid">

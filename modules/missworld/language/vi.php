@@ -69,3 +69,11 @@ $lang_module['voter_email'] = 'Email người bình chọn';
 $lang_module['voter_name'] = 'Tên người bình chọn';
 $lang_module['enter_search_key'] = 'Nhập họ tên thí sinh hoặc từ khóa liên quan';
 $lang_module['voting_history'] = 'Lịch sử bình chọn';
+
+$lang_module['search'] = 'Tìm kiếm bài viết';
+$lang_module['search_keywords'] = 'Từ khóa tìm kiếm';
+$lang_module['search_from'] = 'Từ ngày';
+$lang_module['search_to'] = 'Đến ngày';
+$lang_module['search_please'] = 'Vui lòng nhập tối thiểu một điều kiện tìm kiếm';
+$lang_module['search_empty'] = 'Không tìm thấy kết quả nào phù hợp với điều kiện tìm kiếm';
+$lang_module['search_result_count'] = 'Tổng số kết quả tìm thấy';
