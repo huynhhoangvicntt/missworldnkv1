@@ -129,45 +129,47 @@ if ($nv_Request->isset_request('action', 'post')) {
     }
 }
 
-// Xử lý hiển thị danh sách thí sinh
+// Các biến cần thiết: Tiêu đề, từ khóa, mô tả
 $page_title = $module_info['site_title'];
 $key_words = $module_info['keywords'];
 $description = $module_info['description'];
 
-$array_data = [];
-$per_page = 12;
-$page = $nv_Request->get_int('page', 'get', 1);
-
-$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
-$page_url = $base_url;
-
-// Xử lý URL cho phân trang
+// Các biết cần thiết: Link của trang
+$page_url = $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 if ($page > 1) {
     $page_url .= '&amp;' . NV_OP_VARIABLE . '=page-' . $page;
     $page_title .= NV_TITLEBAR_DEFIS . $lang_global['page'] . ' ' . $page;
+    if (!empty($description)) {
+        $description .= NV_TITLEBAR_DEFIS . $lang_global['page'] . ' ' . $page;
+    }
 }
+
 $canonicalUrl = getCanonicalUrl($page_url);
 
-// Lấy tổng số thí sinh
-$keyword = $nv_Request->get_title('keyword', "get", '');
-$db->sqlreset()
-   ->select('COUNT(*)')
-   ->from(NV_PREFIXLANG . '_' . $module_data . '_rows')
-   ->where("(fullname LIKE " . $db->quote('%' . $keyword . '%') . " OR keywords LIKE " . $db->quote('%' . $keyword . '%') . ") AND status = 1");
-$total = $db->query($db->sql())->fetchColumn();
+// Truy vấn CSDL để lấy danh sách thí sinh
+$db->sqlreset()->from(NV_PREFIXLANG . '_' . $module_data . '_rows');
 
-// Lấy danh sách thí sinh cho trang hiện tại
-$db->select('*')->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
+// Điều kiện lấy tin
+$where = [];
+$where[] = 'status=1';
+
+$db->select('COUNT(*)')->where(implode(' AND ', $where));
+
+// Tổng thí sinh
+$num_items = $db->query($db->sql())->fetchColumn();
+
+// Khống chế đánh số trang tùy ý
+$urlappend = '&amp;' . NV_OP_VARIABLE . '=page-';
+betweenURLs($page, ceil($num_items / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
+
+// Lấy danh sách thí sinh
+$db->select('*');
+$db->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 
 $result = $db->query($db->sql());
+
+$array_data = [];
 while ($row = $result->fetch()) {
-    // Xử lý link cho từng thí sinh
-    if ($global_config['rewrite_enable']) {
-        $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
-    } else {
-        $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=detail&amp;id=' . $row['id'];
-    }
-    
     // Xử lý hình ảnh
     if (!empty($row['image'])) {
         $image_path = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $row['image'];
@@ -179,18 +181,21 @@ while ($row = $result->fetch()) {
     } else {
         $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
     }
+
+    // Xác định link thí sinh
+    if ($global_config['rewrite_enable']) {
+        $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
+    } else {
+        $row['link'] = '#';
+    }
     
     $array_data[$row['id']] = $row;
 }
 
-if ($keyword != '') {
-    $base_url .= '&amp;keyword=' . urlencode($keyword);
-}
+// Phân trang
+$generate_page = nv_alias_page($page_title, $base_url, $num_items, $per_page, $page);
 
-// Tạo phân trang
-$generate_page = nv_alias_page($page_title, $base_url, $total, $per_page, $page);
-
-$contents = nv_theme_missworld_main($array_data, $generate_page, $keyword);
+$contents = nv_theme_missworld_main($array_data, $generate_page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
