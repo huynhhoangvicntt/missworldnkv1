@@ -49,11 +49,6 @@ if ($op == 'main') {
     }
 }
 
-// Xử lý tìm kiếm
-if ($op == 'search') {
-    // Giữ nguyên logic xử lý tìm kiếm của bạn
-}
-
 // Định nghĩa RSS nếu module có hỗ trợ
 if ($module_info['rss']) {
     $rss[] = [
@@ -61,5 +56,3 @@ if ($module_info['rss']) {
         'src' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['rss']
     ];
 }
-
-$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
