@@ -56,7 +56,7 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
     $contestant_id = intval($contestant_id);
 
     // Kiểm tra tồn tại thí sinh
-    $sql = "SELECT id, vote, fullname FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $contestant_id;
+    $sql = "SELECT id, vote, fullname, alias FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $contestant_id;
     $result = $db->query($sql);
     $contestant = $result->fetch();
 
@@ -91,7 +91,8 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
         $notify_content = [
             'voter_name' => $voter_name,
             'contestant_name' => $contestant['fullname'],
-            'contestant_id' => $contestant_id
+            'contestant_id' => $contestant_id,
+            'alias' => $contestant['alias'] // Thêm alias vào nội dung thông báo
         ];
         nv_insert_notification($module_name, 'new_vote', $notify_content, $contestant_id);
     }
