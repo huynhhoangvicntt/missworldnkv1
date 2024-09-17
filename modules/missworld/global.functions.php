@@ -51,12 +51,12 @@ function nv_check_vote_status($contestant_id, $email)
  */
 function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
 {
-    global $db, $module_data, $lang_module;
+    global $db, $module_data, $lang_module, $module_name;
 
     $contestant_id = intval($contestant_id);
 
     // Kiểm tra tồn tại thí sinh
-    $sql = "SELECT id, vote FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $contestant_id;
+    $sql = "SELECT id, vote, fullname FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $contestant_id;
     $result = $db->query($sql);
     $contestant = $result->fetch();
 
@@ -84,7 +84,17 @@ function nv_vote_contestant($contestant_id, $voter_name, $email, $userid = 0)
             " . $db->quote($email) . ", 
             " . NV_CURRENTTIME . ",
             1)";
-    $db->query($sql);
+    $vote_id = $db->insert_id($sql);
+
+    if ($vote_id) {
+        // Tạo thông báo cho admin
+        $notify_content = [
+            'voter_name' => $voter_name,
+            'contestant_name' => $contestant['fullname'],
+            'contestant_id' => $contestant_id
+        ];
+        nv_insert_notification($module_name, 'new_vote', $notify_content, $contestant_id);
+    }
 
     // Lấy số vote mới
     $sql = "SELECT vote FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $contestant_id;
