@@ -32,6 +32,9 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
             // Ghi log
             nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_DELETE_VOTE', json_encode($vote), $admin_info['admin_id']);
 
+            // Xóa thông báo liên quan đến vote này
+            nv_delete_notification(NV_LANG_DATA, $module_name, 'new_vote', $contestant_id);
+
             // Xóa
             $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE id=" . $id;
             $db->query($sql);

@@ -70,8 +70,7 @@ function nv_delete_vote(id, checksess) {
         $.post(
             script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=voters&nocache=' + new Date().getTime(),
             'delete=' + checksess + '&vote_id=' + id, function(res) {
-            var r_split = res.split("_");
-            if (r_split[0] == 'OK') {
+            if (res == 'OK') {
                 location.reload();
             } else {
                 alert(nv_is_del_confirm[2]);
@@ -102,8 +101,7 @@ function nv_voters_action(oForm, checkss, msgnocheck) {
                 $.post(
                     script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=voters&nocache=' + new Date().getTime(),
                     'delete=' + checkss + '&listid=' + listid, function(res) {
-                    var r_split = res.split("_");
-                    if (r_split[0] == 'OK') {
+                    if (res == 'OK') {
                         location.reload();
                     } else {
                         alert(nv_is_del_confirm[2]);
