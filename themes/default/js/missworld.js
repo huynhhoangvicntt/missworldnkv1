@@ -174,6 +174,7 @@ $(document).ready(function() {
     function showVerificationModal(contestantId, email) {
         $('#verification-contestant-id').val(contestantId);
         $('#verification-email').val(email);
+        $('#verification-email-display').text(email);
         hideModal(votingModal);
         showModal(verificationModal);
         updateProgressBar(2);

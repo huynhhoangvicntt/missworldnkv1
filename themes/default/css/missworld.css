@@ -120,7 +120,7 @@ h2 {
     background-color: var(--mw-secondary-hover-color);
 }
 
-/* Modal */
+/* Modal chung */
 .modal {
     display: none;
     position: fixed;
@@ -134,13 +134,15 @@ h2 {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #fff;
     margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 90%;
-    max-width: 800px;
+    max-width: 400px;
     position: relative;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .close {
@@ -156,57 +158,173 @@ h2 {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: #000;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.modal-grid {
+/* Form bình chọn */
+#voting-modal .modal-content {
+    max-width: 400px;
     display: flex;
-    gap: 20px;
-    align-items: flex-start;
+    flex-direction: column;
 }
 
-.modal-image {
-    flex: 1;
-    max-width: 50%;
+#voting-modal .modal-header {
+    text-align: center;
+    padding-bottom: 10px;
 }
 
-.modal-image img {
-    width: 100%;
+#voting-modal .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#voting-modal .modal-image {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#voting-modal .modal-image img {
+    max-width: 100%;
     height: auto;
-    border-radius: var(--mw-border-radius);
-    box-shadow: var(--mw-box-shadow);
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 5px;
 }
 
-.modal-form {
-    flex: 1;
-    max-width: 50%;
-}
-
-.modal-form h2 {
+#voting-modal .contestant-name {
+    font-size: 18px;
+    font-weight: bold;
     margin-bottom: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    text-align: center;
 }
 
-/* Forms */
-.form-group {
+#voting-modal .form-group {
     margin-bottom: 15px;
-    width: 100%;
 }
 
-#voting-form,
-#verification-form {
+#voting-modal .form-control {
     width: 100%;
-    margin-top: 15px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid var(--mw-border-color);
+    border-radius: 4px;
 }
 
-#voting-form input,
-#verification-form input {
+#voting-modal .btn-primary {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    font-size: 16px;
+    background-color: var(--mw-primary-color);
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color var(--mw-transition);
+}
+
+#voting-modal .btn-primary:hover {
+    background-color: var(--mw-primary-hover-color);
+}
+
+/* Form xác minh */
+#verification-modal .modal-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#verification-modal .progress-dots {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#verification-modal .progress-step {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+#verification-modal .progress-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: #ccc;
+    color: #fff;
+    margin-right: 10px;
+}
+
+#verification-modal .progress-dot.active {
+    background-color: #5cb85c;
+}
+
+#verification-modal .progress-step span {
+    font-size: 14px;
+}
+
+#verification-modal .verification-email-alert {
+    background-color: #e8f4ff;
+    border: 1px solid #b8e2ff;
+    color: #31708f;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+#verification-modal .form-group {
+    margin-bottom: 15px;
+}
+
+#verification-modal .input-group {
+    display: flex;
+    width: 100%;
+}
+
+#verification-modal .form-control {
+    flex: 1;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+#verification-modal .input-group-btn {
+    width: auto;
+}
+
+#verification-modal .btn-default {
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+#verification-modal .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: var(--mw-primary-color);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color var(--mw-transition);
+}
+
+#verification-modal .btn-primary:hover {
+    background-color: var(--mw-primary-hover-color);
 }
 
 /* Progress Dots */
@@ -504,6 +622,19 @@ h2 {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    #voting-modal .modal-content {
+        width: 95%;
+        margin: 10px auto;
+    }
+
+    #voting-modal .modal-image img {
+        max-height: 250px;
+    }
+    
+    #voting-modal .contestant-name {
+        font-size: 16px;
+    }
+
     .modal-grid {
         flex-direction: column;
     }
@@ -558,6 +689,11 @@ h2 {
 }
 
 /* Focus styles for better accessibility */
+.btn:focus,
+.form-control:focus {
+    outline: 2px solid var(--mw-primary-color);
+    outline-offset: 2px;
+}
 .vote-button:focus,
 .search-container input[type="text"]:focus,
 .modal-content input:focus {
@@ -567,6 +703,14 @@ h2 {
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
+    .modal-content {
+        border: 2px solid #000;
+    }
+    
+    .btn,
+    .form-control {
+        border: 2px solid #000;
+    }
     :root {
         --mw-primary-color: #0000FF;
         --mw-primary-hover-color: #000080;
@@ -583,3 +727,4 @@ h2 {
         border: 1px solid var(--mw-text-color);
     }
 }
+
