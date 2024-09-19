@@ -77,3 +77,4 @@ $lang_module['search_to'] = 'Đến ngày';
 $lang_module['search_please'] = 'Vui lòng nhập tối thiểu một điều kiện tìm kiếm';
 $lang_module['search_empty'] = 'Không tìm thấy kết quả nào phù hợp với điều kiện tìm kiếm';
 $lang_module['search_result_count'] = 'Tổng số kết quả tìm thấy';
+$lang_module['reader_comments'] = 'Số bình luận';

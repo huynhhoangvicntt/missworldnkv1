@@ -124,12 +124,21 @@ function nv_theme_item_list($array)
     $xtpl->parse('main');
     return $xtpl->text('main');
 }
+
 function nv_theme_missworld_detail($array_data)
 {
-    global $module_info, $lang_module, $module_file, $module_name;
+    global $lang_module, $lang_global, $module_info, $module_name, $module_file, $op_file;
 
     $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
+    $xtpl->assign('GLANG', $lang_global);
+    $xtpl->assign('MODULE_NAME', $module_name);
+    $xtpl->assign('MODULE_FILE', $module_file);
+    $xtpl->assign('OP', $op_file);
+
+    // Xử lý số lượng bình luận
+    $array_data['comment_hits'] = number_format($array_data['comment_hits'], 0, ',', '.');
+
     $xtpl->assign('DATA', $array_data);
     $xtpl->assign('BACK_URL', NV_BASE_SITEURL . $module_name);
 
@@ -141,6 +150,11 @@ function nv_theme_missworld_detail($array_data)
         $xtpl->parse('main.voting_history');
     } else {
         $xtpl->parse('main.no_votes');
+    }
+
+    // Xử lý phần bình luận
+    if (!empty($array_data['comment_content'])) {
+        $xtpl->parse('main.comment');
     }
 
     $xtpl->parse('main');

@@ -65,6 +65,14 @@
         </div>
     </div>
 </div>
+
+<!-- BEGIN: comment -->
+<div class="comment-section">
+    <h3>{LANG.reader_comments} <span class="comment-count">({DATA.comment_hits})</span></h3>
+</div>
+<hr class="space-comment"/>
+{DATA.comment_content}
+<!-- END: comment -->
 <div id="voting-modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -131,18 +139,25 @@
     <div class="loader"></div>
 </div>
 <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "{DATA.fullname}",
-    "image": "{DATA.image}",
-    "birthDate": "{DATA.dob}",
-    "height": "{DATA.height} {LANG.units}",
-    "award": "{LANG.ranking} {DATA.rank}",
-    "homeLocation": {
-        "@type": "Place",
-        "name": "{DATA.address}"
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "{DATA.fullname}",
+        "image": "{DATA.image}",
+        "birthDate": "{DATA.dob}",
+        "height": "{DATA.height} {LANG.units}",
+        "award": "{LANG.ranking} {DATA.rank}",
+        "homeLocation": {
+            "@type": "Place",
+            "name": "{DATA.address}"
+        },
+        "interactionStatistic": [
+            {
+                "@type": "InteractionCounter",
+                "interactionType": "https://schema.org/CommentAction",
+                "userInteractionCount": "{DATA.comment_hits}"
+            }
+        ]
     }
-}
 </script>
 <!-- END: main -->

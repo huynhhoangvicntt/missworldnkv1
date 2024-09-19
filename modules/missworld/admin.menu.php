@@ -14,6 +14,7 @@ if (!defined('NV_ADMIN')) {
 
 $allow_func = [
     'main',
+    'view',
     'content',
     'voters',
     'dashboard',

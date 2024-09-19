@@ -99,3 +99,7 @@ $lang_module['notify_vote_action'] = 'Hành động bình chọn từ %s cho th�
 
 $lang_module['vote_success'] = 'Bình chọn thành công!';
 $lang_module['vote_error'] = 'Có lỗi xảy ra khi bình chọn. Vui lòng thử lại.';
+
+// $lang_module['comments'] = 'Bình luận.';
+
+// $lang_module['reader_comments'] = 'Bình luận.';

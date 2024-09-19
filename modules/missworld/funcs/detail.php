@@ -32,7 +32,7 @@ if (!empty($alias)) {
     }
     
     // Cập nhật tiêu đề trang
-    $page_title = !empty($row['title']) ? $row['title'] : $page_title;
+    $page_title = !empty($row['fullname']) ? $row['fullname'] : $page_title;
     $key_words = !empty($row['keywords']) ? $row['keywords'] : $key_words;
     $description = !empty($row['description']) ? $row['description'] : $description;
     
@@ -82,6 +82,25 @@ if (!empty($alias)) {
     }
     
     $row['voting_history'] = $voting_history;
+
+    // Xử lý bình luận
+    if (isset($site_mods['comment']) and isset($module_config[$module_name]['activecomm'])) {
+        define('NV_COMM_ID', $row['id']);
+        define('NV_COMM_AREA', $module_info['funcs'][$op]['func_id']);
+        
+        $allowed = $module_config[$module_name]['allowed_comm'];
+        if ($allowed == '-1') {
+            $allowed = '4';
+        }
+        require_once NV_ROOTDIR . '/modules/comment/comment.php';
+        $checkss = md5($module_name . '-' . NV_COMM_AREA . '-' . NV_COMM_ID . '-' . $allowed . '-' . NV_CACHE_PREFIX);
+
+        $content_comment = nv_comment_module($module_name, $checkss, NV_COMM_AREA, NV_COMM_ID, $allowed, 1);
+        $row['comment_content'] = $content_comment;
+    } else {
+        $row['comment_content'] = '';
+    }
+
     $array_data = $row;
 } else {
     nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name);
