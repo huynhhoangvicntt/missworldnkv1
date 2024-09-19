@@ -78,6 +78,7 @@ if (!empty($id)) {
         'image' => '',
         'keywords' => '',
         'vote' => 0,
+        'status' => 1
     ];
 
     $page_title = $lang_module['contestant_add'];
@@ -116,17 +117,24 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
     $array['chest'] = $nv_Request->get_float('chest', 'post', null);
     $array['waist'] = $nv_Request->get_float('waist', 'post', null);
     $array['hips'] = $nv_Request->get_float('hips', 'post', null);
-    $array['email'] = nv_substr($nv_Request->get_title('email', 'post', ''), 0, 190);
     $array['image'] = nv_substr($nv_Request->get_string('image', 'post', ''), 0, 255);
     $array['keywords'] = $nv_Request->get_title('keywords', 'post', '');
+    $array['status'] = (int) $nv_Request->get_bool('status', 'post', false);
 
     // Xử lý dữ liệu
     $array['alias'] = empty($array['alias']) ? change_alias($array['fullname']) : change_alias($array['alias']);
 
     if (nv_is_file($array['image'], NV_UPLOADS_DIR . '/' . $module_upload)) {
         $array['image'] = substr($array['image'], strlen(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/'));
+        $array['is_thumb'] = 2;
+        if (file_exists(NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload . '/' . $array['image'])) {
+            $array['is_thumb'] = 1;
+        }
+    } elseif (!nv_is_url($array['image'])) {
+        $array['image'] = '';
+        $array['is_thumb'] = 0;
     } else {
-         $array['image'] = '';
+        $array['is_thumb'] = 3;
     }
 
     // Kiểm tra trùng
@@ -181,13 +189,13 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $weight = intval($db->query($sql)->fetchColumn()) + 1;
 
             $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_rows (
-                fullname, alias, dob, address, height, chest, waist, hips, email, image, keywords, vote, weight, time_add, time_update
+                fullname, alias, dob, address, height, chest, waist, hips, email, image, is_thumb, keywords, vote, weight, time_add, time_update, status
             ) VALUES (
-                :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :keywords, 0, " . $weight . ", " . NV_CURRENTTIME . ", 0
+                :fullname, :alias, :dob, :address, :height, :chest, :waist, :hips, :email, :image, :is_thumb, :keywords, 0, " . $weight . ", " . NV_CURRENTTIME . ", 0, :status
             )";
         } else {
             $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_rows SET
-                fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, keywords = :keywords, time_update = " . NV_CURRENTTIME . "
+                fullname = :fullname, alias = :alias, dob = :dob, address = :address, height = :height, chest = :chest, waist = :waist, hips = :hips, email = :email, image = :image, is_thumb = :is_thumb, keywords = :keywords, time_update = " . NV_CURRENTTIME . ", status = :status
                 WHERE id = " . $id;
         }
 
@@ -203,7 +211,9 @@ if ($nv_Request->get_title('save', 'post', '') === NV_CHECK_SESSION) {
             $sth->bindParam(':hips', $array['hips'], PDO::PARAM_STR);
             $sth->bindParam(':email', $array['email'], PDO::PARAM_STR);
             $sth->bindParam(':image', $array['image'], PDO::PARAM_STR);
+            $sth->bindParam(':is_thumb', $array['is_thumb'], PDO::PARAM_INT);
             $sth->bindParam(':keywords', $array['keywords'], PDO::PARAM_STR, strlen($array['keywords']));
+            $sth->bindParam(':status', $array['status'], PDO::PARAM_INT);
             $sth->execute();
 
             if ($id) {
@@ -224,6 +234,8 @@ if (!empty($array['image']) and nv_is_file(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/
    $array['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $array['image'];
    $currentpath = substr(dirname($array['image']), strlen(NV_BASE_SITEURL));
 }
+
+$array['status'] = empty($array['status']) ? '' : ' checked="checked"';
 
 $xtpl = new XTemplate('content.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);

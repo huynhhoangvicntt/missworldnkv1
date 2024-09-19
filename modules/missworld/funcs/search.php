@@ -180,6 +180,23 @@ if ($is_search) {
     $result = $db->query($db->sql());
 
     while ($row = $result->fetch()) {
+        // Xác định ảnh đại diện
+        if ($row['is_thumb'] == 1) {
+            // Ảnh nhỏ assets
+            $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];
+            $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+        } elseif ($row['is_thumb'] == 2) {
+            // Ảnh upload lớn
+            $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+            $row['thumb'] = $row['image'];
+        } elseif ($row['is_thumb'] == 3) {
+            // Ảnh remote
+            $row['thumb'] = $row['image'];
+        } else {
+            // Không có ảnh
+            $row['thumb'] = $row['image'] = '';
+        }
+        
         // Xác định link bài
         $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
 

@@ -97,6 +97,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="col-sm-18 col-lg-10 col-sm-offset-6">
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="status" value="1"{DATA.status}> {LANG.status1}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-6 control-label" for="element_keywords">{LANG.keywords}:</label>
                 <div class="col-sm-18 col-lg-10">
                     <input type="text" id="element_keywords" name="keywords" value="{DATA.keywords}" class="form-control">

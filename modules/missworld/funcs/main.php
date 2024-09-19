@@ -134,7 +134,7 @@ $page_title = $module_info['site_title'];
 $key_words = $module_info['keywords'];
 $description = $module_info['description'];
 
-// Các biết cần thiết: Link của trang
+// Các biến cần thiết: Link của trang
 $page_url = $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 if ($page > 1) {
     $page_url .= '&amp;' . NV_OP_VARIABLE . '=page-' . $page;
@@ -170,16 +170,17 @@ $result = $db->query($db->sql());
 
 $array_data = [];
 while ($row = $result->fetch()) {
-    // Xử lý hình ảnh
-    if (!empty($row['image'])) {
-        $image_path = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $row['image'];
-        if (file_exists($image_path)) {
-            $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
-        } else {
-            $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
-        }
+    // Xử lý hình ảnh sử dụng is_thumb
+    if ($row['is_thumb'] == 1) {
+        $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];
+        $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+    } elseif ($row['is_thumb'] == 2) {
+        $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+        $row['thumb'] = $row['image'];
+    } elseif ($row['is_thumb'] == 3) {
+        $row['thumb'] = $row['image'];
     } else {
-        $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
+        $row['thumb'] = $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
     }
 
     // Xác định link thí sinh

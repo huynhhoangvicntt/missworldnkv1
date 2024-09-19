@@ -25,6 +25,7 @@ $lang_module['setting_per_page'] = 'Số thí sinh hiển thị trên một tran
 $lang_module['close'] = 'Đóng';
 $lang_module['id'] = 'ID';
 $lang_module['status'] = 'Hoạt động';
+$lang_module['status1'] = 'Kích hoạt';
 $lang_module['function'] = 'Chức năng';
 $lang_module['contestant_manager'] = 'Thêm thí sinh dự thi';
 $lang_module['contestant_add'] = 'Thêm thí sinh';
