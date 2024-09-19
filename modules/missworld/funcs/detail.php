@@ -83,6 +83,11 @@ $row['chest'] = number_format($row['chest'], 2);
 $row['waist'] = number_format($row['waist'], 2);
 $row['hips'] = number_format($row['hips'], 2);
 
+// Tính toán xếp hạng
+$sql_rank = "SELECT (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE vote > " . $row['vote'] . ") + 1 AS rank";
+$result_rank = $db->query($sql_rank);
+$row['rank'] = $result_rank->fetchColumn();
+
 // Xử lý hình ảnh
 if ($row['is_thumb'] == 1) {
     $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];

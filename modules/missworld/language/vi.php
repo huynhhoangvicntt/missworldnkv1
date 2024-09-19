@@ -24,7 +24,6 @@ $lang_module['already_voted'] = 'Bạn đã bình chọn cho thí sinh này rồ
 $lang_module['choose_contestant'] = 'Nhập thông tin';
 $lang_module['code_expires_in'] = 'Mã này sẽ hết hạn sau';
 $lang_module['contestant_not_exist'] = 'Thí sinh không tồn tại';
-$lang_module['current_rank'] = 'Xếp hạng hiện tại';
 $lang_module['date_of_birth'] = 'Ngày sinh';
 $lang_module['email'] = 'Email';
 $lang_module['email_empty_error'] = 'Email không được để trống';
@@ -70,7 +69,6 @@ $lang_module['voter_email'] = 'Email người bình chọn';
 $lang_module['voter_name'] = 'Tên người bình chọn';
 $lang_module['enter_search_key'] = 'Nhập họ tên thí sinh hoặc từ khóa liên quan';
 $lang_module['voting_history'] = 'Lịch sử bình chọn';
-
 $lang_module['search'] = 'Tìm kiếm bài viết';
 $lang_module['search_keywords'] = 'Từ khóa tìm kiếm';
 $lang_module['search_from'] = 'Từ ngày';

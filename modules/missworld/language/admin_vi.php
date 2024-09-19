@@ -93,14 +93,8 @@ $lang_module['units'] = 'cm';
 // Ngôn ngữ phần ví dụ thông báo
 $lang_module['notify'] = 'Thông báo hệ thống';
 $lang_module['notify_random'] = 'Bài viết gợi ý <strong>%s</strong>';
-
 $lang_module['notify_new_vote'] = 'Bình chọn mới từ %s cho thí sinh %s';
 $lang_module['notify_vote_deleted'] = 'Đã xóa bình chọn của %s cho thí sinh %s';
 $lang_module['notify_vote_action'] = 'Hành động bình chọn từ %s cho thí sinh %s';
-
 $lang_module['vote_success'] = 'Bình chọn thành công!';
 $lang_module['vote_error'] = 'Có lỗi xảy ra khi bình chọn. Vui lòng thử lại.';
-
-// $lang_module['comments'] = 'Bình luận.';
-
-// $lang_module['reader_comments'] = 'Bình luận.';
