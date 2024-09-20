@@ -25,7 +25,7 @@ function nv_theme_missworld_main($array_data, $generate_page)
         'from' => $nv_Request->get_title('f', 'get', ''),
         'to' => $nv_Request->get_title('t', 'get', '')
     ];
-    $search_form = nv_theme_search([], '', false, 0, $array_search);
+    $search_form = nv_theme_missworld_search([], '', false, 0, $array_search);
     $xtpl->assign('SEARCH_FORM', $search_form);
     $xtpl->parse('main.search_form');
 
@@ -44,7 +44,7 @@ function nv_theme_missworld_main($array_data, $generate_page)
     return $xtpl->text('main');
 }
 
-function nv_theme_search($array, $generate_page, $is_search, $num_items, $array_search)
+function nv_theme_missworld_search($array, $generate_page, $is_search, $num_items, $array_search)
 {
     global $lang_module, $lang_global, $module_info, $module_name, $module_file, $op_file, $global_config, $op;
 

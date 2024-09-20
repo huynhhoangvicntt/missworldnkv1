@@ -15,15 +15,15 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 // Lấy ra thông tin thí sinh xem chi tiết
 $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE alias=" . $db->quote($alias);
 $row = $db->query($sql)->fetch();
+$row['measurements'] = formatMeasurements($row['chest'], $row['waist'], $row['hips']);
 if (empty($row)) {
     nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'], 404);
 }
-$row['measurements'] = formatMeasurements($row['chest'], $row['waist'], $row['hips']);
 
 // Các biến cần thiết: Tiêu đề, từ khóa, mô tả
 $page_title = $row['fullname'];
 $key_words = $row['keywords'];
-$description = $row['fullname'] . ' - ' . $lang_module['height'] . ': ' . $row['height'] . 'cm';
+$description = $row['fullname'] . ' - ' . $lang_module['measurements'] . ': ' . formatMeasurements($row['chest'], $row['waist'], $row['hips']);
 
 // Các biến cần thiết: Link của trang
 $page_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'];
@@ -37,28 +37,45 @@ $structured_data = [
     'description' => $description,
     'url' => $canonicalUrl,
     'datePublished' => date('c', $row['time_add']),
-    'author' => [[
+    'height' => $row['height'] . ' cm',
+    'birthDate' => date('Y-m-d', $row['dob']),
+    'author' => [
         '@type' => 'Organization',
         'name' => $global_config['site_name'],
         'url' => NV_MY_DOMAIN,
-    ]]
+    ]
 ];
 if (!empty($row['time_update'])) {
     $structured_data['dateModified'] = date('c', $row['time_update']);
 }
 
-if ($row['is_thumb'] == 3) {
-    $meta_property['og:image'] = $row['image'];
-    $structured_data['image'] = [$meta_property['og:image']];
-} elseif ($row['is_thumb'] > 0) {
-    $meta_property['og:image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
-    $structured_data['image'] = [$meta_property['og:image']];
-} elseif (!empty($module_info['site_logo'])) {
-    $meta_property['og:image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_info['site_logo'];
-    $structured_data['image'] = [$meta_property['og:image']];
+// Xử lý hình ảnh
+if ($row['is_thumb'] == 1) {
+    $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];
+    $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+} elseif ($row['is_thumb'] == 2) {
+    $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
+    $row['thumb'] = $row['image'];
+} elseif ($row['is_thumb'] == 3) {
+    $row['thumb'] = $row['image'];
+} else {
+    $row['thumb'] = $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
 }
 
-$row['structured_data'] = json_encode($structured_data, JSON_PRETTY_PRINT);
+// Thiết lập og:image và structured data image
+if ($row['is_thumb'] == 3) {
+    $meta_property['og:image'] = $row['image'];
+} else {
+    $meta_property['og:image'] = NV_MY_DOMAIN . $row['image'];
+}
+$structured_data['image'] = [$meta_property['og:image']];
+
+$meta_property['og:type'] = 'article';
+$meta_property['og:title'] = $page_title;
+$meta_property['og:description'] = $description;
+$meta_property['og:url'] = $canonicalUrl;
+
+$row['structured_data'] = json_encode($structured_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
 // Xử lý bình luận
 if (isset($site_mods['comment']) and isset($module_config[$module_name]['activecomm'])) {
@@ -88,24 +105,6 @@ $row['hips'] = number_format($row['hips'], 2);
 $sql_rank = "SELECT (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE vote > " . $row['vote'] . ") + 1 AS rank";
 $result_rank = $db->query($sql_rank);
 $row['rank'] = $result_rank->fetchColumn();
-
-// Xử lý hình ảnh
-if ($row['is_thumb'] == 1) {
-    $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];
-    $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
-} elseif ($row['is_thumb'] == 2) {
-    $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
-    $row['thumb'] = $row['image'];
-} elseif ($row['is_thumb'] == 3) {
-    $row['thumb'] = $row['image'];
-} else {
-    $row['thumb'] = $row['image'] = '';
-}
-
-if (empty($row['image'])) {
-    $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
-    $row['thumb'] = $row['image'];
-}
 
 // Lấy 20 phiếu bầu gần nhất
 $sql_votes = "SELECT v.email, v.vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v WHERE v.contestant_id=" . $row['id'] . " ORDER BY v.vote_time DESC LIMIT 20";

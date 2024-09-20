@@ -95,9 +95,10 @@ function BoldKeywordInStr($str, $keyword)
 
 // Các biến cần thiết: Tiêu đề, từ khóa, mô tả
 $page_title = $module_info['funcs'][$op]['func_site_title'];
-$key_words = $description = 'no';
+$key_words = $module_info['keywords'];
+$description = $module_info['description'];
 
-// Các biết cần thiết: Link của trang
+// Các biến cần thiết: Link của trang
 $page_url = $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op;
 $canonicalUrl = getCanonicalUrl($page_url);
 
@@ -139,10 +140,7 @@ $is_search = false;
 if (!empty($array_search['q'])) {
     $base_url .= '&amp;q=' . urlencode($array_search['q']);
     $dblikekey = $db->dblikeescape($array_search['q']);
-    $where[] = "(
-        fullname LIKE '%" . $dblikekey . "%' OR
-        keywords LIKE '%" . $dblikekey . "%'
-    )";
+    $where[] = "(fullname LIKE '%" . $dblikekey . "%' OR keywords LIKE '%" . $dblikekey . "%')";
     $is_search = true;
 }
 if (!empty($array_search['from'])) {
@@ -182,23 +180,23 @@ if ($is_search) {
     while ($row = $result->fetch()) {
         // Xác định ảnh đại diện
         if ($row['is_thumb'] == 1) {
-            // Ảnh nhỏ assets
             $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];
             $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
         } elseif ($row['is_thumb'] == 2) {
-            // Ảnh upload lớn
             $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
             $row['thumb'] = $row['image'];
         } elseif ($row['is_thumb'] == 3) {
-            // Ảnh remote
             $row['thumb'] = $row['image'];
         } else {
-            // Không có ảnh
-            $row['thumb'] = $row['image'] = '';
+            $row['thumb'] = $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
         }
         
-        // Xác định link bài
-        $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
+        // Xác định link thí sinh
+        if ($global_config['rewrite_enable']) {
+            $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
+        } else {
+            $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'];
+        }
 
         if (!empty($array_search['q'])) {
             $row['title_text'] = $row['fullname'];
@@ -214,7 +212,7 @@ if ($is_search) {
 }
 
 // Gọi hàm xử lý giao diện
-$contents = nv_theme_search($array, $generate_page, $is_search, $num_items, $array_search);
+$contents = nv_theme_missworld_search($array, $generate_page, $is_search, $num_items, $array_search);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);

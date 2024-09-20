@@ -143,7 +143,6 @@ if ($page > 1) {
         $description .= NV_TITLEBAR_DEFIS . $lang_global['page'] . ' ' . $page;
     }
 }
-
 $canonicalUrl = getCanonicalUrl($page_url);
 
 // Truy vấn CSDL để lấy danh sách thí sinh
@@ -163,23 +162,27 @@ $urlappend = '&amp;' . NV_OP_VARIABLE . '=page-';
 betweenURLs($page, ceil($num_items / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
 
 // Lấy danh sách thí sinh
-$db->select('*');
+$db->select('id, fullname, alias, keywords, image, is_thumb, time_add');
 $db->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 
 $result = $db->query($db->sql());
 
-$array_data = [];
+$array = [];
 while ($row = $result->fetch()) {
-    // Xử lý hình ảnh sử dụng is_thumb
+    // Xác định ảnh đại diện
     if ($row['is_thumb'] == 1) {
+        // Ảnh nhỏ assets
         $row['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['image'];
         $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
     } elseif ($row['is_thumb'] == 2) {
+        // Ảnh upload lớn
         $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
         $row['thumb'] = $row['image'];
     } elseif ($row['is_thumb'] == 3) {
+        // Ảnh remote
         $row['thumb'] = $row['image'];
     } else {
+        // Không có ảnh
         $row['thumb'] = $row['image'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
     }
 
@@ -187,16 +190,17 @@ while ($row = $result->fetch()) {
     if ($global_config['rewrite_enable']) {
         $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
     } else {
-        $row['link'] = '#';
+        $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'];
     }
-    
-    $array_data[$row['id']] = $row;
+
+    $array[$row['id']] = $row;
 }
 
 // Phân trang
 $generate_page = nv_alias_page($page_title, $base_url, $num_items, $per_page, $page);
 
-$contents = nv_theme_missworld_main($array_data, $generate_page);
+// Gọi hàm xử lý giao diện
+$contents = nv_theme_missworld_main($array, $generate_page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
