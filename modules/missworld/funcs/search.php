@@ -174,7 +174,7 @@ if ($is_search) {
     betweenURLs($page, ceil($num_items / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
 
     // Lấy danh sách tin
-    $db->select('*');
+    $db->select('id, fullname, alias, keywords, image, is_thumb, dob, height, chest, waist, hips, vote, rank');
     $db->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 
     $result = $db->query($db->sql());

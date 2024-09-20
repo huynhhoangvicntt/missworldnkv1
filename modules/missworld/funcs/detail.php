@@ -18,6 +18,7 @@ $row = $db->query($sql)->fetch();
 if (empty($row)) {
     nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'], 404);
 }
+$row['measurements'] = formatMeasurements($row['chest'], $row['waist'], $row['hips']);
 
 // Các biến cần thiết: Tiêu đề, từ khóa, mô tả
 $page_title = $row['fullname'];

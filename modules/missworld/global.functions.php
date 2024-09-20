@@ -311,3 +311,15 @@ function nv_check_pending_verification($email, $contestant_id)
     
     return $sth->fetchColumn() > 0;
 }
+
+/**
+ * Định dạng số đo 3 vòng
+ * 
+ * @param float $chest Số đo vòng ngực
+ * @param float $waist Số đo vòng eo
+ * @param float $hips Số đo vòng hông
+ * @return string Chuỗi số đo đã định dạng
+ */
+function formatMeasurements($chest, $waist, $hips) {
+    return number_format($chest, 2) . ' - ' . number_format($waist, 2) . ' - ' . number_format($hips, 2);
+}
