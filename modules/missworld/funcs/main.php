@@ -162,7 +162,7 @@ $urlappend = '&amp;' . NV_OP_VARIABLE . '=page-';
 betweenURLs($page, ceil($num_items / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
 
 // Lấy danh sách thí sinh
-$db->select('id, fullname, alias, keywords, image, is_thumb, time_add');
+$db->select('id, fullname, alias, keywords, image, is_thumb, time_add, vote');
 $db->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 
 $result = $db->query($db->sql());
