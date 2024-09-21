@@ -56,7 +56,12 @@ if ($nv_Request->get_title('changestatus', 'post', '') === NV_CHECK_SESSION) {
 $page_title = $lang_module['main'];
 
 $array = [];
-$per_page = 12;
+// Lấy giá trị per_page từ cấu hình
+$per_page = $db->query('SELECT config_value FROM ' . NV_PREFIXLANG . '_' . $module_data . '_config WHERE config_name = "per_page"')->fetchColumn();
+$per_page = intval($per_page);
+if ($per_page < 5 || $per_page > 30) {
+    $per_page = 20; // Giá trị mặc định nếu cấu hình không hợp lệ
+}
 $page = $nv_Request->get_int('page', 'get', 1);
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 

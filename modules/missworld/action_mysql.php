@@ -72,7 +72,13 @@ UNIQUE KEY email_contestant (email, contestant_id),
 KEY expires_at (expires_at)
 ) ENGINE=MyISAM";
 
-$sql_create_module[] = 'INSERT INTO ' . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'per_page', '12')";
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config (
+    config_name varchar(30) NOT NULL,
+    config_value varchar(255) NOT NULL,
+    UNIQUE KEY config_name (config_name)
+)ENGINE=MyISAM";
+
+$sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config (config_name, config_value) VALUES ('per_page', '20')";
 
 // Tạo CSDL nếu dùng chức năng bình luận. Nếu không bình luận thì bỏ đoạn này
 $sql_create_module[] = 'INSERT INTO ' . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'auto_postcomm', '1')";

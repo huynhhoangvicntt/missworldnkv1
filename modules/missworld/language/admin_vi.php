@@ -98,3 +98,7 @@ $lang_module['notify_vote_deleted'] = 'Đã xóa bình chọn của %s cho thí 
 $lang_module['notify_vote_action'] = 'Hành động bình chọn từ %s cho thí sinh %s';
 $lang_module['vote_success'] = 'Bình chọn thành công!';
 $lang_module['vote_error'] = 'Có lỗi xảy ra khi bình chọn. Vui lòng thử lại.';
+$lang_module['config'] = 'Cấu hình';
+$lang_module['save'] = 'Lưu cấu hình';
+$lang_module['error_per_page'] = 'Số thí sinh trên mỗi trang phải từ 5 đến 30';
+$lang_module['error_save'] = 'Lỗi: Không thể lưu cấu hình';
