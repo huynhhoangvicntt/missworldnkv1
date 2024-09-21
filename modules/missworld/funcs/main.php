@@ -148,7 +148,7 @@ $canonicalUrl = getCanonicalUrl($page_url);
 // Truy vấn CSDL để lấy danh sách thí sinh
 $db->sqlreset()->from(NV_PREFIXLANG . '_' . $module_data . '_rows');
 
-// Điều kiện lấy tin
+// Điều kiện lấy thí sinh
 $where = [];
 $where[] = 'status=1';
 

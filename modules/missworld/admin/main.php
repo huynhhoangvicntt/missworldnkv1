@@ -26,7 +26,14 @@ if ($nv_Request->get_title('delete', 'post', '') === NV_CHECK_SESSION) {
         if (!empty($array)) {
             nv_insert_logs(NV_LANG_DATA, $module_name, 'LOG_DELETE_CONTENT', json_encode($array), $admin_info['admin_id']);
 
-            // Xóa
+            // Xóa thông báo liên quan đến thí sinh này
+            nv_delete_notification(NV_LANG_DATA, $module_name, 'new_vote', $id);
+
+            // Xóa các lượt vote liên quan
+            $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes WHERE contestant_id=" . $id;
+            $db->query($sql);
+
+            // Xóa thí sinh
             $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $id;
             $db->query($sql);
         }

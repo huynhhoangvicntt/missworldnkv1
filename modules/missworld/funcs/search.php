@@ -129,10 +129,10 @@ if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['to']
     $array_search['to'] = 0;
 }
 
-// Truy vấn CSDL để lấy tin
+// Truy vấn CSDL để lấy thí sinh
 $db->sqlreset()->from(NV_PREFIXLANG . '_' . $module_data . '_rows');
 
-// Điều kiện lấy tin
+// Điều kiện lấy thí sinh
 $where = [];
 $where[] = 'status=1';
 
@@ -164,14 +164,14 @@ if ($is_search) {
 
     $db->select('COUNT(id)')->where(implode(' AND ', $where));
 
-    // Tổng số tin
+    // Tổng số thí sinh
     $num_items = $db->query($db->sql())->fetchColumn();
 
     // Khống chế đánh số trang tùy ý
     $urlappend = '&amp;page=';
     betweenURLs($page, ceil($num_items / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
 
-    // Lấy danh sách tin
+    // Lấy danh sách thí sinh
     $db->select('id, fullname, alias, keywords, image, is_thumb, dob, height, chest, waist, hips, vote, rank');
     $db->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 

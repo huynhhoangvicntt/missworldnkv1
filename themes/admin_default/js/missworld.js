@@ -23,7 +23,7 @@ function nv_delete_contestant(id, checksess) {
             if (r_split[0] == 'OK') {
                 location.reload();
             } else {
-              alert(nv_is_del_confirm[2]);
+                alert(nv_is_del_confirm[2]);
             }
         });
     }
