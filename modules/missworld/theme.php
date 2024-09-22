@@ -67,22 +67,16 @@ function nv_theme_missworld_search($array, $generate_page, $is_search, $num_item
         $xtpl->assign('FORM_ACTION', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=search');
     }
 
-    // Chuyển tìm kiếm sang ngày tháng
-    $array_search['from'] = empty($array_search['from']) ? '' : nv_date('d-m-Y', $array_search['from']);
-    $array_search['to'] = empty($array_search['to']) ? '' : nv_date('d-m-Y', $array_search['to']);
-
     $xtpl->assign('SEARCH', $array_search);
 
-    if (!$is_search) {
-        $xtpl->parse('main.please');
-    } elseif (empty($array)) {
-        $xtpl->parse('main.empty');
-    } else {
-        $xtpl->assign('NUM_ITEMS', number_format($num_items, 0, ',', '.'));
-
-        // Gọi hàm xử lý chung giao diện dạng danh sách, xuất ra HTML
-        $xtpl->assign('HTML', nv_theme_item_list($array));
-        $xtpl->parse('main.data');
+    if ($is_search) {
+        if (empty($array)) {
+            $xtpl->parse('main.empty');
+        } else {
+            $xtpl->assign('NUM_ITEMS', number_format($num_items, 0, ',', '.'));
+            $xtpl->assign('HTML', nv_theme_item_list($array));
+            $xtpl->parse('main.data');
+        }
     }
 
     // Phân trang nếu có

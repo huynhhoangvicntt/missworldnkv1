@@ -8,8 +8,8 @@
  * @Createdate March 01, 2024, 08:00:00 AM
  */
 
- if (!defined('NV_IS_MOD_MISSWORLD')) {
-  exit('Stop!!!');
+if (!defined('NV_IS_MOD_MISSWORLD')) {
+    exit('Stop!!!');
 }
 
 /**
@@ -112,47 +112,10 @@ $array_mod_title[] = [
 // Phần tìm kiếm
 $array_search = [];
 $array_search['q'] = $nv_Request->get_title('q', 'get', '');
-$array_search['from'] = $nv_Request->get_title('f', 'get', '');
-$array_search['to'] = $nv_Request->get_title('t', 'get', '');
+
+$is_search = !empty($array_search['q']);
 
 $page = $nv_Request->get_absint('page', 'get', 1);
-
-// Xử lý dữ liệu tìm kiếm
-if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['from'], $m)) {
-    $array_search['from'] = mktime(0, 0, 0, intval($m[2]), intval($m[1]), intval($m[3]));
-} else {
-    $array_search['from'] = 0;
-}
-if (preg_match('/^([0-9]{1,2})\-([0-9]{1,2})\-([0-9]{4})$/', $array_search['to'], $m)) {
-    $array_search['to'] = mktime(23, 59, 59, intval($m[2]), intval($m[1]), intval($m[3]));
-} else {
-    $array_search['to'] = 0;
-}
-
-// Truy vấn CSDL để lấy thí sinh
-$db->sqlreset()->from(NV_PREFIXLANG . '_' . $module_data . '_rows');
-
-// Điều kiện lấy thí sinh
-$where = [];
-$where[] = 'status=1';
-
-$is_search = false;
-if (!empty($array_search['q'])) {
-    $base_url .= '&amp;q=' . urlencode($array_search['q']);
-    $dblikekey = $db->dblikeescape($array_search['q']);
-    $where[] = "(fullname LIKE '%" . $dblikekey . "%' OR keywords LIKE '%" . $dblikekey . "%')";
-    $is_search = true;
-}
-if (!empty($array_search['from'])) {
-    $base_url .= '&amp;f=' . nv_date('d-m-Y', $array_search['from']);
-    $where[] = "dob>=" . $array_search['from'];
-    $is_search = true;
-}
-if (!empty($array_search['to'])) {
-    $base_url .= '&amp;t=' . nv_date('d-m-Y', $array_search['to']);
-    $where[] = "dob<=" . $array_search['to'];
-    $is_search = true;
-}
 
 $array = [];
 $generate_page = '';
@@ -162,7 +125,20 @@ if ($is_search) {
     // Không index các kết quả tìm kiếm.
     $nv_BotManager->setPrivate();
 
-    $db->select('COUNT(id)')->where(implode(' AND ', $where));
+    // Truy vấn CSDL để lấy thí sinh
+    $db->sqlreset()->from(NV_PREFIXLANG . '_' . $module_data . '_rows');
+
+    // Điều kiện lấy thí sinh
+    $where = [];
+    $where[] = 'status=1';
+
+    $base_url .= '&amp;q=' . urlencode($array_search['q']);
+    $dblikekey = $db->dblikeescape($array_search['q']);
+    $where[] = "(fullname LIKE '%" . $dblikekey . "%' OR keywords LIKE '%" . $dblikekey . "%')";
+
+    $db->where(implode(' AND ', $where));
+
+    $db->select('COUNT(id)');
 
     // Tổng số thí sinh
     $num_items = $db->query($db->sql())->fetchColumn();
@@ -198,11 +174,9 @@ if ($is_search) {
             $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'];
         }
 
-        if (!empty($array_search['q'])) {
-            $row['title_text'] = $row['fullname'];
-            $row['title'] = BoldKeywordInStr($row['fullname'], $array_search['q']);
-            $row['description'] = BoldKeywordInStr($row['keywords'], $array_search['q']);
-        }
+        $row['title_text'] = $row['fullname'];
+        $row['title'] = BoldKeywordInStr($row['fullname'], $array_search['q']);
+        $row['description'] = BoldKeywordInStr($row['keywords'], $array_search['q']);
 
         $array[$row['id']] = $row;
     }

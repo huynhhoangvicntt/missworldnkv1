@@ -1,9 +1,9 @@
 <!-- BEGIN: main -->
-<!-- BEGIN: search_form -->
-{SEARCH_FORM}
-<!-- END: search_form -->
 <div class="missworld-contestants">
-    <h2>{LANG.contestant_list}</h2>
+    <h2 class="title-missworld">{LANG.missworld_list}</h2>
+    <!-- BEGIN: search_form -->
+        {SEARCH_FORM}
+    <!-- END: search_form -->
     <div class="contestant-grid">
         <!-- BEGIN: loop -->
         <div class="contestant-card" data-id="{DATA.id}" itemscope itemtype="https://schema.org/Person">
