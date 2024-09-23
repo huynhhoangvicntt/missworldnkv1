@@ -19,11 +19,8 @@ function nv_theme_missworld_main($array_data, $generate_page)
     $xtpl->assign('GLANG', $lang_global);
     $xtpl->assign('MODULE_NAME', $module_name);
 
-    // Tạo form tìm kiếm bằng cách sử dụng hàm nv_theme_search
     $array_search = [
         'q' => $nv_Request->get_title('q', 'get', ''),
-        'from' => $nv_Request->get_title('f', 'get', ''),
-        'to' => $nv_Request->get_title('t', 'get', '')
     ];
     $search_form = nv_theme_missworld_search([], '', false, 0, $array_search);
     $xtpl->assign('SEARCH_FORM', $search_form);
