@@ -365,3 +365,18 @@ function nv_get_voting_history($contestant_id)
 
     return $voting_history;
 }
+
+/**
+ * nv_get_contestant_vote_count()
+ * 
+ * @param int $contestant_id
+ * @return array
+ */
+function nv_get_contestant_vote_count($contestant_id) {
+    global $db, $module_data;
+
+    $sql = "SELECT vote FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id = " . intval($contestant_id);
+    $result = $db->query($sql);
+    
+    return $result->fetchColumn();
+}

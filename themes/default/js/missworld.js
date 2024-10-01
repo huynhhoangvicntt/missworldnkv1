@@ -121,7 +121,7 @@ $(document).ready(function() {
                     if (response.requiresVerification) {
                         showVerificationModal(contestantId, email);
                     } else {
-                        handleSuccessfulVote(contestantId, response.newVoteCount);
+                        handleSuccessfulVote(contestantId, response.newVoteCount, response.voteCountText);
                         updateVotingHistory(contestantId);
                         hideModal(votingModal);
                     }
@@ -158,7 +158,7 @@ $(document).ready(function() {
             success: function(response) {
                 hideLoading();
                 if (response.success) {
-                    handleSuccessfulVote(contestantId, response.newVoteCount);
+                    handleSuccessfulVote(contestantId, response.newVoteCount, response.voteCountText);
                     updateVotingHistory(contestantId);
                     hideModal(verificationModal);
                 }
@@ -201,15 +201,18 @@ $(document).ready(function() {
             }
         });
     }
+    
+    function updateVoteCount(contestantId, voteCountText) {
+        var voteElement = $('.vote-button[data-contestant-id="' + contestantId + '"]').siblings('.vote-count');
+        voteElement.html(voteCountText);
+    }
 
-    function handleSuccessfulVote(contestantId, newVoteCount) {
-        var voteButton = $('.vote-button[data-contestant-id="' + contestantId + '"]');
-        var voteCountElement = voteButton.siblings('.vote-count').find('span');
-        
-        if (typeof newVoteCount !== 'undefined') {
-            voteCountElement.text(newVoteCount);
+    function handleSuccessfulVote(contestantId, newVoteCount, voteCountText) {
+        if (typeof newVoteCount !== 'undefined' && typeof voteCountText !== 'undefined') {
+            updateVoteCount(contestantId, voteCountText);
         }
-
+    
+        var voteButton = $('.vote-button[data-contestant-id="' + contestantId + '"]');
         if (voteButton.closest('.contestant-detail-container').length) {
             setTimeout(function() {
                 location.reload();

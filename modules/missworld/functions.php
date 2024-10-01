@@ -27,10 +27,6 @@ if (empty($op) || $op == 'main') {
     if (isset($array_op[0]) && !empty($array_op[0])) {
         if (preg_match('/^page\-([0-9]+)$/', $array_op[0], $m)) {
             $page = intval($m[1]);
-        } elseif (preg_match('/^([a-z0-9\-]+)\-([0-9]+)$/', $array_op[0], $m)) {
-            $op = 'detail';
-            $alias = $m[1];
-            $id = intval($m[2]);
         } else {
             $op = 'detail';
             $alias = $array_op[0];

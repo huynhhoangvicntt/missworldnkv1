@@ -55,7 +55,13 @@ if ($nv_Request->isset_request('action', 'post')) {
             nv_jsonOutput(['success' => false, 'error_content' => $error_content]);
         } else {
             if (defined('NV_IS_USER')) {
-                $result = nv_vote_contestant($contestant_id, $voter_name, $email, $user_info['userid']);
+                $result = nv_vote_contestant
+                ($contestant_id, $voter_name, $email, $user_info['userid']);
+                if ($result['success']) {
+                    $newVoteCount = nv_get_contestant_vote_count($contestant_id);
+                    $result['newVoteCount'] = $newVoteCount;
+                    $result['voteCountText'] = $lang_module['vote_count'] . ': ' . $newVoteCount;
+                }
                 if (!isset($result['isToast'])) {
                     $result['isToast'] = true;
                 }
@@ -108,6 +114,11 @@ if ($nv_Request->isset_request('action', 'post')) {
         $verification_code = $nv_Request->get_title('verification_code', 'post', '');
 
         $result = nv_verify_and_vote($contestant_id, $email, $verification_code);
+        if ($result['success']) {
+            $newVoteCount = nv_get_contestant_vote_count($contestant_id);
+            $result['newVoteCount'] = $newVoteCount;
+            $result['voteCountText'] = $lang_module['vote_count'] . ': ' . $newVoteCount;
+        }
         $result['isToast'] = true;
         nv_jsonOutput($result);
     } elseif ($action === 'resend_verification') {

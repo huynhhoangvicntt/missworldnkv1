@@ -16,30 +16,9 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 if ($nv_Request->isset_request('action', 'post') && $nv_Request->get_string('action', 'post') === 'get_voting_history') {
     $contestant_id = $nv_Request->get_int('id', 'post', 0);
     
-    $sql_votes = "SELECT v.email, v.vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v WHERE v.contestant_id=" . $contestant_id . " ORDER BY v.vote_time DESC LIMIT 20";
-    $result_votes = $db->query($sql_votes);
-    $voting_history = [];
+    $voting_history = nv_get_voting_history($contestant_id);
 
-    while ($vote = $result_votes->fetch()) {
-        $email = $vote['email'];
-        $atpos = strpos($email, '@');
-        
-        if ($atpos !== false) {
-            $username = substr($email, 0, $atpos);
-            $domain = substr($email, $atpos);
-            $hidden_username = (strlen($username) > 3) ? substr($username, 0, -3) . '***' : '***' . substr($username, 3);
-            $hidden_email = $hidden_username . $domain;
-        } else {
-            $hidden_email = $email;
-        }
-
-        $voting_history[] = [
-            'email' => $hidden_email,
-            'vote_time' => nv_date('H:i d/m/Y', $vote['vote_time'])
-        ];
-    }
-
-    $xtpl = new XTemplate('voting_history.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
     
     if (!empty($voting_history)) {
@@ -48,12 +27,11 @@ if ($nv_Request->isset_request('action', 'post') && $nv_Request->get_string('act
             $xtpl->parse('main.voting_history.loop');
         }
         $xtpl->parse('main.voting_history');
+        $html = $xtpl->text('main.voting_history');
     } else {
         $xtpl->parse('main.no_votes');
+        $html = $xtpl->text('main.no_votes');
     }
-    
-    $xtpl->parse('main');
-    $html = $xtpl->text('main');
 
     nv_jsonOutput(['success' => true, 'html' => $html]);
 }
@@ -159,31 +137,8 @@ $sql_rank = "SELECT (SELECT COUNT(DISTINCT vote) FROM " . NV_PREFIXLANG . "_" . 
 $result_rank = $db->query($sql_rank);
 $row['rank'] = $result_rank->fetchColumn();
 
-// Lấy 20 phiếu bầu gần nhất
-$sql_votes = "SELECT v.email, v.vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v WHERE v.contestant_id=" . $row['id'] . " ORDER BY v.vote_time DESC LIMIT 20";
-$result_votes = $db->query($sql_votes);
-$voting_history = [];
-
-while ($vote = $result_votes->fetch()) {
-    $email = $vote['email'];
-    $atpos = strpos($email, '@');
-    
-    if ($atpos !== false) {
-        $username = substr($email, 0, $atpos);
-        $domain = substr($email, $atpos);
-        $hidden_username = (strlen($username) > 3) ? substr($username, 0, -3) . '***' : '***' . substr($username, 3);
-        $hidden_email = $hidden_username . $domain;
-    } else {
-        $hidden_email = $email;
-    }
-
-    $voting_history[] = [
-        'email' => $hidden_email,
-        'vote_time' => nv_date('H:i d/m/Y', $vote['vote_time'])
-    ];
-}
-
-$row['voting_history'] = $voting_history;
+// Lấy lịch sử bình chọn
+$row['voting_history'] = nv_get_voting_history($row['id']);
 
 // Gọi hàm xử lý giao diện
 $contents = nv_theme_missworld_detail($row);
@@ -191,3 +146,4 @@ $contents = nv_theme_missworld_detail($row);
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
 include NV_ROOTDIR . '/includes/footer.php';
+
