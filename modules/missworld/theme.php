@@ -31,7 +31,7 @@ function nv_theme_missworld_main($array_data, $generate_page)
             $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
             // Thêm xử lý cho thumb
             if (empty($value['thumb'])) {
-                $value['thumb'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/no-image.jpg';
+                $value['thumb'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
             }
             $xtpl->assign('DATA', $value);
             $xtpl->parse('main.loop');
@@ -108,7 +108,7 @@ function nv_theme_item_list($array)
         $row['title_text'] = $row['title_text'] ?? $row['fullname'];
          // Thêm xử lý cho thumb
         if (empty($row['thumb'])) {
-            $row['thumb'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/no-image.jpg';
+            $row['thumb'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/default.jpg';
         }
 
         $xtpl->assign('ROW', $row);
