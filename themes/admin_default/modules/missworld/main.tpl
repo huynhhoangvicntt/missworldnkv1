@@ -89,7 +89,7 @@
                     <td class="text-nowrap id">{DATA.id}</td>
                     <td class="img-responsive-wrap">
                         <div class="img-container"> 
-                            <img class="img-inner" src="{DATA.image}" alt="{DATA.fullname}"/>
+                            <img class="img-inner" src="{DATA.thumb}" alt="{DATA.fullname}"/>
                         </div>
                     </td>
                     <td class="fullname" title="{DATA.fullname}">
@@ -198,9 +198,9 @@ $(document).ready(function() {
     
         var detailsHtml = '';
     
-        if (data.image) {
+        if (data.thumb) {
             detailsHtml += '<div id="contestantImage" class="text-center mb-3">'
-                + '<img src="' + data.image + '" '
+                + '<img src="' + data.thumb + '" '
                 + 'alt="' + langKeys.images + '" '
                 + 'class="img-responsive" '
                 + 'style="max-height: 200px; margin: 0 auto;">'

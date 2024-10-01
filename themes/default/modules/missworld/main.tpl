@@ -8,7 +8,7 @@
         <!-- BEGIN: loop -->
         <div class="contestant-card" data-id="{DATA.id}" itemscope itemtype="https://schema.org/Person">
             <a href="{DATA.link}" itemprop="url">
-                <img src="{DATA.image}" alt="{DATA.fullname}" class="contestant-image" itemprop="image">
+                <img src="{DATA.thumb}" alt="{DATA.fullname}" class="contestant-image" itemprop="image">
             </a>
             <h3 class="contestant-name" itemprop="name">{DATA.fullname}</h3>
             <p class="vote-count" itemprop="interactionStatistic" itemscope itemtype="https://schema.org/InteractionCounter">

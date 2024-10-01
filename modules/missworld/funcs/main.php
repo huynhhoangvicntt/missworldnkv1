@@ -163,7 +163,7 @@ betweenURLs($page, ceil($num_items / $per_page), $base_url, $urlappend, $prevPag
 
 // Lấy danh sách thí sinh
 $db->select('id, fullname, alias, keywords, image, is_thumb, time_add, vote');
-$db->order('id DESC')->limit($per_page)->offset(($page - 1) * $per_page);
+$db->order('time_add DESC')->limit($per_page)->offset(($page - 1) * $per_page);
 
 $result = $db->query($db->sql());
 

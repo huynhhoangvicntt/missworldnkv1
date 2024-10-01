@@ -29,6 +29,10 @@ function nv_theme_missworld_main($array_data, $generate_page)
     if(!empty($array_data)){
         foreach($array_data as $value){
             $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
+            // Thêm xử lý cho thumb
+            if (empty($value['thumb'])) {
+                $value['thumb'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/no-image.jpg';
+            }
             $xtpl->assign('DATA', $value);
             $xtpl->parse('main.loop');
         }
@@ -92,7 +96,7 @@ function nv_theme_missworld_search($array, $generate_page, $is_search, $num_item
  */
 function nv_theme_item_list($array)
 {
-    global $lang_module, $lang_global, $module_info, $module_name, $global_config;
+    global $lang_module, $lang_global, $module_info, $module_name, $global_config, $module_file;
 
     $xtpl = new XTemplate('item-list.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_theme']);
     $xtpl->assign('LANG', $lang_module);
@@ -101,7 +105,11 @@ function nv_theme_item_list($array)
     foreach ($array as $row) {
         $row['link'] = NV_BASE_SITEURL . $module_name . '/' . $row['alias'] . $global_config['rewrite_exturl'];
         $row['dob'] = empty($row['dob']) ? '' : nv_date('d/m/Y', $row['dob']);
-        // $row['title_text'] = $row['title_text'] ?? $row['fullname'];
+        $row['title_text'] = $row['title_text'] ?? $row['fullname'];
+         // Thêm xử lý cho thumb
+        if (empty($row['thumb'])) {
+            $row['thumb'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/no-image.jpg';
+        }
 
         $xtpl->assign('ROW', $row);
 

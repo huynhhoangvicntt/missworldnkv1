@@ -168,13 +168,24 @@ $xtpl->assign('SEARCH', $array_search);
 
 // Hiển thị dữ liệu
 if (!empty($array)) {
-    $images_default = NV_BASE_SITEURL . 'themes/' . $global_config['module_theme'] . '/images/' . $module_file . '/default.jpg';
     foreach ($array as $value) {
-        if (!empty($value['image'])) {
+        // Xác định ảnh đại diện
+        if ($value['is_thumb'] == 1) {
+            // Ảnh nhỏ assets
+            $value['thumb'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $value['image'];
             $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
+        } elseif ($value['is_thumb'] == 2) {
+            // Ảnh upload lớn
+            $value['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $value['image'];
+            $value['thumb'] = $value['image'];
+        } elseif ($value['is_thumb'] == 3) {
+            // Ảnh remote
+            $value['thumb'] = $value['image'];
         } else {
-            $value['image'] = $images_default;
+            // Không có ảnh
+            $value['thumb'] = $value['image'] = NV_BASE_SITEURL . 'themes/' . $global_config['module_theme'] . '/images/' . $module_file . '/default.jpg';
         }
+
         $value['dob'] = empty($value['dob']) ? '' : nv_date('d/m/Y', $value['dob']);
         $value['url_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $value['id'];
         $value['status_checked'] = $value['status'] ? ' checked="checked"' : '';
