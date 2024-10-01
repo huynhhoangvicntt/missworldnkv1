@@ -23,36 +23,28 @@ if ($op == 'detail') {
 
 // Các biến sử dụng phân trang
 $page = 1;
-$per_page = 10;
-$per_page_detail = 6;
+$per_page = $module_config[$module_name]['per_page'];
 
 // Xử lý điều khiển các op
-if ($op == 'main') {
-    // Phân trang tại trang main hoặc có liên kết tĩnh của thí sinh
-    if (isset($array_op[0])) {
+if (empty($op) || $op == 'main') {
+    $op = 'main';
+    
+    if (isset($array_op[0]) && !empty($array_op[0])) {
         if (preg_match('/^page\-([0-9]+)$/', $array_op[0], $m)) {
-            // Phân trang
             $page = intval($m[1]);
         } else {
-            // Kiểm tra xem có phải là alias của thí sinh không
-            $alias = $array_op[0];
             $op = 'detail';
-        }
-    }
-
-    // Phân trang tại trang detail
-    if (isset($array_op[1])) {
-        if (preg_match('/^page\-([0-9]+)$/', $array_op[1], $m)) {
-            // Phân trang
-            $page = intval($m[1]);
+            $alias = $array_op[0];
         }
     }
 }
 
+$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+
 // Định nghĩa RSS nếu module có hỗ trợ
 if ($module_info['rss']) {
-    $rss[] = [
+    $rss[] = array(
         'title' => $module_info['custom_title'],
         'src' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['rss']
-    ];
+    );
 }

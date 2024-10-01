@@ -62,15 +62,20 @@ if ($nv_Request->get_title('changestatus', 'post', '') === NV_CHECK_SESSION) {
 
 $page_title = $lang_module['main'];
 
-$array = [];
-// Lấy giá trị per_page từ cấu hình
-$per_page = $db->query('SELECT config_value FROM ' . NV_PREFIXLANG . '_' . $module_data . '_config WHERE config_name = "per_page"')->fetchColumn();
-$per_page = intval($per_page);
-if ($per_page < 5 || $per_page > 30) {
-    $per_page = 20; // Giá trị mặc định nếu cấu hình không hợp lệ
-}
+// Phân trang
+$per_page_old = $nv_Request->get_int('per_page', 'cookie', 50);
+$per_page = $nv_Request->get_int('per_page', 'get', $per_page_old);
 $page = $nv_Request->get_int('page', 'get', 1);
-$base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+
+if ($per_page < 1 or $per_page > 500) {
+    $per_page = 50;
+}
+if ($per_page_old != $per_page) {
+    $nv_Request->set_Cookie('per_page', $per_page, NV_LIVE_COOKIE_TIME);
+}
+
+$array = [];
+$base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;per_page=' . $per_page;
 
 // Phần tìm kiếm
 $array_search = [];
@@ -132,8 +137,7 @@ if (!empty($where)) {
     $db->where(implode(' AND ', $where));
 }
 
-$sql = $db->sql();
-$total = $db->query($sql)->fetchColumn();
+$num_items = $db->query($db->sql())->fetchColumn();
 
 if (!empty($array_order['field']) and !empty($array_order['value'])) {
     $order = $array_order['field'] . ' ' . $array_order['value'];
@@ -142,8 +146,7 @@ if (!empty($array_order['field']) and !empty($array_order['value'])) {
 }
 $db->select('*')->order($order)->limit($per_page)->offset(($page - 1) * $per_page);
 
-$sql = $db->sql();
-$result = $db->query($sql);
+$result = $db->query($db->sql());
 while ($row = $result->fetch()) {
     $array[$row['id']] = $row;
 }
@@ -198,7 +201,7 @@ if (!empty($array)) {
 }
 
 // Xuất phân trang
-$generate_page = nv_generate_page($base_url, $total, $per_page, $page);
+$generate_page = nv_generate_page($base_url, $num_items, $per_page, $page);
 if (!empty($generate_page)) {
     $xtpl->assign('GENERATE_PAGE', $generate_page);
     $xtpl->parse('main.generate_page');
@@ -224,6 +227,22 @@ foreach ($order_fields as $field) {
 
     $xtpl->assign(strtoupper('URL_ORDER_' . $field), $url);
     $xtpl->assign(strtoupper('ICON_ORDER_' . $field), $icon);
+}
+
+// Xuất các tùy chọn số bản ghi trên mỗi trang
+$search_per_page = [];
+$i = 5;
+while ($i <= 500) {
+    $search_per_page[] = [
+        'page' => $i,
+        'selected' => ($i == $per_page) ? ' selected="selected"' : ''
+    ];
+    $i = $i + 5;
+}
+
+foreach ($search_per_page as $s_per_page) {
+    $xtpl->assign('SEARCH_PER_PAGE', $s_per_page);
+    $xtpl->parse('main.s_per_page');
 }
 
 $xtpl->parse('main');

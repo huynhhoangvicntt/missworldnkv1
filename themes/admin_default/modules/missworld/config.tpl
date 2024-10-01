@@ -25,7 +25,8 @@
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <input type="submit" name="save" value="{LANG.config_save}" class="btn btn-primary" />
+                        <input type="submit" name="submit" value="{LANG.save}" class="btn btn-primary" />
+                        <input type="hidden" name="savesetting" value="1" />
                     </td>
                 </tr>
             </tfoot>

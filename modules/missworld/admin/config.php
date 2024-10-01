@@ -14,38 +14,41 @@ if (!defined('NV_IS_FILE_ADMIN')) {
 
 $page_title = $lang_module['config'];
 
-$array_config = [];
+$savesetting = $nv_Request->get_int('savesetting', 'post', 0);
 
-if ($nv_Request->isset_request('save', 'post')) {
-    $array_config['per_page'] = $nv_Request->get_int('per_page', 'post', 20);
+if (!empty($savesetting)) {
+    $array_config = [];
+    $array_config['per_page'] = $nv_Request->get_int('per_page', 'post', 0);
 
-    $sth = $db->prepare("UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_config SET config_value = :config_value WHERE config_name = 'per_page'");
-    $sth->bindParam(':config_value', $array_config['per_page'], PDO::PARAM_INT);
-    $sth->execute();
+    $sth = $db->prepare("UPDATE " . NV_CONFIG_GLOBALTABLE . " SET config_value = :config_value WHERE lang = '" . NV_LANG_DATA . "' AND module = :module_name AND config_name = :config_name");
+    $sth->bindParam(':module_name', $module_name, PDO::PARAM_STR);
+    foreach ($array_config as $config_name => $config_value) {
+        $sth->bindParam(':config_name', $config_name, PDO::PARAM_STR);
+        $sth->bindParam(':config_value', $config_value, PDO::PARAM_STR);
+        $sth->execute();
+    }
 
+    $nv_Cache->delMod('settings');
     $nv_Cache->delMod($module_name);
-    nv_redirect_location(NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op);
-}
-
-$array_config['per_page'] = $db->query('SELECT config_value FROM ' . NV_PREFIXLANG . '_' . $module_data . '_config WHERE config_name = "per_page"')->fetchColumn();
-
-if (empty($array_config['per_page'])) {
-    $array_config['per_page'] = 20; // Giá trị mặc định nếu không có trong CSDL
+    nv_redirect_location(NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&rand=' . nv_genpass());
 }
 
 $xtpl = new XTemplate('config.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
-$xtpl->assign('GLANG', $lang_global);
-$xtpl->assign('MODULE_FILE', $module_file);
-$xtpl->assign('FORM_ACTION', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op);
-$xtpl->assign('DATA', $array_config);
+$xtpl->assign('NV_LANG_VARIABLE', NV_LANG_VARIABLE);
+$xtpl->assign('NV_LANG_DATA', NV_LANG_DATA);
+$xtpl->assign('NV_BASE_ADMINURL', NV_BASE_ADMINURL);
+$xtpl->assign('NV_NAME_VARIABLE', NV_NAME_VARIABLE);
+$xtpl->assign('NV_OP_VARIABLE', NV_OP_VARIABLE);
+$xtpl->assign('MODULE_NAME', $module_name);
+$xtpl->assign('OP', $op);
 
 // Số thí sinh hiển thị trên 1 trang
-for ($i = 5; $i <= 30; ++$i) {
+for ($i = 5; $i <= 100; ++$i) {
     $xtpl->assign('PER_PAGE', [
         'key' => $i,
         'title' => $i,
-        'selected' => $i == $array_config['per_page'] ? ' selected="selected"' : ''
+        'selected' => $i == $module_config[$module_name]['per_page'] ? ' selected="selected"' : ''
     ]);
     $xtpl->parse('main.per_page');
 }

@@ -23,7 +23,7 @@ $lang_module['main'] = 'Danh sách thí sinh';
 $lang_module['config_manager'] = 'Cấu hình module';
 $lang_module['setting_per_page'] = 'Số thí sinh hiển thị trên một trang';
 $lang_module['config'] = 'Cấu hình';
-$lang_module['config_save'] = 'Lưu cấu hình';
+$lang_module['save'] = 'Lưu thay đổi';
 $lang_module['close'] = 'Đóng';
 $lang_module['id'] = 'ID';
 $lang_module['status'] = 'Hoạt động';
@@ -100,3 +100,5 @@ $lang_module['notify_vote_deleted'] = 'Đã xóa bình chọn của %s cho thí 
 $lang_module['notify_vote_action'] = 'Hành động bình chọn từ %s cho thí sinh %s';
 $lang_module['vote_success'] = 'Bình chọn thành công!';
 $lang_module['vote_error'] = 'Có lỗi xảy ra khi bình chọn. Vui lòng thử lại.';
+$lang_module['search_per_page'] = 'Số thí sinh hiển thị.';
+

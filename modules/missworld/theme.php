@@ -12,7 +12,7 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
 
 function nv_theme_missworld_main($array_data, $generate_page)
 {
-    global $module_name, $lang_module, $lang_global, $module_info, $module_file, $global_config, $nv_Request, $op;
+    global $module_name, $lang_module, $lang_global, $module_info, $module_file, $global_config, $nv_Request, $op_file;
 
     $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);
