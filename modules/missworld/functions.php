@@ -16,11 +16,6 @@ define('NV_IS_MOD_MISSWORLD', true);
 
 require NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
 
-// Đoạn này dùng để chặn người dùng tự ý truy cập vào /detail/
-if ($op == 'detail') {
-    nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'], 404);
-}
-
 // Các biến sử dụng phân trang
 $page = 1;
 $per_page = $module_config[$module_name]['per_page'];
@@ -32,10 +27,22 @@ if (empty($op) || $op == 'main') {
     if (isset($array_op[0]) && !empty($array_op[0])) {
         if (preg_match('/^page\-([0-9]+)$/', $array_op[0], $m)) {
             $page = intval($m[1]);
+        } elseif (preg_match('/^([a-z0-9\-]+)\-([0-9]+)$/', $array_op[0], $m)) {
+            $op = 'detail';
+            $alias = $m[1];
+            $id = intval($m[2]);
         } else {
             $op = 'detail';
             $alias = $array_op[0];
         }
+    }
+}
+
+// Xử lý truy cập vào trang chi tiết
+if ($op == 'detail') {
+    $id = $nv_Request->get_int('id', 'get,post', 0);
+    if ($id == 0 && empty($alias) && !$nv_Request->isset_request('action', 'post')) {
+        nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'], 404);
     }
 }
 

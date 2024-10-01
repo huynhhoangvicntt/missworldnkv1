@@ -323,3 +323,45 @@ function nv_check_pending_verification($email, $contestant_id)
 function formatMeasurements($chest, $waist, $hips) {
     return number_format($chest, 2) . ' - ' . number_format($waist, 2) . ' - ' . number_format($hips, 2);
 }
+
+/**
+ * nv_get_voting_history()
+ * 
+ * @param int $contestant_id
+ * @return array
+ */
+function nv_get_voting_history($contestant_id)
+{
+    global $db, $module_data;
+
+    $sql = "SELECT email, vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes 
+            WHERE contestant_id = :contestant_id 
+            ORDER BY vote_time DESC 
+            LIMIT 20";
+
+    $sth = $db->prepare($sql);
+    $sth->bindParam(':contestant_id', $contestant_id, PDO::PARAM_INT);
+    $sth->execute();
+
+    $voting_history = [];
+    while ($row = $sth->fetch()) {
+        $email = $row['email'];
+        $atpos = strpos($email, '@');
+        
+        if ($atpos !== false) {
+            $username = substr($email, 0, $atpos);
+            $domain = substr($email, $atpos);
+            $hidden_username = (strlen($username) > 3) ? substr($username, 0, -3) . '***' : '***' . substr($username, 3);
+            $hidden_email = $hidden_username . $domain;
+        } else {
+            $hidden_email = $email;
+        }
+
+        $voting_history[] = [
+            'email' => $hidden_email,
+            'vote_time' => nv_date('H:i d/m/Y', $row['vote_time'])
+        ];
+    }
+
+    return $voting_history;
+}

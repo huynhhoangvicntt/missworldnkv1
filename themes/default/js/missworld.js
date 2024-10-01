@@ -219,14 +219,22 @@ $(document).ready(function() {
 
     function updateVotingHistory(contestantId) {
         $.ajax({
-            type: 'GET',
-            url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=detail&id=' + contestantId,
-            success: function(response) {
-                var newHistory = $(response).find('#voting-history-container').html();
-                $('#voting-history-container').html(newHistory);
+            type: 'POST',
+            url: nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=detail',
+            data: {
+                action: 'get_voting_history',
+                id: contestantId
             },
-            error: function(xhr) {
-                handleAjaxError(xhr);
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $('#voting-history-container').html(response.html);
+                } else {
+                    console.error("Failed to update voting history");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error updating voting history:", status, error);
             }
         });
     }

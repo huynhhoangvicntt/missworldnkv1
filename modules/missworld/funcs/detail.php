@@ -12,18 +12,71 @@ if (!defined('NV_IS_MOD_MISSWORLD')) {
     exit('Stop!!!');
 }
 
+// Xử lý yêu cầu AJAX để cập nhật lịch sử bình chọn
+if ($nv_Request->isset_request('action', 'post') && $nv_Request->get_string('action', 'post') === 'get_voting_history') {
+    $contestant_id = $nv_Request->get_int('id', 'post', 0);
+    
+    $sql_votes = "SELECT v.email, v.vote_time FROM " . NV_PREFIXLANG . "_" . $module_data . "_votes v WHERE v.contestant_id=" . $contestant_id . " ORDER BY v.vote_time DESC LIMIT 20";
+    $result_votes = $db->query($sql_votes);
+    $voting_history = [];
+
+    while ($vote = $result_votes->fetch()) {
+        $email = $vote['email'];
+        $atpos = strpos($email, '@');
+        
+        if ($atpos !== false) {
+            $username = substr($email, 0, $atpos);
+            $domain = substr($email, $atpos);
+            $hidden_username = (strlen($username) > 3) ? substr($username, 0, -3) . '***' : '***' . substr($username, 3);
+            $hidden_email = $hidden_username . $domain;
+        } else {
+            $hidden_email = $email;
+        }
+
+        $voting_history[] = [
+            'email' => $hidden_email,
+            'vote_time' => nv_date('H:i d/m/Y', $vote['vote_time'])
+        ];
+    }
+
+    $xtpl = new XTemplate('voting_history.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl->assign('LANG', $lang_module);
+    
+    if (!empty($voting_history)) {
+        foreach ($voting_history as $vote) {
+            $xtpl->assign('VOTE', $vote);
+            $xtpl->parse('main.voting_history.loop');
+        }
+        $xtpl->parse('main.voting_history');
+    } else {
+        $xtpl->parse('main.no_votes');
+    }
+    
+    $xtpl->parse('main');
+    $html = $xtpl->text('main');
+
+    nv_jsonOutput(['success' => true, 'html' => $html]);
+}
+
 // Lấy ra thông tin thí sinh xem chi tiết
-$sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE alias=" . $db->quote($alias);
+$id = $nv_Request->get_int('id', 'get', 0);
+if ($id > 0) {
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $id;
+} else {
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE alias=" . $db->quote($alias);
+}
 $row = $db->query($sql)->fetch();
-$row['measurements'] = formatMeasurements($row['chest'], $row['waist'], $row['hips']);
+
 if (empty($row)) {
     nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'], 404);
 }
 
+$row['measurements'] = formatMeasurements($row['chest'], $row['waist'], $row['hips']);
+
 // Các biến cần thiết: Tiêu đề, từ khóa, mô tả
 $page_title = $row['fullname'];
 $key_words = $row['keywords'];
-$description = $row['fullname'] . ' - ' . $lang_module['measurements'] . ': ' . formatMeasurements($row['chest'], $row['waist'], $row['hips']);
+$description = $row['fullname'] . ' - ' . $lang_module['measurements'] . ': ' . $row['measurements'];
 
 // Các biến cần thiết: Link của trang
 $page_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'];
