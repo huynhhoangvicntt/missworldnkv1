@@ -146,4 +146,3 @@ $contents = nv_theme_missworld_detail($row);
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
 include NV_ROOTDIR . '/includes/footer.php';
-
