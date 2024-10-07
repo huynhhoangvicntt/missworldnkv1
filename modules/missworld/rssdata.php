@@ -12,12 +12,22 @@ if (!defined('NV_IS_MOD_RSS')) {
     exit('Stop!!!');
 }
 
+/**
+ * File lấy cây thư mục rss khi vào module feeds
+ * Nếu không có thư mục rss thì xóa file này
+ */
 $rssarray = [];
+$sql = "SELECT id, fullname, alias
+FROM " . NV_PREFIXLANG . "_" . $mod_data . "_rows
+WHERE status=1 ORDER BY weight ASC, time_add DESC";
 
-// Vì không có cấu trúc phân cấp, chúng ta sẽ tạo một mục RSS duy nhất cho toàn bộ dữ liệu
-$rssarray[] = array(
-    'catid' => 0,
-    'parentid' => 0,
-    'title' => $lang_module['rss_all_items'], // Giả sử có biến ngôn ngữ này, nếu không hãy thay bằng một string cụ thể
-    'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $mod_name . '&amp;' . NV_OP_VARIABLE . '=' . $mod_info['alias']['rss']
-);
+$list = $nv_Cache->db($sql, '', $mod_name);
+if (!empty($list)) {
+    foreach ($list as $value) {
+        $value['catid'] = $value['id'];
+        $value['parentid'] = 0;
+        $value['title'] = $value['fullname'];
+        $value['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $mod_name . '&amp;' . NV_OP_VARIABLE . '=' . $mod_info['alias']['rss'] . '/' . $value['alias'];
+        $rssarray[] = $value;
+    }
+}
