@@ -78,3 +78,6 @@ $lang_module['search_empty'] = 'Không tìm thấy kết quả nào phù hợp v
 $lang_module['search_result_count'] = 'Tổng số kết quả tìm thấy';
 $lang_module['reader_comments'] = 'Số bình luận';
 $lang_module['missworld_list'] = 'Danh sách thí sinh';
+
+$lang_module['enter_search_key'] = 'Nhập từ khóa tìm kiếm';
+$lang_module['search'] = 'Tìm kiếm';
