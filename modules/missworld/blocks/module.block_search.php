@@ -31,10 +31,6 @@ if (!nv_function_exists('nv_missworld_block_search')) {
         ];
 
         $html = '<div class="form-group">';
-        $html .= '	<label class="control-label col-sm-6">' . $lang_block['numrow'] . ':</label>';
-        $html .= '	<div class="col-sm-18"><input type="text" name="config_numrow" class="form-control" value="' . $data_block['numrow'] . '"/></div>';
-        $html .= '</div>';
-        $html .= '<div class="form-group">';
         $html .= '<label class="control-label col-sm-6">' . $lang_block['showtooltip'] . ':</label>';
         $html .= '<div class="col-sm-18">';
         $html .= '<div class="row">';
@@ -80,7 +76,6 @@ if (!nv_function_exists('nv_missworld_block_search')) {
         $return = [];
         $return['error'] = [];
         $return['config'] = [];
-        $return['config']['numrow'] = $nv_Request->get_int('config_numrow', 'post', 0);
         $return['config']['showtooltip'] = $nv_Request->get_int('config_showtooltip', 'post', 0);
         $return['config']['tooltip_position'] = $nv_Request->get_string('config_tooltip_position', 'post', '');
         $return['config']['tooltip_length'] = $nv_Request->get_string('config_tooltip_length', 'post', '');
@@ -96,39 +91,39 @@ if (!nv_function_exists('nv_missworld_block_search')) {
      */
     function nv_missworld_block_search($block_config)
     {
-        global $module_info, $lang_module, $module_name, $module_file, $global_config, $db, $site_mods, $nv_Request;
+        global $module_info, $lang_module, $module_name, $module_file, $global_config, $nv_Request;
 
-    $module = $block_config['module'];
+        $module = $block_config['module'];
 
-    if (file_exists(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/missworld/block_search.tpl')) {
-        $block_theme = $global_config['module_theme'];
-    } else {
-        $block_theme = 'default';
-    }
+        if (file_exists(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/missworld/block_search.tpl')) {
+            $block_theme = $global_config['module_theme'];
+        } else {
+            $block_theme = 'default';
+        }
 
-    $xtpl = new XTemplate('block_search.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/missworld');
-    $xtpl->assign('LANG', $lang_module);
-    $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
-    $xtpl->assign('TEMPLATE', $block_theme);
-    $xtpl->assign('MODULE_NAME', $module_name);
+        $xtpl = new XTemplate('block_search.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/missworld');
+        $xtpl->assign('LANG', $lang_module);
+        $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
+        $xtpl->assign('TEMPLATE', $block_theme);
+        $xtpl->assign('MODULE_NAME', $module_name);
 
-    $q = $nv_Request->get_title('q', 'get', '');
-    $xtpl->assign('SEARCH_QUERY', $q);
+        $q = $nv_Request->get_title('q', 'get', '');
+        $xtpl->assign('SEARCH_QUERY', $q);
 
-    $xtpl->assign('FORM_ACTION', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=search');
+        $xtpl->assign('FORM_ACTION', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=search');
 
-    if (!empty($block_config['showtooltip'])) {
-        $xtpl->assign('TOOLTIP_POSITION', $block_config['tooltip_position']);
-        $xtpl->parse('main.tooltip');
-    }
+        if (!empty($block_config['showtooltip'])) {
+            $xtpl->assign('TOOLTIP_POSITION', $block_config['tooltip_position']);
+            $xtpl->parse('main.tooltip');
+        }
 
-    $xtpl->parse('main');
-    return $xtpl->text('main');
+        $xtpl->parse('main');
+        return $xtpl->text('main');
     }
 }
 
 if (defined('NV_SYSTEM')) {
-    global $site_mods, $module_name, $global_array_cat;
+    global $site_mods, $module_name;
     $module = $block_config['module'];
     if (isset($site_mods[$module])) {
         $content = nv_missworld_block_search($block_config);

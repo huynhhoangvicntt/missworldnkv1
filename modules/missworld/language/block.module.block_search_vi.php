@@ -18,7 +18,6 @@ $lang_translator['copyright'] = '@Copyright (C) 2024 HUYNH HOANG VI All rights r
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_block';
 
-$lang_block['numrow'] = 'Số thí sinh hiển thị';
 $lang_block['showtooltip'] = 'Hiển thị tooltip';
 $lang_block['tooltip_position'] = 'Vị trí';
 $lang_block['tooltip_position_top'] = 'Trên';
