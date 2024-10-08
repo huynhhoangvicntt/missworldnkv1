@@ -112,8 +112,6 @@ if (!nv_function_exists('nv_missworld_block_search')) {
     $xtpl->assign('TEMPLATE', $block_theme);
     $xtpl->assign('MODULE_NAME', $module_name);
 
-    $numrow = isset($block_config['numrow']) ? $block_config['numrow'] : 10;
-
     $q = $nv_Request->get_title('q', 'get', '');
     $xtpl->assign('SEARCH_QUERY', $q);
 
